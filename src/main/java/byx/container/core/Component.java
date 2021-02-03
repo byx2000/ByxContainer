@@ -82,7 +82,7 @@ public interface Component
      */
     default Component setProperty(String name, Component value)
     {
-        return new MapperComponent(this, obj ->
+        return this.map(obj ->
         {
             ReflectUtils.setProperty(obj, name, value.create());
             return obj;
@@ -97,7 +97,7 @@ public interface Component
      */
     default Component invokeSetter(String name, Component... params)
     {
-        return new MapperComponent(this, obj ->
+        return this.map(obj ->
         {
             ReflectUtils.call(obj, name, Arrays.stream(params).map(Component::create).toArray());
             return obj;
