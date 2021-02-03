@@ -1,5 +1,7 @@
 package byx.container.core;
 
+import byx.container.util.ReflectUtils;
+
 /**
  * 组件：能够从IOC容器中获取的一个对象。
  * 所有的组件都被IOC容器管理，每个组件都封装了自己与其他组件的依赖关系。
@@ -68,5 +70,20 @@ public interface Component
     default Component map(Mapper mapper)
     {
         return new MapperComponent(this, mapper);
+    }
+
+    /**
+     * 设置当前Component创建的对象的属性
+     * @param name 属性名
+     * @param value 属性值
+     * @return 用MapperComponent包装后的Component
+     */
+    default Component setProperty(String name, Component value)
+    {
+        return new MapperComponent(this, obj ->
+        {
+            ReflectUtils.setProperty(obj, name, value.create());
+            return obj;
+        });
     }
 }
