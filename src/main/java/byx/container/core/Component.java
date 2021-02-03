@@ -2,6 +2,8 @@ package byx.container.core;
 
 import byx.container.util.ReflectUtils;
 
+import java.util.Arrays;
+
 /**
  * 组件：能够从IOC容器中获取的一个对象。
  * 所有的组件都被IOC容器管理，每个组件都封装了自己与其他组件的依赖关系。
@@ -83,6 +85,21 @@ public interface Component
         return new MapperComponent(this, obj ->
         {
             ReflectUtils.setProperty(obj, name, value.create());
+            return obj;
+        });
+    }
+
+    /**
+     * 在当前Component创建后的对象上调用setter方法
+     * @param name setter方法名称
+     * @param params setter方法参数
+     * @return 用MapperComponent包装后的Component
+     */
+    default Component invokeSetter(String name, Component... params)
+    {
+        return new MapperComponent(this, obj ->
+        {
+            ReflectUtils.call(obj, name, Arrays.stream(params).map(Component::create).toArray());
             return obj;
         });
     }
