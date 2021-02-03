@@ -57,10 +57,16 @@ public interface Component
      */
     static Component instanceFactory(Component instance, String name, Component... params)
     {
-        return () ->
-        {
-            Object obj = instance.create();
-            return new FunctionComponent(Function.instanceFactory(obj, name), params).create();
-        };
+        return instance.map(obj -> new FunctionComponent(Function.instanceFactory(obj, name), params).create());
+    }
+
+    /**
+     * 对当前Component创建的结果进行转换
+     * @param mapper 转换器
+     * @return 用MapperComponent包装后的Component
+     */
+    default Component map(Mapper mapper)
+    {
+        return new MapperComponent(this, mapper);
     }
 }
