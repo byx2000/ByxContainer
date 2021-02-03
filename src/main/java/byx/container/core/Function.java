@@ -39,12 +39,12 @@ public interface Function
 
     /**
      * 实例工厂
-     * @param obj 对象实例
+     * @param instance 对象实例
      * @param name 方法名
      * @return 实例工厂的返回值
      */
-    static Function instanceFactory(Object obj, String name)
+    static Function instanceFactory(Object instance, String name)
     {
-        return params -> ReflectUtils.call(obj, name, params);
+        return params -> ReflectUtils.call(instance, name, params);
     }
 }
