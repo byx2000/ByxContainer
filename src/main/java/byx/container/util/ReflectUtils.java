@@ -1,5 +1,6 @@
 package byx.container.util;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -86,7 +87,7 @@ public class ReflectUtils
                     catch (Exception ignored) {}
                 }
             }
-            throw new RuntimeException("No matching constructor.");
+            throw new RuntimeException("No matching constructor: " + type.getName());
         }
     }
 
@@ -117,7 +118,7 @@ public class ReflectUtils
                     catch (Exception ignored) {}
                 }
             }
-            throw new RuntimeException("No matching static method.");
+            throw new RuntimeException("No matching static method: " + methodName);
         }
     }
 
@@ -148,7 +149,27 @@ public class ReflectUtils
                     catch (Exception ignored) {}
                 }
             }
-            throw new RuntimeException("No matching method.");
+            throw new RuntimeException("No matching method: " + methodName);
+        }
+    }
+
+    /**
+     * 设置JavaBean的属性
+     * @param bean JavaBean实例
+     * @param propertyName 属性名
+     * @param value 值
+     */
+    public static void setProperty(Object bean, String propertyName, Object value)
+    {
+        try
+        {
+            PropertyDescriptor pd = new PropertyDescriptor(propertyName, bean.getClass());
+            Method setter = pd.getWriteMethod();
+            setter.invoke(bean, value);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
         }
     }
 
