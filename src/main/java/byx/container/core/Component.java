@@ -3,6 +3,7 @@ package byx.container.core;
 import byx.container.util.ReflectUtils;
 
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 组件：能够从IOC容器中获取的一个对象。
@@ -122,5 +123,35 @@ public interface Component
     static Component reference(Container container, String id)
     {
         return new ReferenceComponent(container, id);
+    }
+
+    /**
+     * 将多个组件的创建结果封装成列表
+     * @param components 多个组件
+     * @return ListComponent包装类
+     */
+    static Component list(Component... components)
+    {
+        return new ListComponent(components);
+    }
+
+    /**
+     * 将多个组件的创建结果封装成集合
+     * @param components 多个组件
+     * @return SetComponent包装类
+     */
+    static Component set(Component... components)
+    {
+        return new SetComponent(components);
+    }
+
+    /**
+     * 将多个组件的创建结果封装成map
+     * @param componentMap 组件map
+     * @return MapComponent包装类
+     */
+    static Component map(Map<Component, Component> componentMap)
+    {
+        return new MapComponent(componentMap);
     }
 }
