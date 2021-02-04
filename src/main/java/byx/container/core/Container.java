@@ -9,15 +9,15 @@ public interface Container
 {
     /**
      * 将组件添加到容器
-     * @param key 唯一标识这个组件的key
+     * @param id 唯一标识这个组件的key
      * @param component 组件
      */
-    void addComponent(String key, Component component);
+    void addComponent(String id, Component component);
 
     /**
      * 获取组件
-     * @param key 该组件的key
+     * @param id 唯一标识这个组件的key
      * @return 组件
      */
-    Object getComponent(String key);
+    Object getComponent(String id);
 }

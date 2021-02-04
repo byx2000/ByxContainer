@@ -112,4 +112,15 @@ public interface Component
     {
         return new SingletonComponent(this);
     }
+
+    /**
+     * 创建容器引用组件
+     * @param container 容器
+     * @param id 组件的唯一标识
+     * @return 对容器中指定id的组件的引用
+     */
+    static Component reference(Container container, String id)
+    {
+        return new ReferenceComponent(container, id);
+    }
 }

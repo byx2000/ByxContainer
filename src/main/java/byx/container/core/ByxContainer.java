@@ -11,18 +11,18 @@ public class ByxContainer implements Container
     private final Map<String, Component> components = new ConcurrentHashMap<>();
 
     @Override
-    public void addComponent(String key, Component component)
+    public void addComponent(String id, Component component)
     {
         if (component == null)
             throw new RuntimeException("Parameter \"component\" cannot be null.");
-        components.put(key, component);
+        components.put(id, component);
     }
 
     @Override
-    public Object getComponent(String key)
+    public Object getComponent(String id)
     {
-        if (!components.containsKey(key))
-            throw new RuntimeException(String.format("There is no component with key \"%s\".", key));
-        return components.get(key).create();
+        if (!components.containsKey(id))
+            throw new RuntimeException(String.format("There is no component with key \"%s\".", id));
+        return components.get(id).create();
     }
 }
