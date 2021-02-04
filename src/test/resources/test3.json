@@ -1,0 +1,21 @@
+{
+    "components":
+    {
+        "c1": "hello",
+        "c2": 123,
+        "c3": {"ref": "c1"},
+        "c4": {"ref": "c2"},
+        "c5": {"ref": "c1"},
+        "c6":
+        {
+            "list": [{"ref": "c1"}, {"ref": "a"}, {"ref": "b"}, {"ref": "c"}, {"ref": "c5"}],
+            "locals":
+            {
+                "a": "powerful",
+                "b": "byx",
+                "c": "container",
+                "c5": "!"
+            }
+        }
+    }
+}

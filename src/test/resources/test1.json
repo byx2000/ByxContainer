@@ -1,0 +1,11 @@
+{
+    "components":
+    {
+        "intValue": 123,
+        "doubleValue": 3.14,
+        "stringValue": "hello",
+        "trueValue": true,
+        "falseValue": false,
+        "nullValue": null
+    }
+}
