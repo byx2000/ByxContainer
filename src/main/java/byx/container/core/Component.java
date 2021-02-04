@@ -103,4 +103,13 @@ public interface Component
             return obj;
         });
     }
+
+    /**
+     * 让当前组件变成单例
+     * @return 用SingletonComponent包装的当前组件
+     */
+    default Component singleton()
+    {
+        return new SingletonComponent(this);
+    }
 }
