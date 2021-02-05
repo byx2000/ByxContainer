@@ -25,9 +25,9 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_REF = "ref";
     private static final String RESERVED_LOCALS = "locals";
     private static final String RESERVED_CLASS = "class";
-    private static final String RESERVED_CONSTRUCTOR = "constructor";
-    private static final String RESERVED_STATIC_FACTORY = "staticFactory";
-    private static final String RESERVED_INSTANCE_FACTORY = "instanceFactory";
+    private static final String RESERVED_PARAMETERS = "parameters";
+    private static final String RESERVED_FACTORY = "factory";
+    private static final String RESERVED_METHOD = "method";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -122,43 +122,29 @@ public class JsonContainerFactory implements ContainerFactory
         if (element.containsKey(RESERVED_LIST)) component = parseList(element);
         // 引用
         else if (element.containsKey(RESERVED_REF)) component = parseRef(element);
-        // 普通组件
+        // 构造函数注入
         else if (element.containsKey(RESERVED_CLASS))
         {
-            // 获取类名
-            JsonElement classElem = element.getElement(RESERVED_CLASS);
-            if (!classElem.isString()) error("The value of \"class\" must be a string.");
-            String className = classElem.getString();
-            Class<?> clazz = getClass(className);
-
-            // 带参数的构造函数
-            if (element.containsKey(RESERVED_CONSTRUCTOR))
+            String className = parseString(element.getElement(RESERVED_CLASS));
+            Component[] params = new Component[0];
+            System.out.println(element.getElement(RESERVED_PARAMETERS));
+            if (element.containsKey(RESERVED_PARAMETERS))
             {
-                JsonElement componentList = element.getElement(RESERVED_CONSTRUCTOR);
-                if (!componentList.isArray()) error("The value of \"constructor\" must be an array.");
-                Component[] params = parseComponentList(componentList);
-                component = constructor(clazz, params);
+                params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
             }
-            // 静态工厂
-            else if (element.containsKey(RESERVED_STATIC_FACTORY))
-            {
-
-            }
-            // 实例工厂
-            else if (element.containsKey(RESERVED_INSTANCE_FACTORY))
-            {
-
-            }
-            // 默认构造函数
-            else
-            {
-                component = constructor(clazz);
-            }
+            component = constructor(getClass(className), params);
         }
-        // 条件注入
-        else
+        // 静态工厂
+        else if (element.containsKey(RESERVED_FACTORY))
         {
-
+            String factory = parseString(element.getElement(RESERVED_FACTORY));
+            String method = parseString(element.getElement(RESERVED_METHOD));
+            Component[] params = new Component[0];
+            if (element.containsKey(RESERVED_PARAMETERS))
+            {
+                params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
+            }
+            component = staticFactory(getClass(factory), method, params);
         }
 
         // 弹出当前作用域
@@ -236,12 +222,38 @@ public class JsonContainerFactory implements ContainerFactory
      */
     private Component[] parseComponentList(JsonElement element)
     {
+        if (!element.isArray()) error("Array expected.");
         List<Component> components = new ArrayList<>();
         for (int i = 0; i < element.getLength(); ++i)
         {
             components.add(parseComponent(element.getElement(i)));
         }
         return components.toArray(new Component[0]);
+    }
+
+    /**
+     * 解析字符串
+     */
+    private String parseString(JsonElement element)
+    {
+        if (!element.isString()) error("String expected.");
+        return element.getString();
+    }
+    /**
+     * 解析静态工厂
+     */
+    private Component parseStaticFactory(JsonElement element)
+    {
+        if (!element.containsKey(RESERVED_CLASS)) error("The definition of \"staticFactory\" must include the \"class\" key.");
+        String className = parseString(element.getElement(RESERVED_CLASS));
+        if (!element.containsKey(RESERVED_FACTORY)) error("The definition of \"staticFactory\" must include the \"factory\" key.");
+        String factory = parseString(element.getElement(RESERVED_FACTORY));
+        Component[] params = new Component[0];
+        if (element.containsKey(RESERVED_PARAMETERS))
+        {
+            params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
+        }
+        return staticFactory(getClass(className), factory, params);
     }
 
     @Override

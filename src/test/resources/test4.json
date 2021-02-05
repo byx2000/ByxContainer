@@ -6,12 +6,12 @@
         "c3":
         {
             "class": "java.lang.String",
-            "constructor": ["hello"]
+            "parameters": ["hello"]
         },
         "c4":
         {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "constructor": [1001, "byx", {"list": [88.5, 97.5, 90]}]
+            "parameters": [1001, "byx", {"list": [88.5, 97.5, 90]}]
         }
     }
 }
