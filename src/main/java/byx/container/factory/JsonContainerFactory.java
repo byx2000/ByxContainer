@@ -29,6 +29,7 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_FACTORY = "factory";
     private static final String RESERVED_METHOD = "method";
     private static final String RESERVED_INSTANCE = "instance";
+    private static final String RESERVED_PROPERTIES = "properties";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -159,6 +160,12 @@ public class JsonContainerFactory implements ContainerFactory
             component = instanceFactory(instance, method, params);
         }
 
+        // 处理属性
+        if (element.containsKey(RESERVED_PROPERTIES))
+        {
+            component = parseProperties(element.getElement(RESERVED_PROPERTIES), component);
+        }
+
         // 弹出当前作用域
         scopes.remove(scopes.size() - 1);
         return component;
@@ -250,6 +257,20 @@ public class JsonContainerFactory implements ContainerFactory
     {
         if (!element.isString()) error("String expected.");
         return element.getString();
+    }
+
+    /**
+     * 解析属性
+     */
+    private Component parseProperties(JsonElement element, Component component)
+    {
+        if (!element.isObject()) error("The value of the \"properties\" attribute must be an object.");
+        for (String name : element.keySet())
+        {
+            Component value = parseComponent(element.getElement(name));
+            component = component.setProperty(name, value);
+        }
+        return component;
     }
 
     @Override

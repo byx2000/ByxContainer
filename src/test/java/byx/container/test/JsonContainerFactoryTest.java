@@ -74,6 +74,32 @@ public class JsonContainerFactoryTest
         }
     }
 
+    public static class Student2 extends Student
+    {
+        private int age;
+        boolean male;
+
+        public int getAge()
+        {
+            return age;
+        }
+
+        public void setAge(int age)
+        {
+            this.age = age;
+        }
+
+        public boolean isMale()
+        {
+            return male;
+        }
+
+        public void setMale(boolean male)
+        {
+            this.male = male;
+        }
+    }
+
     /**
      * 常数
      */
@@ -222,5 +248,35 @@ public class JsonContainerFactoryTest
         assertEquals("ell", c4);
         String c5 = (String) container.getComponent("c5");
         assertEquals("he", c5);
+    }
+
+    /**
+     * 属性注入
+     */
+    @Test
+    public void test7()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test7.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        Student c1 = (Student) container.getComponent("c1");
+        assertEquals(1001, c1.getId());
+        assertEquals("byx", c1.getName());
+        assertEquals(List.of(70, 80, 90), c1.getScores());
+        Student2 c2 = (Student2) container.getComponent("c2");
+        assertEquals(1002, c2.getId());
+        assertEquals("XiaoMing", c2.getName());
+        assertEquals(21, c2.getAge());
+        assertTrue(c2.isMale());
+        assertEquals(List.of(70, 60, 50), c2.getScores());
+        Student c3 = (Student) container.getComponent("c3");
+        assertEquals(1003, c3.getId());
+        assertEquals("XiaoHong", c3.getName());
+        assertEquals(List.of(10, 20, 30), c3.getScores());
+        Student c4 = (Student) container.getComponent("c4");
+        assertEquals(1004, c4.getId());
+        assertEquals("XiaoHua", c4.getName());
+        assertEquals(List.of(10, 20, 30), c4.getScores());
     }
 }
