@@ -16,6 +16,22 @@
                 "c": "container",
                 "c5": "!"
             }
+        },
+        "c7":
+        {
+            "ref": "c1",
+            "locals":
+            {
+                "c1": "hi"
+            }
+        },
+        "c8":
+        {
+            "ref": "c9",
+            "locals":
+            {
+                "c9": "thank you"
+            }
         }
     }
 }

@@ -25,6 +25,9 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_REF = "ref";
     private static final String RESERVED_LOCALS = "locals";
     private static final String RESERVED_CLASS = "class";
+    private static final String RESERVED_CONSTRUCTOR = "constructor";
+    private static final String RESERVED_STATIC_FACTORY = "staticFactory";
+    private static final String RESERVED_INSTANCE_FACTORY = "instanceFactory";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -85,6 +88,21 @@ public class JsonContainerFactory implements ContainerFactory
     }
 
     /**
+     * 根据类名加载类
+     */
+    private static Class<?> getClass(String className)
+    {
+        try
+        {
+            return Class.forName(className);
+        }
+        catch (Exception e)
+        {
+            throw new RuntimeException("Incorrect class name: " + className, e);
+        }
+    }
+
+    /**
      * 解析组件
      */
     private Component parseComponent(JsonElement element)
@@ -101,13 +119,38 @@ public class JsonContainerFactory implements ContainerFactory
         Component component = value(null);
 
         // 列表
-        if (element.containsKey(RESERVED_LIST)) component =  parseList(element);
+        if (element.containsKey(RESERVED_LIST)) component = parseList(element);
         // 引用
-        else if (element.containsKey(RESERVED_REF)) component =  parseRef(element);
+        else if (element.containsKey(RESERVED_REF)) component = parseRef(element);
         // 普通组件
         else if (element.containsKey(RESERVED_CLASS))
         {
+            // 获取类名
+            JsonElement classElem = element.getElement(RESERVED_CLASS);
+            if (!classElem.isString()) error("The value of \"class\" must be a string.");
+            String className = classElem.getString();
+            Class<?> clazz = getClass(className);
 
+            // 带参数的构造函数
+            if (element.containsKey(RESERVED_CONSTRUCTOR))
+            {
+                //JsonElement componentList = element.getElement(RESERVED_CONSTRUCTOR);
+            }
+            // 静态工厂
+            else if (element.containsKey(RESERVED_STATIC_FACTORY))
+            {
+
+            }
+            // 实例工厂
+            else if (element.containsKey(RESERVED_INSTANCE_FACTORY))
+            {
+
+            }
+            // 默认构造函数
+            else
+            {
+                component = constructor(clazz);
+            }
         }
         // 条件注入
         else
@@ -183,6 +226,19 @@ public class JsonContainerFactory implements ContainerFactory
             DelegateComponent c = (DelegateComponent) scope.get(key);
             c.setComponent(parseComponent(locals.getElement(key)));
         }
+    }
+
+    /**
+     * 解析组件列表
+     */
+    private Component[] parseComponentList(JsonElement element)
+    {
+        List<Component> components = new ArrayList<>();
+        for (int i = 0; i < element.getLength(); ++i)
+        {
+            components.add(parseComponent(element.getElement(i)));
+        }
+        return components.toArray(new Component[0]);
     }
 
     @Override

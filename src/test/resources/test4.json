@@ -1,0 +1,7 @@
+{
+    "components":
+    {
+        "c1": {"class": "byx.container.test.JsonContainerFactoryTest$Student"},
+        "c2": {"class": "java.lang.String"}
+    }
+}

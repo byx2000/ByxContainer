@@ -11,6 +11,50 @@ import static org.junit.jupiter.api.Assertions.*;
 @SuppressWarnings("unchecked")
 public class JsonContainerFactoryTest
 {
+    public static class Student
+    {
+        private int id;
+        private String name;
+        private double score;
+
+        public Student()
+        {
+            id = -1;
+            name = "unknown_name";
+            score = 0.0;
+        }
+
+        public int getId()
+        {
+            return id;
+        }
+
+        public void setId(int id)
+        {
+            this.id = id;
+        }
+
+        public String getName()
+        {
+            return name;
+        }
+
+        public void setName(String username)
+        {
+            this.name = username;
+        }
+
+        public double getScore()
+        {
+            return score;
+        }
+
+        public void setScore(double score)
+        {
+            this.score = score;
+        }
+    }
+
     /**
      * 常数
      */
@@ -77,5 +121,28 @@ public class JsonContainerFactoryTest
         assertEquals("hello", c5);
         List<String> c6 = (List<String>) container.getComponent("c6");
         assertEquals(List.of("hello", "powerful", "byx", "container", "!"), c6);
+        String c7 = (String) container.getComponent("c7");
+        assertEquals("hi", c7);
+        String c8 = (String) container.getComponent("c8");
+        assertEquals("thank you", c8);
+    }
+
+    /**
+     * 构造函数
+     */
+    @Test
+    public void test4()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test4.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        Student c1 = (Student) container.getComponent("c1");
+        assertEquals(-1, c1.getId());
+        assertEquals("unknown_name", c1.getName());
+        assertEquals(0.0, c1.getScore());
+
+        String c2 = (String) container.getComponent("c2");
+        assertEquals("", c2);
     }
 }
