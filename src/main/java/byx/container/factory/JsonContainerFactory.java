@@ -127,7 +127,6 @@ public class JsonContainerFactory implements ContainerFactory
         {
             String className = parseString(element.getElement(RESERVED_CLASS));
             Component[] params = new Component[0];
-            System.out.println(element.getElement(RESERVED_PARAMETERS));
             if (element.containsKey(RESERVED_PARAMETERS))
             {
                 params = parseComponentList(element.getElement(RESERVED_PARAMETERS));

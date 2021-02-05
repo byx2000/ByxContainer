@@ -33,6 +33,16 @@ public class JsonContainerFactoryTest
             this.scores = scores;
         }
 
+        public static Student createDefault()
+        {
+            return new Student();
+        }
+
+        public static Student create(int id, String name, List<Integer> scores)
+        {
+            return new Student(id, name, scores);
+        }
+
         public int getId()
         {
             return id;
@@ -148,18 +158,47 @@ public class JsonContainerFactoryTest
 
         String c1 = (String) container.getComponent("c1");
         assertEquals("", c1);
-
         Student c2 = (Student) container.getComponent("c2");
         assertEquals(-1, c2.getId());
         assertEquals("unknown_name", c2.getName());
         assertEquals(Collections.EMPTY_LIST, c2.getScores());
-
         String c3 = (String) container.getComponent("c3");
         assertEquals("hello", c3);
-
         Student c4 = (Student) container.getComponent("c4");
         assertEquals(1001, c4.getId());
         assertEquals("byx", c4.getName());
         assertEquals(List.of(88.5, 97.5, 90), c4.getScores());
+        Student c5 = (Student) container.getComponent("c5");
+        assertEquals(1002, c5.getId());
+        assertEquals("XiaoMing", c5.getName());
+        assertEquals(List.of(69.5, 87, 77), c5.getScores());
+    }
+
+    /**
+     * 静态工厂
+     */
+    @Test
+    public void test5()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test5.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        List<?> c1 = (List<?>) container.getComponent("c1");
+        assertEquals(Collections.emptyList(), c1);
+        String c2 = (String) container.getComponent("c2");
+        assertEquals("123", c2);
+        Student c3 = (Student) container.getComponent("c3");
+        assertEquals(-1, c3.getId());
+        assertEquals("unknown_name", c3.getName());
+        assertEquals(Collections.EMPTY_LIST, c3.getScores());
+        Student c4 = (Student) container.getComponent("c4");
+        assertEquals(1001, c4.getId());
+        assertEquals("byx", c4.getName());
+        assertEquals(List.of(88.5, 97.5, 90), c4.getScores());
+        Student c5 = (Student) container.getComponent("c5");
+        assertEquals(1002, c5.getId());
+        assertEquals("XiaoMing", c5.getName());
+        assertEquals(List.of(69.5, 87, 77), c5.getScores());
     }
 }

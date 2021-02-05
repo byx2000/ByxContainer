@@ -1,0 +1,50 @@
+{
+    "components":
+    {
+        "c1":
+        {
+            "factory": "java.util.Collections",
+            "method": "emptyList"
+        },
+        "c2":
+        {
+            "factory": "java.lang.String",
+            "method": "valueOf",
+            "parameters": [123]
+        },
+        "c3":
+        {
+            "factory": "byx.container.test.JsonContainerFactoryTest$Student",
+            "method": "createDefault"
+        },
+        "c4":
+        {
+            "factory": "byx.container.test.JsonContainerFactoryTest$Student",
+            "method": "create",
+            "parameters": [1001, "byx", {"list": [88.5, 97.5, 90]}]
+        },
+        "c5":
+        {
+            "locals":
+            {
+                "id": 1002,
+                "name": "XiaoMing",
+                "Chinese": 69.5,
+                "math": 87,
+                "English": 77,
+                "scores":
+                {
+                    "list":
+                    [
+                        {"ref": "Chinese"},
+                        {"ref": "math"},
+                        {"ref": "English"}
+                    ]
+                }
+            },
+            "factory": "byx.container.test.JsonContainerFactoryTest$Student",
+            "method": "create",
+            "parameters": [{"ref": "id"}, {"ref": "name"}, {"ref": "scores"}]
+        }
+    }
+}
