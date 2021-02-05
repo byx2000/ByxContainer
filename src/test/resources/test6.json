@@ -1,0 +1,40 @@
+{
+    "components":
+    {
+        "start": 1,
+        "end": 4,
+        "c1":
+        {
+            "instance": "hello",
+            "method": "length"
+        },
+        "c2":
+        {
+            "instance": "apple",
+            "method": "substring",
+            "parameters": [1, 4]
+        },
+        "c3":
+        {
+            "instance": {"class": "byx.container.test.JsonContainerFactoryTest$Student"},
+            "method": "getName"
+        },
+        "c4":
+        {
+            "instance": "hello",
+            "method": "substring",
+            "parameters": [{"ref": "start"}, {"ref": "end"}]
+        },
+        "c5":
+        {
+            "instance": "hello",
+            "method": "substring",
+            "parameters": [{"ref": "start"}, {"ref": "end1"}],
+            "locals":
+            {
+                "start": 0,
+                "end1": 2
+            }
+        }
+    }
+}

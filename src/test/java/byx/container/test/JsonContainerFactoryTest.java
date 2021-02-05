@@ -201,4 +201,26 @@ public class JsonContainerFactoryTest
         assertEquals("XiaoMing", c5.getName());
         assertEquals(List.of(69.5, 87, 77), c5.getScores());
     }
+
+    /**
+     * 实例工厂
+     */
+    @Test
+    public void test6()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test6.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        int c1 = (int) container.getComponent("c1");
+        assertEquals(5, c1);
+        String c2 = (String) container.getComponent("c2");
+        assertEquals("ppl", c2);
+        String c3 = (String) container.getComponent("c3");
+        assertEquals("unknown_name", c3);
+        String c4 = (String) container.getComponent("c4");
+        assertEquals("ell", c4);
+        String c5 = (String) container.getComponent("c5");
+        assertEquals("he", c5);
+    }
 }

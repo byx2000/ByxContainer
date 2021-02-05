@@ -28,6 +28,7 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_PARAMETERS = "parameters";
     private static final String RESERVED_FACTORY = "factory";
     private static final String RESERVED_METHOD = "method";
+    private static final String RESERVED_INSTANCE = "instance";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -145,6 +146,18 @@ public class JsonContainerFactory implements ContainerFactory
             }
             component = staticFactory(getClass(factory), method, params);
         }
+        // 实例工厂
+        else if (element.containsKey(RESERVED_INSTANCE))
+        {
+            Component instance = parseComponent(element.getElement(RESERVED_INSTANCE));
+            String method = parseString(element.getElement(RESERVED_METHOD));
+            Component[] params = new Component[0];
+            if (element.containsKey(RESERVED_PARAMETERS))
+            {
+                params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
+            }
+            component = instanceFactory(instance, method, params);
+        }
 
         // 弹出当前作用域
         scopes.remove(scopes.size() - 1);
@@ -237,22 +250,6 @@ public class JsonContainerFactory implements ContainerFactory
     {
         if (!element.isString()) error("String expected.");
         return element.getString();
-    }
-    /**
-     * 解析静态工厂
-     */
-    private Component parseStaticFactory(JsonElement element)
-    {
-        if (!element.containsKey(RESERVED_CLASS)) error("The definition of \"staticFactory\" must include the \"class\" key.");
-        String className = parseString(element.getElement(RESERVED_CLASS));
-        if (!element.containsKey(RESERVED_FACTORY)) error("The definition of \"staticFactory\" must include the \"factory\" key.");
-        String factory = parseString(element.getElement(RESERVED_FACTORY));
-        Component[] params = new Component[0];
-        if (element.containsKey(RESERVED_PARAMETERS))
-        {
-            params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
-        }
-        return staticFactory(getClass(className), factory, params);
     }
 
     @Override
