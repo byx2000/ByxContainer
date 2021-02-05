@@ -134,7 +134,10 @@ public class JsonContainerFactory implements ContainerFactory
             // 带参数的构造函数
             if (element.containsKey(RESERVED_CONSTRUCTOR))
             {
-                //JsonElement componentList = element.getElement(RESERVED_CONSTRUCTOR);
+                JsonElement componentList = element.getElement(RESERVED_CONSTRUCTOR);
+                if (!componentList.isArray()) error("The value of \"constructor\" must be an array.");
+                Component[] params = parseComponentList(componentList);
+                component = constructor(clazz, params);
             }
             // 静态工厂
             else if (element.containsKey(RESERVED_STATIC_FACTORY))

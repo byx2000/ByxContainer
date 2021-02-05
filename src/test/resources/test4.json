@@ -1,7 +1,17 @@
 {
     "components":
     {
-        "c1": {"class": "byx.container.test.JsonContainerFactoryTest$Student"},
-        "c2": {"class": "java.lang.String"}
+        "c1": {"class": "java.lang.String"},
+        "c2": {"class": "byx.container.test.JsonContainerFactoryTest$Student"},
+        "c3":
+        {
+            "class": "java.lang.String",
+            "constructor": ["hello"]
+        },
+        "c4":
+        {
+            "class": "byx.container.test.JsonContainerFactoryTest$Student",
+            "constructor": [1001, "byx", {"list": [88.5, 97.5, 90]}]
+        }
     }
 }
