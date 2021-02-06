@@ -68,7 +68,7 @@ public interface Component
     /**
      * 对当前Component创建的结果进行转换
      * @param mapper 转换器
-     * @return 用MapperComponent包装后的Component
+     * @return MapperComponent
      */
     default Component map(Mapper mapper)
     {
@@ -79,7 +79,7 @@ public interface Component
      * 设置当前Component创建的对象的属性
      * @param name 属性名
      * @param value 属性值
-     * @return 用MapperComponent包装后的Component
+     * @return MapperComponent
      */
     default Component setProperty(String name, Component value)
     {
@@ -94,7 +94,7 @@ public interface Component
      * 在当前Component创建后的对象上调用setter方法
      * @param name setter方法名称
      * @param params setter方法参数
-     * @return 用MapperComponent包装后的Component
+     * @return MapperComponent
      */
     default Component invokeSetter(String name, Component... params)
     {
@@ -106,8 +106,8 @@ public interface Component
     }
 
     /**
-     * 让当前组件变成单例
-     * @return 用SingletonComponent包装的当前组件
+     * 将当前组件变为单例
+     * @return SingletonComponent
      */
     default Component singleton()
     {
@@ -115,10 +115,10 @@ public interface Component
     }
 
     /**
-     * 创建容器引用组件
+     * 创建引用组件
      * @param container 容器
      * @param id 组件的唯一标识
-     * @return 对容器中指定id的组件的引用
+     * @return ReferenceComponent
      */
     static Component reference(Container container, String id)
     {
@@ -126,9 +126,9 @@ public interface Component
     }
 
     /**
-     * 将多个组件的创建结果封装成列表
+     * 创建list组件
      * @param components 多个组件
-     * @return ListComponent包装类
+     * @return ListComponent
      */
     static Component list(Component... components)
     {
@@ -136,9 +136,9 @@ public interface Component
     }
 
     /**
-     * 将多个组件的创建结果封装成集合
-     * @param components 多个组件
-     * @return SetComponent包装类
+     * 创建set组件
+     * @param components 组件列表
+     * @return SetComponent
      */
     static Component set(Component... components)
     {
@@ -146,12 +146,24 @@ public interface Component
     }
 
     /**
-     * 将多个组件的创建结果封装成map
+     * 创建map组件
      * @param componentMap 组件map
-     * @return MapComponent包装类
+     * @return MapComponent
      */
     static Component map(Map<Component, Component> componentMap)
     {
         return new MapComponent(componentMap);
+    }
+
+    /**
+     * 创建条件组件
+     * @param predicate 谓词
+     * @param c1 predicate为true时返回的组件
+     * @param c2 predicate为false时返回的组件
+     * @return ConditionComponent
+     */
+    static Component condition(Component predicate, Component c1, Component c2)
+    {
+        return new ConditionComponent(predicate, c1, c2);
     }
 }
