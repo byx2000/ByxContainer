@@ -16,8 +16,9 @@ public interface Container
 
     /**
      * 获取组件
-     * @param id 唯一标识这个组件的key
-     * @return 组件
+     * @param id 组件id
+     * @param <T> 返回值类型
+     * @return 指定id的组件
      */
-    Object getComponent(String id);
+    <T> T getComponent(String id);
 }

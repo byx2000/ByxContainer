@@ -19,10 +19,11 @@ public class ByxContainer implements Container
     }
 
     @Override
-    public Object getComponent(String id)
+    @SuppressWarnings("unchecked")
+    public <T> T getComponent(String id)
     {
         if (!components.containsKey(id))
             throw new RuntimeException(String.format("There is no component with key \"%s\".", id));
-        return components.get(id).create();
+        return (T) components.get(id).create();
     }
 }
