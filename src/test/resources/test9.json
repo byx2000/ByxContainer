@@ -1,0 +1,113 @@
+{
+    "components":
+    {
+        "flag1": true,
+        "flag2": false,
+        "p1": "true",
+        "p4": 3,
+        "c1":
+        {
+            "if": {"ref": "flag1"},
+            "then": "hello",
+            "else": "hi"
+        },
+        "c2":
+        {
+            "if": {"ref": "flag2"},
+            "then": "hello",
+            "else": "hi"
+        },
+        "c3":
+        {
+            "if":
+            {
+                "factory": "java.lang.Boolean",
+                "method": "parseBoolean",
+                "parameters": ["true"]
+            },
+            "then":
+            {
+                "class": "java.lang.Integer",
+                "parameters": [123]
+            },
+            "else":
+            {
+                "instance": "hello",
+                "method": "substring",
+                "parameters": [1, 4]
+            }
+        },
+        "c4":
+        {
+            "if":
+            {
+                "factory": "java.lang.Boolean",
+                "method": "parseBoolean",
+                "parameters": ["false"]
+            },
+            "then":
+            {
+                "class": "java.lang.Integer",
+                "parameters": [123]
+            },
+            "else":
+            {
+                "instance": "hello",
+                "method": "substring",
+                "parameters": [1, 4]
+            }
+        },
+        "c5":
+        {
+            "if":
+            {
+                "factory": "java.lang.Boolean",
+                "method": "parseBoolean",
+                "parameters": [{"ref": "p1"}]
+            },
+            "then":
+            {
+                "class": "java.lang.Integer",
+                "parameters": [{"ref": "p2"}]
+            },
+            "else":
+            {
+                "instance": "hello",
+                "method": "substring",
+                "parameters": [{"ref": "p3"}, {"ref": "p4"}]
+            },
+            "locals":
+            {
+                "p2": 888,
+                "p3": 1,
+                "p4": 2
+            }
+        },
+        "c6":
+        {
+            "if":
+            {
+                "factory": "java.lang.Boolean",
+                "method": "parseBoolean",
+                "parameters": [{"ref": "p1"}]
+            },
+            "then":
+            {
+                "class": "java.lang.Integer",
+                "parameters": [{"ref": "p2"}]
+            },
+            "else":
+            {
+                "instance": "hello",
+                "method": "substring",
+                "parameters": [{"ref": "p3"}, {"ref": "p4"}]
+            },
+            "locals":
+            {
+                "p1": "false",
+                "p2": 888,
+                "p3": 1
+            }
+        }
+    }
+}

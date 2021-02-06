@@ -31,6 +31,9 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_INSTANCE = "instance";
     private static final String RESERVED_PROPERTIES = "properties";
     private static final String RESERVED_SETTERS = "setters";
+    private static final String RESERVED_IF = "if";
+    private static final String RESERVED_THEN = "then";
+    private static final String RESERVED_ELSE = "else";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -159,6 +162,19 @@ public class JsonContainerFactory implements ContainerFactory
                 params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
             }
             component = instanceFactory(instance, method, params);
+        }
+        // 条件注入
+        else if (element.containsKey(RESERVED_IF))
+        {
+            Component predicate = parseComponent(element.getElement(RESERVED_IF));
+            Component c1 = parseComponent(element.getElement(RESERVED_THEN));
+            Component c2 = parseComponent(element.getElement(RESERVED_ELSE));
+            component = condition(predicate, c1, c2);
+        }
+        // 未知注入方式
+        else
+        {
+            error("Unknown injection method.");
         }
 
         // 处理属性
