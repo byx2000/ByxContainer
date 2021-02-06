@@ -337,4 +337,34 @@ public class JsonContainerFactoryTest
         String c6 = (String) container.getComponent("c6");
         assertEquals("el", c6);
     }
+
+    /**
+     * 单例
+     */
+    @Test
+    public void test10()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test10.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        Student c11 = (Student) container.getComponent("c1");
+        Student c12 = (Student) container.getComponent("c1");
+        assertSame(c11, c12);
+        Student c21 = (Student) container.getComponent("c2");
+        Student c22 = (Student) container.getComponent("c2");
+        assertSame(c21, c22);
+        Student c31 = (Student) container.getComponent("c3");
+        Student c32 = (Student) container.getComponent("c3");
+        assertNotSame(c31, c32);
+        List<Integer> c41 = (List<Integer>) container.getComponent("c4");
+        List<Integer> c42 = (List<Integer>) container.getComponent("c4");
+        assertSame(c41, c42);
+        List<Integer> c51 = (List<Integer>) container.getComponent("c5");
+        List<Integer> c52 = (List<Integer>) container.getComponent("c5");
+        assertSame(c51, c52);
+        List<Integer> c61 = (List<Integer>) container.getComponent("c6");
+        List<Integer> c62 = (List<Integer>) container.getComponent("c6");
+        assertNotSame(c61, c62);
+    }
 }

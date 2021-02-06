@@ -34,6 +34,7 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_IF = "if";
     private static final String RESERVED_THEN = "then";
     private static final String RESERVED_ELSE = "else";
+    private static final String RESERVED_SINGLETON = "singleton";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -189,9 +190,16 @@ public class JsonContainerFactory implements ContainerFactory
             component = parseSetters(element.getElement(RESERVED_SETTERS), component);
         }
 
+        // 单例
+        boolean singleton = true;
+        if (element.containsKey(RESERVED_SINGLETON))
+        {
+            singleton = element.getElement(RESERVED_SINGLETON).getBoolean();
+        }
+
         // 弹出当前作用域
         scopes.remove(scopes.size() - 1);
-        return component;
+        return singleton ? component.singleton() : component;
     }
 
     /**
