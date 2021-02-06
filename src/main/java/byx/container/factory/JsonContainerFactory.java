@@ -30,6 +30,7 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_METHOD = "method";
     private static final String RESERVED_INSTANCE = "instance";
     private static final String RESERVED_PROPERTIES = "properties";
+    private static final String RESERVED_SETTERS = "setters";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -166,6 +167,12 @@ public class JsonContainerFactory implements ContainerFactory
             component = parseProperties(element.getElement(RESERVED_PROPERTIES), component);
         }
 
+        // 处理setter方法
+        if (element.containsKey(RESERVED_SETTERS))
+        {
+            component = parseSetters(element.getElement(RESERVED_SETTERS), component);
+        }
+
         // 弹出当前作用域
         scopes.remove(scopes.size() - 1);
         return component;
@@ -269,6 +276,20 @@ public class JsonContainerFactory implements ContainerFactory
         {
             Component value = parseComponent(element.getElement(name));
             component = component.setProperty(name, value);
+        }
+        return component;
+    }
+
+    /**
+     * 解析setter
+     */
+    private Component parseSetters(JsonElement element, Component component)
+    {
+        if (!element.isObject()) error("The value of the \"setters\" attribute must be an object.");
+        for (String setterName : element.keySet())
+        {
+            Component[] params = parseComponentList(element.getElement(setterName));
+            component = component.invokeSetter(setterName, params);
         }
         return component;
     }

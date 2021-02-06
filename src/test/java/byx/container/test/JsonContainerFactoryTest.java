@@ -43,6 +43,12 @@ public class JsonContainerFactoryTest
             return new Student(id, name, scores);
         }
 
+        public void setIdAndName(int id, String name)
+        {
+            this.id = id;
+            this.name = name;
+        }
+
         public int getId()
         {
             return id;
@@ -278,5 +284,33 @@ public class JsonContainerFactoryTest
         assertEquals(1004, c4.getId());
         assertEquals("XiaoHua", c4.getName());
         assertEquals(List.of(10, 20, 30), c4.getScores());
+    }
+
+    /**
+     * setter注入
+     */
+    @Test
+    public void test8()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test8.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        Student c1 = (Student) container.getComponent("c1");
+        assertEquals(1001, c1.getId());
+        assertEquals("byx", c1.getName());
+        assertEquals(List.of(90, 85, 80), c1.getScores());
+        Student c2 = (Student) container.getComponent("c2");
+        assertEquals(1002, c2.getId());
+        assertEquals("XiaoMing", c2.getName());
+        assertEquals(List.of(75, 80, 85), c2.getScores());
+        Student c3 = (Student) container.getComponent("c3");
+        assertEquals(1003, c3.getId());
+        assertEquals("XiaoHua", c3.getName());
+        assertEquals(List.of(50, 60, 70), c3.getScores());
+        Student c4 = (Student) container.getComponent("c4");
+        assertEquals(1004, c4.getId());
+        assertEquals("XiaoJun", c4.getName());
+        assertEquals(List.of(90, 95, 100), c4.getScores());
     }
 }
