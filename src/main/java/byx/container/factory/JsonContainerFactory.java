@@ -27,6 +27,9 @@ public class JsonContainerFactory implements ContainerFactory
     // 保留键值
     private static final String RESERVED_LIST = "list";
     private static final String RESERVED_SET = "set";
+    private static final String RESERVED_MAP = "map";
+    private static final String RESERVED_KEY = "key";
+    private static final String RESERVED_VALUE = "value";
     private static final String RESERVED_REF = "ref";
     private static final String RESERVED_LOCALS = "locals";
     private static final String RESERVED_CLASS = "class";
@@ -134,6 +137,8 @@ public class JsonContainerFactory implements ContainerFactory
         if (element.containsKey(RESERVED_LIST)) component = parseList(element);
         // 集合
         else if (element.containsKey(RESERVED_SET)) component = parseSet(element);
+        // map
+        else if (element.containsKey(RESERVED_MAP)) component = parseMap(element);
         // 引用
         else if (element.containsKey(RESERVED_REF)) component = parseRef(element);
         // 构造函数注入
@@ -237,6 +242,31 @@ public class JsonContainerFactory implements ContainerFactory
     {
         Component[] components = parseComponentList(element.getElement(RESERVED_SET));
         return set(components);
+    }
+
+    /**
+     * 解析map
+     */
+    private Component parseMap(JsonElement element)
+    {
+        JsonElement mapElem = element.getElement(RESERVED_MAP);
+        Map<Component, Component> componentMap = new HashMap<>();
+        if (mapElem.isObject())
+        {
+            for (String key : mapElem.keySet())
+            {
+                componentMap.put(value(key), parseComponent(mapElem.getElement(key)));
+            }
+        }
+        else
+        {
+            for (int i = 0; i < mapElem.getLength(); ++i)
+            {
+                JsonElement item = mapElem.getElement(i);
+                componentMap.put(parseComponent(item.getElement(RESERVED_KEY)), parseComponent(item.getElement(RESERVED_VALUE)));
+            }
+        }
+        return map(componentMap);
     }
 
     /**

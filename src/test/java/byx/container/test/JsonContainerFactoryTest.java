@@ -5,10 +5,7 @@ import byx.container.factory.ContainerFactory;
 import byx.container.factory.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -78,6 +75,27 @@ public class JsonContainerFactoryTest
         public void setScores(List<Integer> scores)
         {
             this.scores = scores;
+        }
+
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+            {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass())
+            {
+                return false;
+            }
+            Student student = (Student) o;
+            return id == student.id && Objects.equals(name, student.name) && Objects.equals(scores, student.scores);
+        }
+
+        @Override
+        public int hashCode()
+        {
+            return Objects.hash(id, name, scores);
         }
     }
 
@@ -157,6 +175,27 @@ public class JsonContainerFactoryTest
         assertEquals(Set.of("aaa", "bbb", "ccc"), c7);
         Set<Object> c8 = container.getComponent("c8");
         assertEquals(Set.of(123, "bbb", "ccc"), c8);
+        Map<?, ?> c9 = container.getComponent("c9");
+        assertEquals(Collections.EMPTY_MAP, c9);
+        Map<String, Integer> c10 = container.getComponent("c10");
+        assertEquals(Map.of("k1", 123, "k2", 456, "k3", 789), c10);
+        Map<String, Object> c11 = container.getComponent("c11");
+        assertEquals(Map.of("k", "v"), c11);
+        Map<String, Object> c12 = container.getComponent("c12");
+        assertEquals(Map.of("key1", 111, "key2", "hello", "key3", 222), c12);
+        Map<?, ?> c13 = container.getComponent("c13");
+        assertEquals(Collections.EMPTY_MAP, c13);
+        Map<Integer, String> c14 = container.getComponent("c14");
+        assertEquals(Map.of(123, "aaa"), c14);
+        Map<Integer, String> c15 = container.getComponent("c15");
+        assertEquals(Map.of(123, "aaa", 456, "bbb", 789, "ccc"), c15);
+        Map<Integer, Object> c16 = container.getComponent("c16");
+        assertEquals(Map.of(123, "aaa", 456, 999, 789, "ccc"), c16);
+        List<Student> c17 = container.getComponent("c17");
+        assertEquals(3, c17.size());
+        assertEquals(new Student(1001, "byx", List.of(10, 20, 30)), c17.get(0));
+        assertEquals(new Student(1002, "XiaoMing", List.of(40, 50, 60)), c17.get(1));
+        assertEquals(new Student(1003, "XiaoHua", List.of(70, 80, 90)), c17.get(2));
     }
 
     /**

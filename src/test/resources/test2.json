@@ -8,6 +8,76 @@
         "c5": {"set": []},
         "c6": {"set": [888]},
         "c7": {"set": ["aaa", "bbb", "ccc"]},
-        "c8": {"set": [123, "bbb", "ccc"]}
+        "c8": {"set": [123, "bbb", "ccc"]},
+        "c9": {"map": {}},
+        "c10":
+        {
+            "map":
+            {
+                "k1": 123,
+                "k2": 456,
+                "k3": 789
+            }
+        },
+        "c11":
+        {
+            "map":
+            {
+                "k": "v"
+            }
+        },
+        "c12":
+        {
+            "map":
+            {
+                "key1": 111,
+                "key2": "hello",
+                "key3": 222
+            }
+        },
+        "c13": {"map": []},
+        "c14":
+        {
+            "map":
+            [
+                {"key": 123, "value": "aaa"}
+            ]
+        },
+        "c15":
+        {
+            "map":
+            [
+                {"key": 123, "value": "aaa"},
+                {"key": 456, "value": "bbb"},
+                {"key": 789, "value": "ccc"}
+            ]
+        },
+        "c16":
+        {
+            "map":
+            [
+                {"key": 123, "value": "aaa"},
+                {"key": 456, "value": 999},
+                {"key": 789, "value": "ccc"}
+            ]
+        },
+        "c17":
+        {
+            "list":
+            [
+                {
+                    "class": "byx.container.test.JsonContainerFactoryTest$Student",
+                    "parameters": [1001, "byx", {"list": [10, 20, 30]}]
+                },
+                {
+                    "class": "byx.container.test.JsonContainerFactoryTest$Student",
+                    "parameters": [1002, "XiaoMing", {"list": [40, 50, 60]}]
+                },
+                {
+                    "class": "byx.container.test.JsonContainerFactoryTest$Student",
+                    "parameters": [1003, "XiaoHua", {"list": [70, 80, 90]}]
+                }
+            ]
+        }
     }
 }
