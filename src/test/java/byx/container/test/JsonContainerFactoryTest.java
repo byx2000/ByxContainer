@@ -1,6 +1,7 @@
 package byx.container.test;
 
 import byx.container.Container;
+import byx.container.component.Mapper;
 import byx.container.factory.ContainerFactory;
 import byx.container.factory.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
@@ -122,6 +123,48 @@ public class JsonContainerFactoryTest
         public void setMale(boolean male)
         {
             this.male = male;
+        }
+    }
+
+    public static class Add10 implements Mapper
+    {
+        @Override
+        public Object map(Object obj)
+        {
+            return ((int) obj) + 10;
+        }
+    }
+
+    public static class Substring implements Mapper
+    {
+        private final int start, end;
+
+        public Substring(int start, int end)
+        {
+            this.start = start;
+            this.end = end;
+        }
+
+        @Override
+        public Object map(Object obj)
+        {
+            return ((String) obj).substring(start, end);
+        }
+    }
+
+    public static class Add implements Mapper
+    {
+        private final int value;
+
+        public Add(int value)
+        {
+            this.value = value;
+        }
+
+        @Override
+        public Object map(Object obj)
+        {
+            return ((int) obj) + value;
         }
     }
 
@@ -414,5 +457,29 @@ public class JsonContainerFactoryTest
         List<Integer> c61 = container.getComponent("c6");
         List<Integer> c62 = container.getComponent("c6");
         assertNotSame(c61, c62);
+    }
+
+    /**
+     * mapper
+     */
+    @Test
+    public void test11()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test11.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        int c1 = container.getComponent("c1");
+        assertEquals(133, c1);
+        int c2 = container.getComponent("c2");
+        assertEquals(67, c2);
+        int c3 = container.getComponent("c3");
+        assertEquals(223, c3);
+        String c4 = container.getComponent("c4");
+        assertEquals("ll", c4);
+        String c5 = container.getComponent("c5");
+        assertEquals("ell", c5);
+        String c6 = container.getComponent("c6");
+        assertEquals("app", c6);
     }
 }

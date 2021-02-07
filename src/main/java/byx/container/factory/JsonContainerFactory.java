@@ -4,8 +4,9 @@ import byx.container.ByxContainer;
 import byx.container.Container;
 import byx.container.component.Component;
 import byx.container.component.DelegateComponent;
-
 import static byx.container.component.Component.*;
+import byx.container.component.Mapper;
+import byx.container.util.ReflectUtils;
 import com.alibaba.fastjson.JSON;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -43,6 +44,7 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_THEN = "then";
     private static final String RESERVED_ELSE = "else";
     private static final String RESERVED_SINGLETON = "singleton";
+    private static final String RESERVED_MAPPER = "mapper";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -103,7 +105,7 @@ public class JsonContainerFactory implements ContainerFactory
     }
 
     /**
-     * 根据类名加载类
+     * 加载类
      */
     private static Class<?> getClass(String className)
     {
@@ -115,6 +117,17 @@ public class JsonContainerFactory implements ContainerFactory
         {
             throw new RuntimeException("Incorrect class name: " + className, e);
         }
+    }
+
+    /**
+     * 加载mapper
+     */
+    private static Class<?> getMapper(String mapperClassName)
+    {
+        Class<?> type = getClass(mapperClassName);
+        if (!Mapper.class.isAssignableFrom(type))
+            error(mapperClassName + " is not a Mapper.");
+        return type;
     }
 
     /**
@@ -207,6 +220,12 @@ public class JsonContainerFactory implements ContainerFactory
         if (element.containsKey(RESERVED_SINGLETON))
         {
             singleton = element.getElement(RESERVED_SINGLETON).getBoolean();
+        }
+
+        // mapper
+        if (element.containsKey(RESERVED_MAPPER))
+        {
+            component = parseMapper(element.getElement(RESERVED_MAPPER), component);
         }
 
         // 弹出当前作用域
@@ -356,6 +375,31 @@ public class JsonContainerFactory implements ContainerFactory
             component = component.invokeSetter(setterName, params);
         }
         return component;
+    }
+
+    /**
+     * 解析mapper
+     */
+    private Component parseMapper(JsonElement element, Component component)
+    {
+        if (element.isString())
+        {
+            String className = element.getString();
+            Class<?> type = getMapper(className);
+            Mapper mapper = (Mapper) ReflectUtils.create(type);
+            return component.map(mapper);
+        }
+        else if (element.isObject())
+        {
+            String className = element.getElement(RESERVED_CLASS).getString();
+            Class<?> type = getMapper(className);
+            Component[] components = parseComponentList(element.getElement(RESERVED_PARAMETERS));
+            return component.map(obj -> ((Mapper) constructor(type, components).create()).map(obj));
+        }
+        else
+        {
+            throw new RuntimeException("The \"mapper\" element must be a string or an object.");
+        }
     }
 
     @Override
