@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonContainerFactoryTest
@@ -147,6 +149,14 @@ public class JsonContainerFactoryTest
         assertEquals(List.of(123, 456, 789), c3);
         List<Object> c4 = container.getComponent("c4");
         assertEquals(List.of(123, "hello", 456), c4);
+        Set<?> c5 = container.getComponent("c5");
+        assertEquals(Collections.EMPTY_SET, c5);
+        Set<Integer> c6 = container.getComponent("c6");
+        assertEquals(Set.of(888), c6);
+        Set<String> c7 = container.getComponent("c7");
+        assertEquals(Set.of("aaa", "bbb", "ccc"), c7);
+        Set<Object> c8 = container.getComponent("c8");
+        assertEquals(Set.of(123, "bbb", "ccc"), c8);
     }
 
     /**

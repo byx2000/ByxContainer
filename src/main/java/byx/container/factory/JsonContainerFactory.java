@@ -26,6 +26,7 @@ public class JsonContainerFactory implements ContainerFactory
 
     // 保留键值
     private static final String RESERVED_LIST = "list";
+    private static final String RESERVED_SET = "set";
     private static final String RESERVED_REF = "ref";
     private static final String RESERVED_LOCALS = "locals";
     private static final String RESERVED_CLASS = "class";
@@ -131,6 +132,8 @@ public class JsonContainerFactory implements ContainerFactory
 
         // 列表
         if (element.containsKey(RESERVED_LIST)) component = parseList(element);
+        // 集合
+        else if (element.containsKey(RESERVED_SET)) component = parseSet(element);
         // 引用
         else if (element.containsKey(RESERVED_REF)) component = parseRef(element);
         // 构造函数注入
@@ -223,14 +226,17 @@ public class JsonContainerFactory implements ContainerFactory
      */
     private Component parseList(JsonElement element)
     {
-        JsonElement list = element.getElement(RESERVED_LIST);
-        if (!list.isArray()) error("The list keyword must be followed by a list.");
-        List<Component> components = new ArrayList<>();
-        for (int i = 0; i < list.getLength(); ++i)
-        {
-            components.add(parseComponent(list.getElement(i)));
-        }
-        return list(components.toArray(new Component[0]));
+        Component[] components = parseComponentList(element.getElement(RESERVED_LIST));
+        return list(components);
+    }
+
+    /**
+     * 解析集合
+     */
+    private Component parseSet(JsonElement element)
+    {
+        Component[] components = parseComponentList(element.getElement(RESERVED_SET));
+        return set(components);
     }
 
     /**
