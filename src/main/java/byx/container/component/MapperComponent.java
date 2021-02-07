@@ -1,4 +1,4 @@
-package byx.container.core;
+package byx.container.component;
 
 /**
  * 对一个Component创建的结果进行转换

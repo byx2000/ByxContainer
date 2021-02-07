@@ -1,11 +1,11 @@
 package byx.container.test;
 
-import byx.container.core.ByxContainer;
-import byx.container.core.Container;
+import byx.container.ByxContainer;
+import byx.container.Container;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-import static byx.container.core.Component.*;
+import static byx.container.component.Component.*;
 
 public class ByxContainerTest
 {

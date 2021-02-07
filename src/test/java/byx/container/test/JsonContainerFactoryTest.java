@@ -1,7 +1,7 @@
 package byx.container.test;
 
-import byx.container.core.Container;
-import byx.container.core.ContainerFactory;
+import byx.container.Container;
+import byx.container.factory.ContainerFactory;
 import byx.container.factory.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
 import java.io.InputStream;

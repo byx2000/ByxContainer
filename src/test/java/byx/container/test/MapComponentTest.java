@@ -1,13 +1,13 @@
 package byx.container.test;
 
-import byx.container.core.Component;
+import byx.container.component.Component;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static byx.container.core.Component.*;
+import static byx.container.component.Component.*;
 
 public class MapComponentTest
 {

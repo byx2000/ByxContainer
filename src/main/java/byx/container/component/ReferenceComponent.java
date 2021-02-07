@@ -1,4 +1,6 @@
-package byx.container.core;
+package byx.container.component;
+
+import byx.container.Container;
 
 /**
  * 对容器中组件的引用

@@ -1,4 +1,4 @@
-package byx.container.core;
+package byx.container.component;
 
 import byx.container.util.ReflectUtils;
 

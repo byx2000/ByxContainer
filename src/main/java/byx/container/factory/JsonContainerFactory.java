@@ -1,7 +1,11 @@
 package byx.container.factory;
 
-import byx.container.core.*;
-import static byx.container.core.Component.*;
+import byx.container.ByxContainer;
+import byx.container.Container;
+import byx.container.component.Component;
+import byx.container.component.DelegateComponent;
+
+import static byx.container.component.Component.*;
 import com.alibaba.fastjson.JSON;
 import java.io.BufferedReader;
 import java.io.InputStream;

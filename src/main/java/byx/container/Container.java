@@ -1,4 +1,6 @@
-package byx.container.core;
+package byx.container;
+
+import byx.container.component.Component;
 
 /**
  * IOC容器：管理着系统中所有的组件以及它们之间的依赖关系。

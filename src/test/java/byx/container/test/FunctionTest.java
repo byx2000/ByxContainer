@@ -1,6 +1,6 @@
 package byx.container.test;
 
-import byx.container.core.Function;
+import byx.container.component.Function;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.Collections;

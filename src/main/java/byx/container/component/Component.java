@@ -1,5 +1,6 @@
-package byx.container.core;
+package byx.container.component;
 
+import byx.container.Container;
 import byx.container.util.ReflectUtils;
 
 import java.util.Arrays;

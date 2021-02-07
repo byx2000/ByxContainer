@@ -1,4 +1,6 @@
-package byx.container.core;
+package byx.container;
+
+import byx.container.component.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

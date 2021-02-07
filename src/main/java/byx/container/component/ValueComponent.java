@@ -1,4 +1,4 @@
-package byx.container.core;
+package byx.container.component;
 
 /**
  * 包装一个常数的组件

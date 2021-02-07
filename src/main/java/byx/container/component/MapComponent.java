@@ -1,4 +1,4 @@
-package byx.container.core;
+package byx.container.component;
 
 import java.util.HashMap;
 import java.util.Map;

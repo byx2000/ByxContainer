@@ -1,4 +1,4 @@
-package byx.container.core;
+package byx.container.component;
 
 /**
  * 单例组件

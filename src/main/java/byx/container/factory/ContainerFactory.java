@@ -1,4 +1,6 @@
-package byx.container.core;
+package byx.container.factory;
+
+import byx.container.Container;
 
 /**
  * 容器工厂接口
