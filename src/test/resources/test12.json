@@ -1,0 +1,15 @@
+{
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
+    "components":
+    {
+        "c1":
+        {
+            "custom": "byx.container.test.JsonContainerFactoryTest$StringComponent"
+        },
+        "c2":
+        {
+            "custom": "byx.container.test.JsonContainerFactoryTest$StringComponent",
+            "parameters": ["hi", 888]
+        }
+    }
+}

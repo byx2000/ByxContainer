@@ -132,6 +132,20 @@
                         "singleton": {"type": "boolean"}
                     },
                     "required": ["if", "then", "else"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "custom": {"type": "string"},
+                        "parameters": {"$ref": "#/definitions/componentList"},
+                        "properties": {"$ref": "#/definitions/properties"},
+                        "setters": {"$ref": "#/definitions/setters"},
+                        "mapper": {"$ref": "#/definitions/mapper"},
+                        "locals": {"$ref": "#/definitions/locals"},
+                        "singleton": {"type": "boolean"}
+                    },
+                    "required": ["custom"]
                 }
             ]
         },

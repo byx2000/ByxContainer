@@ -45,6 +45,7 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_ELSE = "else";
     private static final String RESERVED_SINGLETON = "singleton";
     private static final String RESERVED_MAPPER = "mapper";
+    private static final String RESERVED_CUSTOM = "custom";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -131,6 +132,17 @@ public class JsonContainerFactory implements ContainerFactory
     }
 
     /**
+     * 加载组件
+     */
+    private static Class<?> getComponent(String componentClassName)
+    {
+        Class<?> type = getClass(componentClassName);
+        if (!Component.class.isAssignableFrom(type))
+            error(componentClassName + " is not a Component.");
+        return type;
+    }
+
+    /**
      * 解析组件
      */
     private Component parseComponent(JsonElement element)
@@ -196,6 +208,11 @@ public class JsonContainerFactory implements ContainerFactory
             Component c1 = parseComponent(element.getElement(RESERVED_THEN));
             Component c2 = parseComponent(element.getElement(RESERVED_ELSE));
             component = condition(predicate, c1, c2);
+        }
+        // 自定义组件
+        else if (element.containsKey(RESERVED_CUSTOM))
+        {
+            component = parseCustomComponent(element);
         }
         // 未知注入方式
         else
@@ -400,6 +417,22 @@ public class JsonContainerFactory implements ContainerFactory
         {
             throw new RuntimeException("The \"mapper\" element must be a string or an object.");
         }
+    }
+
+    /**
+     * 解析自定义组件
+     */
+    private Component parseCustomComponent(JsonElement element)
+    {
+        String componentClassName = element.getElement(RESERVED_CUSTOM).getString();
+        Class<?> type = getComponent(componentClassName);
+        Component[] params = new Component[0];
+        if (element.containsKey(RESERVED_PARAMETERS))
+        {
+            params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
+        }
+        Component customComponentCreator = constructor(type, params);
+        return () -> ((Component) customComponentCreator.create()).create();
     }
 
     @Override

@@ -1,13 +1,13 @@
 package byx.container.test;
 
 import byx.container.Container;
+import byx.container.component.Component;
 import byx.container.component.Mapper;
 import byx.container.factory.ContainerFactory;
 import byx.container.factory.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
 import java.io.InputStream;
 import java.util.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonContainerFactoryTest
@@ -165,6 +165,30 @@ public class JsonContainerFactoryTest
         public Object map(Object obj)
         {
             return ((int) obj) + value;
+        }
+    }
+
+    public static class StringComponent implements Component
+    {
+        private final String s;
+        private final int i;
+
+        public StringComponent()
+        {
+            this.s = "hello";
+            this.i = 123;
+        }
+
+        public StringComponent(String s, int i)
+        {
+            this.s = s;
+            this.i = i;
+        }
+
+        @Override
+        public Object create()
+        {
+            return s + ": " + i;
         }
     }
 
@@ -481,5 +505,21 @@ public class JsonContainerFactoryTest
         assertEquals("ell", c5);
         String c6 = container.getComponent("c6");
         assertEquals("app", c6);
+    }
+
+    /**
+     * 自定义组件
+     */
+    @Test
+    public void test12()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test12.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        String c1 = container.getComponent("c1");
+        assertEquals("hello: 123", c1);
+        String c2 = container.getComponent("c2");
+        assertEquals("hi: 888", c2);
     }
 }
