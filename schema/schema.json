@@ -15,12 +15,76 @@
                     "type": "object",
                     "properties":
                     {
+                        "ref": {"type": "string"}
+                    },
+                    "required": ["ref"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "list": {"$ref": "#/definitions/componentList"},
+                        "mapper": {"$ref": "#/definitions/mapper"},
+                        "locals": {"$ref": "#/definitions/locals"},
+                        "singleton": {"type": "boolean"}
+                    },
+                    "required": ["list"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "set": {"$ref": "#/definitions/componentList"},
+                        "mapper": {"$ref": "#/definitions/mapper"},
+                        "locals": {"$ref": "#/definitions/locals"},
+                        "singleton": {"type": "boolean"}
+                    },
+                    "required": ["set"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "map":
+                        {
+                            "anyOf":
+                            [
+                                {
+                                    "type": "object",
+                                    "patternProperties":
+                                    {
+                                        ".*": {"$ref": "#/definitions/component"}
+                                    }
+                                },
+                                {
+                                    "type": "array",
+                                    "items":
+                                    {
+                                        "type": "object",
+                                        "properties":
+                                        {
+                                            "key": {"$ref": "#/definitions/component"},
+                                            "value": {"$ref": "#/definitions/component"}
+                                        },
+                                        "required": ["key", "value"]
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "required": ["map"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
                         "class": {"type": "string"},
                         "parameters": {"$ref": "#/definitions/componentList"},
                         "properties": {"$ref": "#/definitions/properties"},
                         "setters": {"$ref": "#/definitions/setters"},
                         "mapper": {"$ref": "#/definitions/mapper"},
-                        "locals": {"$ref": "#/definitions/locals"}
+                        "locals": {"$ref": "#/definitions/locals"},
+                        "singleton": {"type": "boolean"}
                     },
                     "required": ["class"]
                 },
@@ -34,9 +98,40 @@
                         "properties": {"$ref": "#/definitions/properties"},
                         "setters": {"$ref": "#/definitions/setters"},
                         "mapper": {"$ref": "#/definitions/mapper"},
-                        "locals": {"$ref": "#/definitions/locals"}
+                        "locals": {"$ref": "#/definitions/locals"},
+                        "singleton": {"type": "boolean"}
                     },
                     "required": ["factory", "method"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "instance": {"$ref": "#/definitions/component"},
+                        "method": {"type": "string"},
+                        "parameters": {"$ref": "#/definitions/componentList"},
+                        "properties": {"$ref": "#/definitions/properties"},
+                        "setters": {"$ref": "#/definitions/setters"},
+                        "mapper": {"$ref": "#/definitions/mapper"},
+                        "locals": {"$ref": "#/definitions/locals"},
+                        "singleton": {"type": "boolean"}
+                    },
+                    "required": ["instance", "method"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "if": {"$ref": "#/definitions/component"},
+                        "then": {"$ref": "#/definitions/component"},
+                        "else": {"$ref": "#/definitions/component"},
+                        "properties": {"$ref": "#/definitions/properties"},
+                        "setters": {"$ref": "#/definitions/setters"},
+                        "mapper": {"$ref": "#/definitions/mapper"},
+                        "locals": {"$ref": "#/definitions/locals"},
+                        "singleton": {"type": "boolean"}
+                    },
+                    "required": ["if", "then", "else"]
                 }
             ]
         },
