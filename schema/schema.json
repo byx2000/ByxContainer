@@ -1,0 +1,103 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title":"ByxScript configuration file",
+    "definitions":
+    {
+        "component":
+        {
+            "anyOf":
+            [
+                {"type": "string"},
+                {"type": "number"},
+                {"type": "boolean"},
+                {"type": "null"},
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "class": {"type": "string"},
+                        "parameters": {"$ref": "#/definitions/componentList"},
+                        "properties": {"$ref": "#/definitions/properties"},
+                        "setters": {"$ref": "#/definitions/setters"},
+                        "mapper": {"$ref": "#/definitions/mapper"},
+                        "locals": {"$ref": "#/definitions/locals"}
+                    },
+                    "required": ["class"]
+                },
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "factory": {"type": "string"},
+                        "method": {"type": "string"},
+                        "parameters": {"$ref": "#/definitions/componentList"},
+                        "properties": {"$ref": "#/definitions/properties"},
+                        "setters": {"$ref": "#/definitions/setters"},
+                        "mapper": {"$ref": "#/definitions/mapper"},
+                        "locals": {"$ref": "#/definitions/locals"}
+                    },
+                    "required": ["factory", "method"]
+                }
+            ]
+        },
+        "componentList":
+        {
+            "type": "array",
+            "items": {"$ref": "#/definitions/component"}
+        },
+        "properties":
+        {
+            "type": "object",
+            "patternProperties":
+            {
+                ".*": {"$ref": "#/definitions/component"}
+            }
+        },
+        "setters":
+        {
+            "type": "object",
+            "patternProperties":
+            {
+                ".*":
+                {
+                    "type": "array",
+                    "items": {"$ref": "#/definitions/component"}
+                }
+            }
+        },
+        "mapper":
+        {
+            "anyOf":
+            [
+                {"type": "string"},
+                {
+                    "type": "object",
+                    "properties":
+                    {
+                        "class": {"type": "string"},
+                        "componentList": {"$ref": "#/definitions/componentList"}
+                    },
+                    "required": ["class", "parameters"]
+                }
+            ]
+        },
+        "locals":
+        {
+            "type": "object",
+            ".*": {"$ref": "#/definitions/component"}
+        }
+    },
+    "type": "object",
+    "properties":
+    {
+        "components":
+        {
+            "type": "object",
+            "patternProperties":
+            {
+                ".*": {"$ref": "#/definitions/component"}
+            }
+        }
+    },
+    "required": ["components"]
+}
