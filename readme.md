@@ -9,15 +9,15 @@ ByxContainer是一个轻量级IOC/DI容器，具有以下特性：
 ByxContainer使用JSON作为配置文件的格式。你可以将配置文件命名为任何名字，放在任何你喜欢的路径下。
 
 ByxContainer配置文件的基本框架如下：
-```json
+```
 {
     "typeAlias":
     {
-        // components中使用的类型别名
+        // 配置components中使用的类型别名
     },
     "components":
     {
-        // 在这里定义所有组件
+        // 定义容器中的所有组件
     }
 }
 ```
@@ -34,7 +34,7 @@ ByxContainer管理的基本单位是组件。组件代表了系统中的一个�
 
 ByxContainer的所有组件都定义在`components`中。组件以键值对的形式写在`components`对象中，键就是组件的id，值就是组件的创建过程和依赖关系的定义。
 
-```json
+```
 {
     "components":
     {
@@ -250,7 +250,7 @@ a.setScore(97.5);
 以上配置等价于以下Java代码：
 ```java
 A a = new A();
-a.setId(1001);=
+a.setId(1001);
 a.setB(new B());
 ```
 ### setter方法
