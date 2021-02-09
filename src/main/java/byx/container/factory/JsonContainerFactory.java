@@ -24,6 +24,7 @@ public class JsonContainerFactory implements ContainerFactory
     private final String json;
     private Container container;
     private List<Map<String, Component>> scopes;
+    private Map<String, String> typeAlias;
 
     // 保留键值
     private static final String RESERVED_LIST = "list";
@@ -46,6 +47,7 @@ public class JsonContainerFactory implements ContainerFactory
     private static final String RESERVED_SINGLETON = "singleton";
     private static final String RESERVED_MAPPER = "mapper";
     private static final String RESERVED_CUSTOM = "custom";
+    private static final String RESERVED_TYPE_ALIAS = "typeAlias";
 
     /**
      * 从文件流创建JsonContainerFactory
@@ -92,6 +94,19 @@ public class JsonContainerFactory implements ContainerFactory
     private Container parseContainer(JsonElement element)
     {
         this.container = new ByxContainer();
+
+        // 解析typeAlias
+        typeAlias = new HashMap<>();
+        if (element.containsKey(RESERVED_TYPE_ALIAS))
+        {
+            JsonElement typeAliasElem = element.getElement(RESERVED_TYPE_ALIAS);
+            for (String alias : typeAliasElem.keySet())
+            {
+                typeAlias.put(alias, typeAliasElem.getElement(alias).getString());
+            }
+        }
+
+        // 解析components
         scopes = new ArrayList<>();
         if (!element.isObject()) error("The outermost layer of the json file must be an object.");
         if (!element.containsKey("components")) error("The outermost layer must contain \"components\" key.");
@@ -108,10 +123,12 @@ public class JsonContainerFactory implements ContainerFactory
     /**
      * 加载类
      */
-    private static Class<?> getClass(String className)
+    private Class<?> getClass(String className)
     {
         try
         {
+            if (typeAlias.containsKey(className))
+                className = typeAlias.get(className);
             return Class.forName(className);
         }
         catch (Exception e)
@@ -123,7 +140,7 @@ public class JsonContainerFactory implements ContainerFactory
     /**
      * 加载mapper
      */
-    private static Class<?> getMapper(String mapperClassName)
+    private Class<?> getMapper(String mapperClassName)
     {
         Class<?> type = getClass(mapperClassName);
         if (!Mapper.class.isAssignableFrom(type))
@@ -134,7 +151,7 @@ public class JsonContainerFactory implements ContainerFactory
     /**
      * 加载组件
      */
-    private static Class<?> getComponent(String componentClassName)
+    private Class<?> getComponent(String componentClassName)
     {
         Class<?> type = getClass(componentClassName);
         if (!Component.class.isAssignableFrom(type))

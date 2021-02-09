@@ -522,4 +522,24 @@ public class JsonContainerFactoryTest
         String c2 = container.getComponent("c2");
         assertEquals("hi: 888", c2);
     }
+
+    /**
+     * 类型别名
+     */
+    @Test
+    public void test13()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test13.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        int c1 = container.getComponent("c1");
+        assertEquals(123, c1);
+        String c2 = container.getComponent("c2");
+        assertEquals("hello", c2);
+        Student c3 = container.getComponent("c3");
+        assertEquals(1001, c3.getId());
+        assertEquals("byx", c3.getName());
+        assertEquals(List.of(90, 70, 80), c3.getScores());
+    }
 }

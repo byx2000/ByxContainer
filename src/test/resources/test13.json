@@ -1,0 +1,32 @@
+{
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
+    "typeAlias":
+    {
+        "Integer": "java.lang.Integer",
+        "String": "java.lang.String",
+        "Student": "byx.container.test.JsonContainerFactoryTest$Student"
+    },
+    "components":
+    {
+        "c1":
+        {
+            "class": "Integer",
+            "parameters": [123]
+        },
+        "c2":
+        {
+            "class": "String",
+            "parameters": ["hello"]
+        },
+        "c3":
+        {
+            "class": "Student",
+            "properties":
+            {
+                "id": 1001,
+                "name": "byx",
+                "scores": {"list": [90, 70, 80]}
+            }
+        }
+    }
+}
