@@ -284,8 +284,50 @@ a.setNameAndScore("byx", 97.5);
 ```
 ## 其它组件定义
 ByxContainer还支持以下特殊组件定义：
+* 集合组件
 * 引用组件
 * 条件组件
+### 集合组件
+ByxContainer支持`List`、`Set`和`Map`这三种集合组件。
+
+下面是这三种集合组件的定义：
+```json
+{
+    "components":
+    {
+        "c1": {"list": [1, 2, 3]},
+        "c2": {"set": [4, 5, 6]},
+        "c3": 
+        {
+            "map":
+            {
+                "k1": 100,
+                "k2": 200,
+                "k3": 300
+            }
+        },
+        "c4":
+        {
+            "map":
+            [
+                {"key": 400, "value": "v1"},
+                {"key": 500, "value": "v2"},
+                {"key": 600, "value": "v3"}
+            ]
+        }
+    }
+}
+```
+以上配置等价于以下Java代码：
+```java
+List<Object> c1 = List.of(1, 2, 3);
+Set<Object> c2 = Set.of(4, 5, 6);
+Map<Object> c3 = Map.of("k1", 100, "k2", 200, "k3", 300);
+Map<Object> c4 = Map.of(400, "v1", 500, "v2", 600, "v3");
+```
+注：
+* 集合组件的元素既可以是常数，也可以嵌套其它组件的定义
+* `c3`和`c4`是`Map`组件的两种不同定义方式。第一种只支持`String`类型的key，第二种支持任意数据类型的key
 ### 引用组件
 ByxContainer既支持对全局组件的引用，也支持对局部组件的引用。
 
