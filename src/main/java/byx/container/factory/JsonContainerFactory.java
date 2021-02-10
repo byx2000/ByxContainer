@@ -6,10 +6,7 @@ import byx.container.component.Component;
 import byx.container.component.DelegateComponent;
 import static byx.container.component.Component.*;
 import byx.container.component.Mapper;
-import byx.container.exception.ClassNotFoundException;
-import byx.container.exception.NotComponentException;
-import byx.container.exception.NotMapperException;
-import byx.container.exception.UnknownComponentTypeException;
+import byx.container.exception.*;
 import byx.container.util.ReflectUtils;
 import com.alibaba.fastjson.JSON;
 import java.io.BufferedReader;
@@ -126,7 +123,7 @@ public class JsonContainerFactory implements ContainerFactory
         }
         catch (Exception e)
         {
-            throw new ClassNotFoundException(className);
+            throw new ByxContainerException(Message.invalidClassName(className));
         }
     }
 
@@ -137,7 +134,7 @@ public class JsonContainerFactory implements ContainerFactory
     {
         Class<?> type = getClass(mapperClassName);
         if (!Mapper.class.isAssignableFrom(type))
-            throw new NotMapperException(mapperClassName);
+            throw new ByxContainerException(Message.invalidMapperClassName(mapperClassName));
         return type;
     }
 
@@ -148,7 +145,7 @@ public class JsonContainerFactory implements ContainerFactory
     {
         Class<?> type = getClass(componentClassName);
         if (!Component.class.isAssignableFrom(type))
-            throw new NotComponentException(componentClassName);
+            throw new ByxContainerException(Message.invalidComponentClassName(componentClassName));
         return type;
     }
 
@@ -225,7 +222,7 @@ public class JsonContainerFactory implements ContainerFactory
         // 未知注入方式
         else
         {
-            throw new UnknownComponentTypeException(element.getJsonString());
+            throw new ByxContainerException(Message.unknownComponentType(element.getJsonString()));
         }
 
         // 处理属性

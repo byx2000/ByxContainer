@@ -1,8 +1,8 @@
 package byx.container;
 
 import byx.container.component.Component;
-import byx.container.exception.ComponentNotFoundException;
-import byx.container.exception.ParameterException;
+import byx.container.exception.ByxContainerException;
+import byx.container.exception.Message;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -17,7 +17,7 @@ public class ByxContainer implements Container
     public void addComponent(String id, Component component)
     {
         if (component == null)
-            throw new ParameterException("Parameter \"component\" cannot be null.");
+            throw new ByxContainerException(Message.parameterNotNull("component"));
         components.put(id, component);
     }
 
@@ -26,7 +26,7 @@ public class ByxContainer implements Container
     public <T> T getComponent(String id)
     {
         if (!components.containsKey(id))
-            throw new ComponentNotFoundException(id);
+            throw new ByxContainerException(Message.componentNotFound(id));
         return (T) components.get(id).create();
     }
 }

@@ -40,60 +40,60 @@ public class ComponentExceptionTest
     public void test()
     {
         // constructor
-        assertThrows(ConstructorNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(String.class, value(123), value("hello")).create());
-        assertThrows(StaticFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(String.class, staticFactory(String.class, "create", value(123))).create());
 
         // staticFactory
-        assertThrows(StaticFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> staticFactory(String.class, "valueOf", value(123), value("hello")).create());
-        assertThrows(StaticFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> staticFactory(String.class, "create", value(123)).create());
-        assertThrows(ConstructorNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> staticFactory(String.class, "valueOf", constructor(Integer.class, value(3.14))).create());
 
         // instanceFactory
-        assertThrows(InstanceFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> instanceFactory(value("static"), "length", value(123)).create());
-        assertThrows(InstanceFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> instanceFactory(value("static"), "length1").create());
-        assertThrows(ConstructorNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> instanceFactory(value("static"), "length", constructor(Integer.class, value(3.14))).create());
 
         // reference
         Container container = new ByxContainer();
-        assertThrows(ComponentNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> reference(container, "hello").create());
 
         // setProperty
-        assertThrows(PropertyNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(User.class).setProperty("id", value(1001)).create());
-        assertThrows(PropertyNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(User.class).setProperty("username", value(123)).create());
-        assertThrows(ConstructorNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(User.class, value("hello")).setProperty("id", value(1001)).create());
-        assertThrows(StaticFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(User.class).setProperty("password", staticFactory(String.class, "create")).create());
 
         // invokeSetter
-        assertThrows(SetterNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(User.class).invokeSetter("setId", value(1001)).create());
-        assertThrows(StaticFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(User.class).invokeSetter("setUsername", staticFactory(String.class, "create")).create());
-        assertThrows(ConstructorNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> constructor(User.class, value(123)).invokeSetter("setPassword", value("123456")).create());
 
         // list
-        assertThrows(ConstructorNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> list(constructor(User.class, value(123))).create());
 
         // set
-        assertThrows(StaticFactoryNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> list(staticFactory(User.class, "create")).create());
 
         // map
-        assertThrows(ConstructorNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> map(Map.of(value(123), constructor(User.class, value("hello")))).create());
     }
 }

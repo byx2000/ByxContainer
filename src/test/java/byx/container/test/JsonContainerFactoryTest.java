@@ -4,12 +4,13 @@ import byx.container.Container;
 import byx.container.component.Component;
 import byx.container.component.Mapper;
 import byx.container.exception.*;
-import byx.container.exception.ClassNotFoundException;
 import byx.container.factory.ContainerFactory;
 import byx.container.factory.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
+
 import java.io.InputStream;
 import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonContainerFactoryTest
@@ -553,7 +554,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test14.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(KeyNotFoundException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -564,7 +565,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test15.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(KeyNotFoundException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -575,7 +576,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test16.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(KeyNotFoundException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -586,7 +587,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test17.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(KeyNotFoundException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -597,7 +598,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test18.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ElementTypeIncorrectException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -608,7 +609,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test19.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ElementTypeIncorrectException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -619,7 +620,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test20.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ClassNotFoundException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -630,7 +631,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test21.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(NotMapperException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -641,7 +642,7 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test22.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(NotComponentException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 
     /**
@@ -652,6 +653,6 @@ public class JsonContainerFactoryTest
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test23.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(UnknownComponentTypeException.class, factory::create);
+        assertThrows(ByxContainerException.class, factory::create);
     }
 }

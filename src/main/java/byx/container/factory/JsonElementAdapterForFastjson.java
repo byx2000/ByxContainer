@@ -1,7 +1,7 @@
 package byx.container.factory;
 
-import byx.container.exception.ElementTypeIncorrectException;
-import byx.container.exception.KeyNotFoundException;
+import byx.container.exception.ByxContainerException;
+import byx.container.exception.Message;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -67,7 +67,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public int getInteger()
     {
         if (!isInteger())
-            throw new ElementTypeIncorrectException(getJsonString(), "integer");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "integer"));
         return (int) obj;
     }
 
@@ -75,7 +75,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public double getDouble()
     {
         if (!isDouble())
-            throw new ElementTypeIncorrectException(getJsonString(), "double");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "double"));
         return ((BigDecimal)obj).doubleValue();
     }
 
@@ -83,7 +83,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public String getString()
     {
         if (!isString())
-            throw new ElementTypeIncorrectException(getJsonString(), "string");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "string"));
         return (String) obj;
     }
 
@@ -91,7 +91,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public boolean getBoolean()
     {
         if (!isBoolean())
-            throw new ElementTypeIncorrectException(getJsonString(), "boolean");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "boolean"));
         return (boolean) obj;
     }
 
@@ -99,7 +99,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public boolean containsKey(String key)
     {
         if (!isObject())
-            throw new ElementTypeIncorrectException(getJsonString(), "object");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "object"));
         return ((JSONObject)obj).containsKey(key);
     }
 
@@ -107,7 +107,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public JsonElement getElement(int index)
     {
         if (!isArray())
-            throw new ElementTypeIncorrectException(getJsonString(), "array");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "array"));
         return new JsonElementAdapterForFastjson(((JSONArray)obj).get(index));
     }
 
@@ -115,9 +115,9 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public JsonElement getElement(String key)
     {
         if (!isObject())
-            throw new ElementTypeIncorrectException(getJsonString(), "object");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "object"));
         if (!containsKey(key))
-            throw new KeyNotFoundException(getJsonString(), key);
+            throw new ByxContainerException(Message.jsonKeyNotFound(getJsonString(), key));
         return new JsonElementAdapterForFastjson(((JSONObject)obj).get(key));
     }
 
@@ -125,7 +125,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public int getLength()
     {
         if (!isArray())
-            throw new ElementTypeIncorrectException(getJsonString(), "array");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "array"));
         return ((JSONArray)obj).size();
     }
 
@@ -133,7 +133,7 @@ public class JsonElementAdapterForFastjson implements JsonElement
     public Set<String> keySet()
     {
         if (!isObject())
-            throw new ElementTypeIncorrectException(getJsonString(), "object");
+            throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "object"));
         return ((JSONObject)obj).keySet();
     }
 

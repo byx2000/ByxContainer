@@ -1,8 +1,6 @@
 package byx.container.component;
 
-import byx.container.exception.ConstructorNotFoundException;
-import byx.container.exception.InstanceFactoryNotFoundException;
-import byx.container.exception.StaticFactoryNotFoundException;
+import byx.container.exception.*;
 import byx.container.util.ReflectUtils;
 
 /**
@@ -34,7 +32,7 @@ public interface Function
             }
             catch (Exception e)
             {
-                throw new ConstructorNotFoundException(type, params);
+                throw new ByxContainerException(Message.constructorNotFound(type, params));
             }
         };
     }
@@ -55,7 +53,7 @@ public interface Function
             }
             catch (Exception e)
             {
-                throw new StaticFactoryNotFoundException(type, name, params);
+                throw new ByxContainerException(Message.staticFactoryNotFound(type, name, params));
             }
         };
     }
@@ -76,7 +74,7 @@ public interface Function
             }
             catch (Exception e)
             {
-                throw new InstanceFactoryNotFoundException(instance.getClass(), name, params);
+                throw new ByxContainerException(Message.instanceFactoryNotFound(instance.getClass(), name, params));
             }
         };
     }

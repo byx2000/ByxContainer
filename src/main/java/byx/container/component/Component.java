@@ -1,8 +1,8 @@
 package byx.container.component;
 
 import byx.container.Container;
-import byx.container.exception.PropertyNotFoundException;
-import byx.container.exception.SetterNotFoundException;
+import byx.container.exception.ByxContainerException;
+import byx.container.exception.Message;
 import byx.container.util.ReflectUtils;
 import java.util.Arrays;
 import java.util.Map;
@@ -95,7 +95,7 @@ public interface Component
             }
             catch (Exception e)
             {
-                throw new PropertyNotFoundException(obj.getClass(), name, v.getClass());
+                throw new ByxContainerException(Message.propertyNotFount(obj.getClass(), name, v.getClass()));
             }
         });
     }
@@ -118,7 +118,7 @@ public interface Component
             }
             catch (Exception e)
             {
-                throw new SetterNotFoundException(obj.getClass(), name, p);
+                throw new ByxContainerException(Message.setterNotFound(obj.getClass(), name, p));
             }
         });
     }

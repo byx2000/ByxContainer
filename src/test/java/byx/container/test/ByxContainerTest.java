@@ -2,8 +2,7 @@ package byx.container.test;
 
 import byx.container.ByxContainer;
 import byx.container.Container;
-import byx.container.exception.ComponentNotFoundException;
-import byx.container.exception.ParameterException;
+import byx.container.exception.ByxContainerException;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,9 +19,9 @@ public class ByxContainerTest
         assertEquals("hello", container.getComponent("c1"));
         assertEquals(List.of(1, 2, 3), container.getComponent("c2"));
 
-        assertThrows(ParameterException.class,
+        assertThrows(ByxContainerException.class,
                 () -> container.addComponent("c3", null));
-        assertThrows(ComponentNotFoundException.class,
+        assertThrows(ByxContainerException.class,
                 () -> container.getComponent("c3"));
     }
 }
