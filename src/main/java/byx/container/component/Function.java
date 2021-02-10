@@ -1,5 +1,8 @@
 package byx.container.component;
 
+import byx.container.exception.ConstructorNotFoundException;
+import byx.container.exception.InstanceFactoryNotFoundException;
+import byx.container.exception.StaticFactoryNotFoundException;
 import byx.container.util.ReflectUtils;
 
 /**
@@ -23,7 +26,17 @@ public interface Function
      */
     static Function constructor(Class<?> type)
     {
-        return params -> ReflectUtils.create(type, params);
+        return params ->
+        {
+            try
+            {
+                return ReflectUtils.create(type, params);
+            }
+            catch (Exception e)
+            {
+                throw new ConstructorNotFoundException(type, params);
+            }
+        };
     }
 
     /**
@@ -34,7 +47,17 @@ public interface Function
      */
     static Function staticFactory(Class<?> type, String name)
     {
-        return params -> ReflectUtils.call(type, name, params);
+        return params ->
+        {
+            try
+            {
+                return ReflectUtils.call(type, name, params);
+            }
+            catch (Exception e)
+            {
+                throw new StaticFactoryNotFoundException(type, name, params);
+            }
+        };
     }
 
     /**
@@ -45,6 +68,16 @@ public interface Function
      */
     static Function instanceFactory(Object instance, String name)
     {
-        return params -> ReflectUtils.call(instance, name, params);
+        return params ->
+        {
+            try
+            {
+                return ReflectUtils.call(instance, name, params);
+            }
+            catch (Exception e)
+            {
+                throw new InstanceFactoryNotFoundException(instance.getClass(), name, params);
+            }
+        };
     }
 }

@@ -1,8 +1,9 @@
 package byx.container.component;
 
 import byx.container.Container;
+import byx.container.exception.PropertyNotFoundException;
+import byx.container.exception.SetterNotFoundException;
 import byx.container.util.ReflectUtils;
-
 import java.util.Arrays;
 import java.util.Map;
 
@@ -86,8 +87,16 @@ public interface Component
     {
         return this.map(obj ->
         {
-            ReflectUtils.setProperty(obj, name, value.create());
-            return obj;
+            Object v = value.create();
+            try
+            {
+                ReflectUtils.setProperty(obj, name, v);
+                return obj;
+            }
+            catch (Exception e)
+            {
+                throw new PropertyNotFoundException(obj.getClass(), name, v.getClass());
+            }
         });
     }
 
@@ -101,8 +110,16 @@ public interface Component
     {
         return this.map(obj ->
         {
-            ReflectUtils.call(obj, name, Arrays.stream(params).map(Component::create).toArray());
-            return obj;
+            Object[] p = Arrays.stream(params).map(Component::create).toArray();
+            try
+            {
+                ReflectUtils.call(obj, name, p);
+                return obj;
+            }
+            catch (Exception e)
+            {
+                throw new SetterNotFoundException(obj.getClass(), name, p);
+            }
         });
     }
 
