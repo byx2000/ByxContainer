@@ -91,18 +91,6 @@ public class JsonElementAdapterForFastjson implements JsonElement
     }
 
     @Override
-    public JsonElement getArray()
-    {
-        return this;
-    }
-
-    @Override
-    public JsonElement getObject()
-    {
-        return this;
-    }
-
-    @Override
     public JsonElement getElement(int index)
     {
         return new JsonElementAdapterForFastjson(((JSONArray)obj).get(index));

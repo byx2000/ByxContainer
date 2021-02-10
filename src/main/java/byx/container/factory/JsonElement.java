@@ -2,6 +2,9 @@ package byx.container.factory;
 
 import java.util.Set;
 
+/**
+ * 对JSON读取操作的封装
+ */
 public interface JsonElement
 {
     boolean isInteger();
@@ -11,16 +14,16 @@ public interface JsonElement
     boolean isNull();
     boolean isArray();
     boolean isObject();
+
     int getInteger();
     double getDouble();
     String getString();
     boolean getBoolean();
-    boolean containsKey(String key);
-    JsonElement getArray();
-    JsonElement getObject();
+    int getLength();
     JsonElement getElement(int index);
     JsonElement getElement(String key);
-    int getLength();
+
+    boolean containsKey(String key);
     Set<String> keySet();
 
     default boolean isPrimitive()
