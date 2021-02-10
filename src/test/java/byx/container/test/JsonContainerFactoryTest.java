@@ -3,6 +3,8 @@ package byx.container.test;
 import byx.container.Container;
 import byx.container.component.Component;
 import byx.container.component.Mapper;
+import byx.container.exception.*;
+import byx.container.exception.ClassNotFoundException;
 import byx.container.factory.ContainerFactory;
 import byx.container.factory.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
@@ -541,5 +543,115 @@ public class JsonContainerFactoryTest
         assertEquals(1001, c3.getId());
         assertEquals("byx", c3.getName());
         assertEquals(List.of(90, 70, 80), c3.getScores());
+    }
+
+    /**
+     * 根元素缺少components键
+     */
+    @Test
+    public void test14()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test14.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(KeyNotFoundException.class, factory::create);
+    }
+
+    /**
+     * 静态工厂定义缺少method键
+     */
+    @Test
+    public void test15()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test15.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(KeyNotFoundException.class, factory::create);
+    }
+
+    /**
+     * 实例工厂定义缺少method键
+     */
+    @Test
+    public void test16()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test16.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(KeyNotFoundException.class, factory::create);
+    }
+
+    /**
+     * 条件注入定义缺少then键
+     */
+    @Test
+    public void test17()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test17.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(KeyNotFoundException.class, factory::create);
+    }
+
+    /**
+     * typeAlias不是对象
+     */
+    @Test
+    public void test18()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test18.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(ElementTypeIncorrectException.class, factory::create);
+    }
+
+    /**
+     * components不是对象
+     */
+    @Test
+    public void test19()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test19.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(ElementTypeIncorrectException.class, factory::create);
+    }
+
+    /**
+     * 不正确的类型
+     */
+    @Test
+    public void test20()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test20.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(ClassNotFoundException.class, factory::create);
+    }
+
+    /**
+     * 不正确的Mapper类型
+     */
+    @Test
+    public void test21()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test21.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(NotMapperException.class, factory::create);
+    }
+
+    /**
+     * 不正确的Component类型
+     */
+    @Test
+    public void test22()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test22.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(NotComponentException.class, factory::create);
+    }
+
+    /**
+     * 无法识别的组件类型
+     */
+    @Test
+    public void test23()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test23.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(UnknownComponentTypeException.class, factory::create);
     }
 }

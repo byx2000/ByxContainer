@@ -6,6 +6,10 @@ import byx.container.component.Component;
 import byx.container.component.DelegateComponent;
 import static byx.container.component.Component.*;
 import byx.container.component.Mapper;
+import byx.container.exception.ClassNotFoundException;
+import byx.container.exception.NotComponentException;
+import byx.container.exception.NotMapperException;
+import byx.container.exception.UnknownComponentTypeException;
 import byx.container.util.ReflectUtils;
 import com.alibaba.fastjson.JSON;
 import java.io.BufferedReader;
@@ -27,6 +31,7 @@ public class JsonContainerFactory implements ContainerFactory
     private Map<String, String> typeAlias;
 
     // 保留键值
+    private static final String RESERVED_COMPONENTS = "components";
     private static final String RESERVED_LIST = "list";
     private static final String RESERVED_SET = "set";
     private static final String RESERVED_MAP = "map";
@@ -55,7 +60,6 @@ public class JsonContainerFactory implements ContainerFactory
      */
     public JsonContainerFactory(InputStream inputStream)
     {
-        if (inputStream == null) error("An error occurred while reading the json file.");
         this.json = readJsonFile(inputStream);
     }
 
@@ -81,14 +85,6 @@ public class JsonContainerFactory implements ContainerFactory
     }
 
     /**
-     * 抛出异常
-     */
-    private static void error(String message)
-    {
-        throw new RuntimeException(message);
-    }
-
-    /**
      * 解析容器
      */
     private Container parseContainer(JsonElement element)
@@ -108,10 +104,7 @@ public class JsonContainerFactory implements ContainerFactory
 
         // 解析components
         scopes = new ArrayList<>();
-        if (!element.isObject()) error("The outermost layer of the json file must be an object.");
-        if (!element.containsKey("components")) error("The outermost layer must contain \"components\" key.");
-        JsonElement components = element.getElement("components");
-        if (!components.isObject())  error("The value of \"components\" must be an object.");
+        JsonElement components = element.getElement(RESERVED_COMPONENTS);
         for (String key : components.keySet())
         {
             Component c = parseComponent(components.getElement(key));
@@ -133,7 +126,7 @@ public class JsonContainerFactory implements ContainerFactory
         }
         catch (Exception e)
         {
-            throw new RuntimeException("Incorrect class name: " + className, e);
+            throw new ClassNotFoundException(className);
         }
     }
 
@@ -144,7 +137,7 @@ public class JsonContainerFactory implements ContainerFactory
     {
         Class<?> type = getClass(mapperClassName);
         if (!Mapper.class.isAssignableFrom(type))
-            error(mapperClassName + " is not a Mapper.");
+            throw new NotMapperException(mapperClassName);
         return type;
     }
 
@@ -155,7 +148,7 @@ public class JsonContainerFactory implements ContainerFactory
     {
         Class<?> type = getClass(componentClassName);
         if (!Component.class.isAssignableFrom(type))
-            error(componentClassName + " is not a Component.");
+            throw new NotComponentException(componentClassName);
         return type;
     }
 
@@ -167,13 +160,11 @@ public class JsonContainerFactory implements ContainerFactory
         // 常数
         if (element.isPrimitive()) return parseValue(element);
 
-        if (!element.isObject()) error("The component definition must be a constant or an object.");
-
         // 解析局部组件，创建当前作用域
         if (element.containsKey(RESERVED_LOCALS)) parseLocals(element);
         else scopes.add(new HashMap<>());
 
-        Component component = value(null);
+        Component component;
 
         // 列表
         if (element.containsKey(RESERVED_LIST)) component = parseList(element);
@@ -186,7 +177,7 @@ public class JsonContainerFactory implements ContainerFactory
         // 构造函数注入
         else if (element.containsKey(RESERVED_CLASS))
         {
-            String className = parseString(element.getElement(RESERVED_CLASS));
+            String className = element.getElement(RESERVED_CLASS).getString();
             Component[] params = new Component[0];
             if (element.containsKey(RESERVED_PARAMETERS))
             {
@@ -197,8 +188,8 @@ public class JsonContainerFactory implements ContainerFactory
         // 静态工厂
         else if (element.containsKey(RESERVED_FACTORY))
         {
-            String factory = parseString(element.getElement(RESERVED_FACTORY));
-            String method = parseString(element.getElement(RESERVED_METHOD));
+            String factory = element.getElement(RESERVED_FACTORY).getString();
+            String method = element.getElement(RESERVED_METHOD).getString();
             Component[] params = new Component[0];
             if (element.containsKey(RESERVED_PARAMETERS))
             {
@@ -210,7 +201,7 @@ public class JsonContainerFactory implements ContainerFactory
         else if (element.containsKey(RESERVED_INSTANCE))
         {
             Component instance = parseComponent(element.getElement(RESERVED_INSTANCE));
-            String method = parseString(element.getElement(RESERVED_METHOD));
+            String method = element.getElement(RESERVED_METHOD).getString();
             Component[] params = new Component[0];
             if (element.containsKey(RESERVED_PARAMETERS))
             {
@@ -234,7 +225,7 @@ public class JsonContainerFactory implements ContainerFactory
         // 未知注入方式
         else
         {
-            error("Unknown injection method.");
+            throw new UnknownComponentTypeException(element.getJsonString());
         }
 
         // 处理属性
@@ -328,7 +319,6 @@ public class JsonContainerFactory implements ContainerFactory
     private Component parseRef(JsonElement element)
     {
         JsonElement refName = element.getElement(RESERVED_REF);
-        if (!refName.isString()) error("The \"ref\" value must be a string.");
         String id = refName.getString();
         for (int i = scopes.size() - 1; i >= 0; --i)
         {
@@ -347,7 +337,6 @@ public class JsonContainerFactory implements ContainerFactory
     {
         Map<String, Component> scope = new HashMap<>();
         JsonElement locals = element.getElement(RESERVED_LOCALS);
-        if (!locals.isObject()) error("The local component definition must be an object.");
         for (String key : locals.keySet())
         {
             scope.put(key, new DelegateComponent());
@@ -365,7 +354,6 @@ public class JsonContainerFactory implements ContainerFactory
      */
     private Component[] parseComponentList(JsonElement element)
     {
-        if (!element.isArray()) error("Array expected.");
         List<Component> components = new ArrayList<>();
         for (int i = 0; i < element.getLength(); ++i)
         {
@@ -375,20 +363,10 @@ public class JsonContainerFactory implements ContainerFactory
     }
 
     /**
-     * 解析字符串
-     */
-    private String parseString(JsonElement element)
-    {
-        if (!element.isString()) error("String expected.");
-        return element.getString();
-    }
-
-    /**
      * 解析属性
      */
     private Component parseProperties(JsonElement element, Component component)
     {
-        if (!element.isObject()) error("The value of the \"properties\" attribute must be an object.");
         for (String name : element.keySet())
         {
             Component value = parseComponent(element.getElement(name));
@@ -402,7 +380,6 @@ public class JsonContainerFactory implements ContainerFactory
      */
     private Component parseSetters(JsonElement element, Component component)
     {
-        if (!element.isObject()) error("The value of the \"setters\" attribute must be an object.");
         for (String setterName : element.keySet())
         {
             Component[] params = parseComponentList(element.getElement(setterName));
@@ -423,16 +400,12 @@ public class JsonContainerFactory implements ContainerFactory
             Mapper mapper = (Mapper) ReflectUtils.create(type);
             return component.map(mapper);
         }
-        else if (element.isObject())
+        else
         {
             String className = element.getElement(RESERVED_CLASS).getString();
             Class<?> type = getMapper(className);
             Component[] components = parseComponentList(element.getElement(RESERVED_PARAMETERS));
             return component.map(obj -> ((Mapper) constructor(type, components).create()).map(obj));
-        }
-        else
-        {
-            throw new RuntimeException("The \"mapper\" element must be a string or an object.");
         }
     }
 

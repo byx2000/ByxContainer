@@ -26,6 +26,8 @@ public interface JsonElement
     boolean containsKey(String key);
     Set<String> keySet();
 
+    String getJsonString();
+
     default boolean isPrimitive()
     {
         return isInteger() || isDouble() || isString() || isBoolean() || isNull();
