@@ -1,9 +1,31 @@
-# ByxContainer——轻量级IOC/DI容器
-ByxContainer是一个轻量级IOC/DI容器，具有以下特性：
+# ByxContainer——轻量级IOC容器
+ByxContainer是一个用Java编写的轻量级IOC容器，具有以下特性：
 * 使用JSON格式的配置文件
 * 支持构造函数注入、静态工厂注入、实例工厂注入、属性注入、setter注入、条件注入
 * 组件的延迟加载和单例组件
 * 根据id注册、获取容器中的组件
+
+## 在项目中引入ByxContainer
+1. 添加maven仓库地址
+```xml
+<repositories>
+    <repository>
+        <id>byx-maven-repo</id>
+        <name>byx-maven-repo</name>
+        <url>https://gitee.com/byx2000/maven-repo/raw/master/</url>
+    </repository>
+</repositories>
+```
+2. 添加maven依赖
+```xml
+<dependencies>
+    <dependency>
+        <groupId>byx.container</groupId>
+        <artifactId>ByxContainer</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+</dependencies>
+```
 
 ## 配置文件
 ByxContainer使用JSON作为配置文件的格式。你可以将配置文件命名为任何名字，放在任何你喜欢的路径下。
