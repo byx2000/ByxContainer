@@ -5,11 +5,6 @@ package byx.container.exception;
  */
 public class ByxContainerException extends RuntimeException
 {
-    public ByxContainerException(Exception e)
-    {
-        super(e);
-    }
-
     public ByxContainerException(String msg)
     {
         super(msg);

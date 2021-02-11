@@ -1,0 +1,14 @@
+{
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
+    "components":
+    {
+        "c1":
+        {
+            "map":
+            [
+                {"key": 123, "value": "hello"},
+                {"key": 456, "value1": "hi"}
+            ]
+        }
+    }
+}

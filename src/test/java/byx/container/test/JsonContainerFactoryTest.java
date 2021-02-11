@@ -201,6 +201,9 @@ public class JsonContainerFactoryTest
     @Test
     public void test1()
     {
+        assertThrows(ByxContainerException.class,
+                () -> new JsonContainerFactory(null));
+
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test1.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -613,7 +616,7 @@ public class JsonContainerFactoryTest
     }
 
     /**
-     * 不正确的类型
+     * 不正确的类名
      */
     @Test
     public void test20()
@@ -652,6 +655,39 @@ public class JsonContainerFactoryTest
     public void test23()
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test23.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(ByxContainerException.class, factory::create);
+    }
+
+    /**
+     * 不正确的list定义
+     */
+    @Test
+    public void test24()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test24.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(ByxContainerException.class, factory::create);
+    }
+
+    /**
+     * 不正确的set定义
+     */
+    @Test
+    public void test25()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test25.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        assertThrows(ByxContainerException.class, factory::create);
+    }
+
+    /**
+     * 不正确的map定义
+     */
+    @Test
+    public void test26()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test26.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         assertThrows(ByxContainerException.class, factory::create);
     }

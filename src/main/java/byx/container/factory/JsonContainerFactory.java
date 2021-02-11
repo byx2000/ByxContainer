@@ -57,6 +57,8 @@ public class JsonContainerFactory implements ContainerFactory
      */
     public JsonContainerFactory(InputStream inputStream)
     {
+        if (inputStream == null)
+            throw new ByxContainerException(Message.parameterNotNull("inputStream"));
         this.json = readJsonFile(inputStream);
     }
 
@@ -77,7 +79,7 @@ public class JsonContainerFactory implements ContainerFactory
         }
         catch (Exception e)
         {
-            throw new RuntimeException(e);
+            throw new ByxContainerException("Error occurs when reading json file.", e);
         }
     }
 
