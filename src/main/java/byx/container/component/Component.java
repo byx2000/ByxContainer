@@ -40,31 +40,31 @@ public interface Component
      */
     static Component constructor(Class<?> type, Component... params)
     {
-        return new FunctionComponent(Function.constructor(type), params);
+        return new ConstructorComponent(type, params);
     }
 
     /**
      * 创建静态工厂Component
      * @param type 类型
-     * @param name 方法名
+     * @param method 方法名
      * @param params 参数组件
      * @return 静态工厂Component
      */
-    static Component staticFactory(Class<?> type, String name, Component... params)
+    static Component staticFactory(Class<?> type, String method, Component... params)
     {
-        return new FunctionComponent(Function.staticFactory(type, name), params);
+        return new StaticFactoryComponent(type, method, params);
     }
 
     /**
      * 创建实例工厂Component
      * @param instance 实例组件
-     * @param name 方法名
+     * @param method 方法名
      * @param params 参数组件
      * @return 实例工厂Component
      */
-    static Component instanceFactory(Component instance, String name, Component... params)
+    static Component instanceFactory(Component instance, String method, Component... params)
     {
-        return instance.map(obj -> new FunctionComponent(Function.instanceFactory(obj, name), params).create());
+        return new InstanceFactoryComponent(instance, method, params);
     }
 
     /**
