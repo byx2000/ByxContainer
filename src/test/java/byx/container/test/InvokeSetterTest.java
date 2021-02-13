@@ -50,5 +50,11 @@ public class InvokeSetterTest
         assertEquals(1001, u.getId());
         assertEquals("byx", u.getUsername());
         assertEquals("123456", u.getPassword());
+
+        Component builder = constructor(StringBuilder.class)
+                .invokeSetter("append", value("hello"))
+                .invokeSetter("append", value(" world"));
+        Component str = instanceFactory(builder, "toString");
+        assertEquals("hello world", str.create());
     }
 }

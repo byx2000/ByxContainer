@@ -204,7 +204,7 @@ public class JsonContainerFactoryTest
         assertThrows(ByxContainerException.class,
                 () -> new JsonContainerFactory(null));
 
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test1.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test1.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -228,7 +228,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test2()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test2.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test2.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -277,7 +277,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test3()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test3.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test3.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -305,7 +305,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test4()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test4.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test4.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -333,7 +333,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test5()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test5.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test5.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -361,7 +361,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test6()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test6.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test6.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -383,7 +383,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test7()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test7.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test7.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -413,7 +413,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test8()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test8.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test8.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -441,7 +441,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test9()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test9.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test9.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -465,7 +465,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test10()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test10.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test10.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -495,7 +495,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test11()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test11.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test11.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -519,7 +519,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test12()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test12.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test12.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -535,7 +535,7 @@ public class JsonContainerFactoryTest
     @Test
     public void test13()
     {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test13.json");
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test13.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
 
@@ -547,148 +547,5 @@ public class JsonContainerFactoryTest
         assertEquals(1001, c3.getId());
         assertEquals("byx", c3.getName());
         assertEquals(List.of(90, 70, 80), c3.getScores());
-    }
-
-    /**
-     * 根元素缺少components键
-     */
-    @Test
-    public void test14()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test14.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 静态工厂定义缺少method键
-     */
-    @Test
-    public void test15()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test15.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 实例工厂定义缺少method键
-     */
-    @Test
-    public void test16()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test16.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 条件注入定义缺少then键
-     */
-    @Test
-    public void test17()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test17.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * typeAlias不是对象
-     */
-    @Test
-    public void test18()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test18.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * components不是对象
-     */
-    @Test
-    public void test19()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test19.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 不正确的类名
-     */
-    @Test
-    public void test20()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test20.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 不正确的Mapper类型
-     */
-    @Test
-    public void test21()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test21.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 不正确的Component类型
-     */
-    @Test
-    public void test22()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test22.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 无法识别的组件类型
-     */
-    @Test
-    public void test23()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test23.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 不正确的list定义
-     */
-    @Test
-    public void test24()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test24.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 不正确的set定义
-     */
-    @Test
-    public void test25()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test25.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
-    }
-
-    /**
-     * 不正确的map定义
-     */
-    @Test
-    public void test26()
-    {
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("test26.json");
-        ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
     }
 }

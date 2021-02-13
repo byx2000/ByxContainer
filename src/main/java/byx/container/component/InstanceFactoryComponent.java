@@ -26,6 +26,7 @@ public class InstanceFactoryComponent implements Component
     public Object create()
     {
         Object i = instance.create();
+        if (i == null) throw new ByxContainerException("Instance is null.");
         Object[] p = Arrays.stream(params).map(Component::create).toArray();
 
         try

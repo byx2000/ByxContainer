@@ -30,7 +30,7 @@ public class ConstructorComponent implements Component
         }
         catch (Exception e)
         {
-            throw new ByxContainerException(Message.constructorNotFound(type, params));
+            throw new ByxContainerException(Message.constructorNotFound(type, p));
         }
     }
 }

@@ -79,46 +79,46 @@ public interface Component
 
     /**
      * 设置当前Component创建的对象的属性
-     * @param name 属性名
+     * @param property 属性名
      * @param value 属性值
      * @return MapperComponent
      */
-    default Component setProperty(String name, Component value)
+    default Component setProperty(String property, Component value)
     {
         return this.map(obj ->
         {
             Object v = value.create();
             try
             {
-                ReflectUtils.setProperty(obj, name, v);
+                ReflectUtils.setProperty(obj, property, v);
                 return obj;
             }
             catch (Exception e)
             {
-                throw new ByxContainerException(Message.propertyNotFount(obj.getClass(), name, v.getClass()));
+                throw new ByxContainerException(Message.propertyNotFount(obj.getClass(), property, v.getClass()));
             }
         });
     }
 
     /**
      * 在当前Component创建后的对象上调用setter方法
-     * @param name setter方法名称
+     * @param setter setter方法名称
      * @param params setter方法参数
      * @return MapperComponent
      */
-    default Component invokeSetter(String name, Component... params)
+    default Component invokeSetter(String setter, Component... params)
     {
         return this.map(obj ->
         {
             Object[] p = Arrays.stream(params).map(Component::create).toArray();
             try
             {
-                ReflectUtils.call(obj, name, p);
+                ReflectUtils.call(obj, setter, p);
                 return obj;
             }
             catch (Exception e)
             {
-                throw new ByxContainerException(Message.setterNotFound(obj.getClass(), name, p));
+                throw new ByxContainerException(Message.setterNotFound(obj.getClass(), setter, p));
             }
         });
     }

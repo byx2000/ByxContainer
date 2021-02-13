@@ -1,0 +1,12 @@
+{
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
+    "components":
+    {
+        "c1":
+        {
+            "instance": "hello",
+            "method": "create",
+            "parameters": [123]
+        }
+    }
+}
