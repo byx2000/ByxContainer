@@ -35,7 +35,7 @@ public class InstanceFactoryComponent implements Component
         }
         catch (Exception e)
         {
-            throw new ByxContainerException(Message.instanceFactoryNotFound(i.getClass(), method, p));
+            throw new ByxContainerException(Message.instanceFactoryNotFound(i.getClass(), method, p), e);
         }
     }
 }

@@ -33,7 +33,7 @@ public class StaticFactoryComponent implements Component
         }
         catch (Exception e)
         {
-            throw new ByxContainerException(Message.staticFactoryNotFound(type, method, p));
+            throw new ByxContainerException(Message.staticFactoryNotFound(type, method, p), e);
         }
     }
 }

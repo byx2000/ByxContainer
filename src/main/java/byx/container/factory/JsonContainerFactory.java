@@ -125,7 +125,7 @@ public class JsonContainerFactory implements ContainerFactory
         }
         catch (Exception e)
         {
-            throw new ByxContainerException(Message.invalidClassName(className));
+            throw new ByxContainerException(Message.invalidClassName(className), e);
         }
     }
 

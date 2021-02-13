@@ -95,7 +95,7 @@ public interface Component
             }
             catch (Exception e)
             {
-                throw new ByxContainerException(Message.propertyNotFount(obj.getClass(), property, v.getClass()));
+                throw new ByxContainerException(Message.propertyNotFount(obj.getClass(), property, v.getClass()), e);
             }
         });
     }
@@ -118,7 +118,7 @@ public interface Component
             }
             catch (Exception e)
             {
-                throw new ByxContainerException(Message.setterNotFound(obj.getClass(), setter, p));
+                throw new ByxContainerException(Message.setterNotFound(obj.getClass(), setter, p), e);
             }
         });
     }
