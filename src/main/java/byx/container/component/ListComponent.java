@@ -25,4 +25,10 @@ public class ListComponent implements Component
         }
         return list;
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return List.class;
+    }
 }

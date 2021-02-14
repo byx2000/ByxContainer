@@ -23,4 +23,10 @@ public class ConditionComponent implements Component
         if (p instanceof Boolean && (boolean) p) return c1.create();
         return c2.create();
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return null;
+    }
 }

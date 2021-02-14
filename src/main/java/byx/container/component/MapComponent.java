@@ -25,4 +25,10 @@ public class MapComponent implements Component
         }
         return map;
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return Map.class;
+    }
 }

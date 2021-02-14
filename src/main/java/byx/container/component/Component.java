@@ -23,6 +23,12 @@ public interface Component
     Object create();
 
     /**
+     * 获取类型
+     * @return 组件生成的类型
+     */
+    Class<?> getType();
+
+    /**
      * 创建ValueComponent
      * @param value 值
      * @return 用value构造的ValueComponent

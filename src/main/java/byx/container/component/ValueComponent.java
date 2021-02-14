@@ -17,4 +17,10 @@ public class ValueComponent implements Component
     {
         return value;
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return value == null ? null : value.getClass();
+    }
 }

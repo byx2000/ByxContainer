@@ -21,4 +21,10 @@ public class ReferenceComponent implements Component
     {
         return container.getComponent(id);
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return null;
+    }
 }

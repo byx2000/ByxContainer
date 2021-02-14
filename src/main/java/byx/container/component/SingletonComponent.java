@@ -19,4 +19,10 @@ public class SingletonComponent implements Component
         if (obj == null) obj = component.create();
         return obj;
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return component.getType();
+    }
 }

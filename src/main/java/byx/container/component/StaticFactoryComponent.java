@@ -36,4 +36,11 @@ public class StaticFactoryComponent implements Component
             throw new ByxContainerException(Message.staticFactoryNotFound(type, method, p), e);
         }
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        Class<?>[] parameterTypes = Arrays.stream(params).map(Component::getType).toArray(Class[]::new);
+        return ReflectUtils.getReturnType(type, method, parameterTypes);
+    }
 }

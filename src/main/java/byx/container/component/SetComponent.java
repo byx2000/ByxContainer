@@ -25,4 +25,10 @@ public class SetComponent implements Component
         }
         return set;
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return Set.class;
+    }
 }

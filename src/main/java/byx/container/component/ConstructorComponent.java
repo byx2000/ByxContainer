@@ -33,4 +33,10 @@ public class ConstructorComponent implements Component
             throw new ByxContainerException(Message.constructorNotFound(type, p), e);
         }
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return type;
+    }
 }

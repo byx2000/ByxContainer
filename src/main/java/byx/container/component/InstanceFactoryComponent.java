@@ -38,4 +38,13 @@ public class InstanceFactoryComponent implements Component
             throw new ByxContainerException(Message.instanceFactoryNotFound(i.getClass(), method, p), e);
         }
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        Class<?> type = instance.getType();
+        if (type == null) return null;
+        Class<?>[] parameterTypes = Arrays.stream(params).map(Component::getType).toArray(Class[]::new);
+        return ReflectUtils.getReturnType(type, method, parameterTypes);
+    }
 }

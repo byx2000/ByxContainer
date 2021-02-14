@@ -18,4 +18,10 @@ public class DelegateComponent implements Component
     {
         return component.create();
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return component.getType();
+    }
 }

@@ -19,4 +19,10 @@ public class MapperComponent implements Component
     {
         return mapper.map(component.create());
     }
+
+    @Override
+    public Class<?> getType()
+    {
+        return null;
+    }
 }

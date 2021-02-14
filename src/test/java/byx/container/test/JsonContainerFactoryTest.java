@@ -193,6 +193,12 @@ public class JsonContainerFactoryTest
         {
             return s + ": " + i;
         }
+
+        @Override
+        public Class<?> getType()
+        {
+            return String.class;
+        }
     }
 
     /**
