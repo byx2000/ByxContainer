@@ -533,6 +533,8 @@ public class JsonContainerFactoryTest
         assertEquals("hello: 123", c1);
         String c2 = container.getComponent("c2");
         assertEquals("hi: 888", c2);
+        String c3 = container.getComponent("c3");
+        assertEquals("ok: 999", c3);
     }
 
     /**

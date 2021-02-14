@@ -10,6 +10,22 @@
         {
             "custom": "byx.container.test.JsonContainerFactoryTest$StringComponent",
             "parameters": ["hi", 888]
+        },
+        "c3":
+        {
+            "custom": "byx.container.test.JsonContainerFactoryTest$StringComponent",
+            "parameters":
+            [
+                {
+                    "factory": "java.lang.String",
+                    "method": "valueOf",
+                    "parameters": ["ok"]
+                },
+                {
+                    "class": "java.lang.Integer",
+                    "parameters": [999]
+                }
+            ]
         }
     }
 }

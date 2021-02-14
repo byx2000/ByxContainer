@@ -421,7 +421,23 @@ public class JsonContainerFactory implements ContainerFactory
             params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
         }
         Component customComponentCreator = constructor(type, params);
-        return () -> ((Component) customComponentCreator.create()).create();
+
+        return new Component()
+        {
+            private final Component c = (Component) customComponentCreator.create();
+
+            @Override
+            public Object create()
+            {
+                return c.create();
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return c.getType();
+            }
+        };
     }
 
     @Override
