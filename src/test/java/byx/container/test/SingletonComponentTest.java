@@ -14,7 +14,9 @@ public class SingletonComponentTest
     {
         Component c1 = constructor(String.class, value("hello")).singleton();
         assertSame(c1.create(), c1.create());
+        assertEquals(String.class, c1.getType());
         Component c2 = constructor(A.class).singleton();
         assertSame(c2.create(), c2.create());
+        assertEquals(A.class, c2.getType());
     }
 }

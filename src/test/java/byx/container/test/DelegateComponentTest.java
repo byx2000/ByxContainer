@@ -14,5 +14,6 @@ public class DelegateComponentTest
         assertNull(c.create());
         c.setComponent(constructor(String.class, value("hello")));
         assertEquals("hello", c.create());
+        assertEquals(String.class, c.getType());
     }
 }

@@ -15,7 +15,9 @@ public class ConditionComponentTest
 
         Component c1 = condition(p1, value(123), value("hello"));
         assertEquals(123, c1.create());
+        assertNull(c1.getType());
         Component c2 = condition(p2, value(123), value("hello"));
         assertEquals("hello", c2.create());
+        assertNull(c2.getType());
     }
 }
