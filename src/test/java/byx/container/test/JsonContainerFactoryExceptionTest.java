@@ -165,7 +165,7 @@ public class JsonContainerFactoryExceptionTest
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
         assertThrows(ByxContainerException.class,
-                () -> container.getComponent("c1"));
+                () -> container.getObject("c1"));
     }
 
     /**
@@ -178,7 +178,7 @@ public class JsonContainerFactoryExceptionTest
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
         assertThrows(ByxContainerException.class,
-                () -> container.getComponent("c1"));
+                () -> container.getObject("c1"));
     }
 
     /**
@@ -191,7 +191,7 @@ public class JsonContainerFactoryExceptionTest
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
         assertThrows(ByxContainerException.class,
-                () -> container.getComponent("c1"));
+                () -> container.getObject("c1"));
     }
 
     /**
@@ -204,6 +204,6 @@ public class JsonContainerFactoryExceptionTest
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
         assertThrows(ByxContainerException.class,
-                () -> container.getComponent("c1"));
+                () -> container.getObject("c1"));
     }
 }

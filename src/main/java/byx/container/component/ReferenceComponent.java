@@ -19,7 +19,7 @@ public class ReferenceComponent implements Component
     @Override
     public Object create()
     {
-        return container.getComponent(id);
+        return container.getObject(id);
     }
 
     @Override

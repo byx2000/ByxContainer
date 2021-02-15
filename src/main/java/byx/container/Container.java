@@ -17,10 +17,17 @@ public interface Container
     void addComponent(String id, Component component);
 
     /**
-     * 获取组件
+     * 获取对象
      * @param id 组件id
      * @param <T> 返回值类型
-     * @return 指定id的组件
+     * @return 指定id的组件创建的对象
      */
-    <T> T getComponent(String id);
+    <T> T getObject(String id);
+
+    /**
+     * 获取组件类型
+     * @param id 组件id
+     * @return 指定id的组件的类型
+     */
+    Class<?> getType(String id);
 }

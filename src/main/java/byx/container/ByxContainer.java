@@ -23,10 +23,22 @@ public class ByxContainer implements Container
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T getComponent(String id)
+    public <T> T getObject(String id)
+    {
+        checkComponentExist(id);
+        return (T) components.get(id).create();
+    }
+
+    @Override
+    public Class<?> getType(String id)
+    {
+        checkComponentExist(id);
+        return components.get(id).getType();
+    }
+
+    private void checkComponentExist(String id)
     {
         if (!components.containsKey(id))
             throw new ByxContainerException(Message.componentNotFound(id));
-        return (T) components.get(id).create();
     }
 }
