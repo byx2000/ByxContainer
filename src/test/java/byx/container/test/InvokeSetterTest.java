@@ -50,11 +50,14 @@ public class InvokeSetterTest
         assertEquals(1001, u.getId());
         assertEquals("byx", u.getUsername());
         assertEquals("123456", u.getPassword());
+        assertEquals(User.class, c.getType());
 
         Component builder = constructor(StringBuilder.class)
                 .invokeSetter("append", value("hello"))
                 .invokeSetter("append", value(" world"));
         Component str = instanceFactory(builder, "toString");
         assertEquals("hello world", str.create());
+        assertEquals(StringBuilder.class, builder.getType());
+        assertEquals(String.class, str.getType());
     }
 }

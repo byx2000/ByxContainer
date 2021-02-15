@@ -68,5 +68,6 @@ public class SetPropertyTest
         assertEquals(21, s.getAge());
         assertEquals(97.5, s.getScore());
         assertTrue(s.getMale());
+        assertEquals(Student.class, c.getType());
     }
 }

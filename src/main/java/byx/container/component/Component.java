@@ -84,6 +84,16 @@ public interface Component
     }
 
     /**
+     * 创建EnhanceComponent
+     * @param enhancer 增强器
+     * @return EnhanceComponent
+     */
+    default Component enhance(Enhancer enhancer)
+    {
+        return new EnhanceComponent(this, enhancer);
+    }
+
+    /**
      * 设置当前Component创建的对象的属性
      * @param property 属性名
      * @param value 属性值
@@ -91,13 +101,12 @@ public interface Component
      */
     default Component setProperty(String property, Component value)
     {
-        return this.map(obj ->
+        return this.enhance(obj ->
         {
             Object v = value.create();
             try
             {
                 ReflectUtils.setProperty(obj, property, v);
-                return obj;
             }
             catch (Exception e)
             {
@@ -114,13 +123,12 @@ public interface Component
      */
     default Component invokeSetter(String setter, Component... params)
     {
-        return this.map(obj ->
+        return this.enhance(obj ->
         {
             Object[] p = Arrays.stream(params).map(Component::create).toArray();
             try
             {
                 ReflectUtils.call(obj, setter, p);
-                return obj;
             }
             catch (Exception e)
             {
