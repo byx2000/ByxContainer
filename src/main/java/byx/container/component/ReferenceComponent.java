@@ -25,6 +25,6 @@ public class ReferenceComponent implements Component
     @Override
     public Class<?> getType()
     {
-        return null;
+        return container.getType(id);
     }
 }

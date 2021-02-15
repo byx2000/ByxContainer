@@ -17,7 +17,9 @@ public class ReferenceComponentTest
         container.addComponent("c2", value(1234));
         Component c1 = reference(container, "c1");
         assertEquals("hello", c1.create());
+        assertEquals(String.class, c1.getType());
         Component c2 = reference(container, "c2");
         assertEquals(1234, c2.create());
+        assertEquals(Integer.class, c2.getType());
     }
 }
