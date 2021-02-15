@@ -3,6 +3,9 @@ package byx.container;
 import byx.container.component.Component;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,6 +33,26 @@ public class ByxContainer implements Container
     }
 
     @Override
+    public <T> T getObject(Class<T> type)
+    {
+        List<Component> res = new ArrayList<>();
+        components.forEach((id, c) ->
+        {
+            if (c.getType() != null && type.isAssignableFrom(c.getType()))
+            {
+                res.add(c);
+            }
+        });
+
+        if (res.size() == 0)
+            throw new ByxContainerException(Message.componentNotFoundWithType(type));
+        else if (res.size() > 1)
+            throw new ByxContainerException(Message.multiComponentsWithType(type));
+
+        return type.cast(res.get(0).create());
+    }
+
+    @Override
     public Class<?> getType(String id)
     {
         checkComponentExist(id);
@@ -39,6 +62,6 @@ public class ByxContainer implements Container
     private void checkComponentExist(String id)
     {
         if (!components.containsKey(id))
-            throw new ByxContainerException(Message.componentNotFound(id));
+            throw new ByxContainerException(Message.componentNotFoundWithId(id));
     }
 }
