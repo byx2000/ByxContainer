@@ -12,7 +12,9 @@ public class ConstructorComponentTest
     {
         Component c1 = constructor(String.class);
         assertEquals("", c1.create());
+        assertEquals(String.class, c1.getType());
         Component c2 = constructor(Integer.class, value(123));
         assertEquals(123, c2.create());
+        assertEquals(Integer.class, c2.getType());
     }
 }
