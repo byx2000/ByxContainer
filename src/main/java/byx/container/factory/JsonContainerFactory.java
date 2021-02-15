@@ -4,10 +4,10 @@ import byx.container.ByxContainer;
 import byx.container.Container;
 import byx.container.component.Component;
 import byx.container.component.DelegateComponent;
-import static byx.container.component.Component.*;
 import byx.container.component.Mapper;
-import byx.container.exception.*;
-import byx.container.util.ReflectUtils;
+import byx.container.component.MapperComponent;
+import byx.container.exception.ByxContainerException;
+import byx.container.exception.Message;
 import com.alibaba.fastjson.JSON;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import static byx.container.component.Component.*;
 
 /**
  * 从Json格式的配置文件创建容器
@@ -392,20 +393,27 @@ public class JsonContainerFactory implements ContainerFactory
      */
     private Component parseMapper(JsonElement element, Component component)
     {
+        String className;
+        Component[] params;
         if (element.isString())
         {
-            String className = element.getString();
-            Class<?> type = getMapper(className);
-            Mapper mapper = (Mapper) ReflectUtils.create(type);
-            return component.map(mapper);
+            className = element.getString();
+            params = new Component[0];
         }
         else
         {
-            String className = element.getElement(RESERVED_CLASS).getString();
-            Class<?> type = getMapper(className);
-            Component[] components = parseComponentList(element.getElement(RESERVED_PARAMETERS));
-            return component.map(obj -> ((Mapper) constructor(type, components).create()).map(obj));
+            className = element.getElement(RESERVED_CLASS).getString();
+            params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
         }
+        return instanceFactory(
+                constructor(
+                        MapperComponent.class,
+                        value(component),
+                        constructor(
+                                getMapper(className),
+                                params))
+                        .singleton(),
+                "create");
     }
 
     /**
@@ -413,31 +421,18 @@ public class JsonContainerFactory implements ContainerFactory
      */
     private Component parseCustomComponent(JsonElement element)
     {
-        String componentClassName = element.getElement(RESERVED_CUSTOM).getString();
-        Class<?> type = getComponent(componentClassName);
+        String className = element.getElement(RESERVED_CUSTOM).getString();
         Component[] params = new Component[0];
         if (element.containsKey(RESERVED_PARAMETERS))
         {
             params = parseComponentList(element.getElement(RESERVED_PARAMETERS));
         }
-        Component customComponentCreator = constructor(type, params);
-
-        return new Component()
-        {
-            private final Component c = (Component) customComponentCreator.create();
-
-            @Override
-            public Object create()
-            {
-                return c.create();
-            }
-
-            @Override
-            public Class<?> getType()
-            {
-                return c.getType();
-            }
-        };
+        return instanceFactory(
+                constructor(
+                        getComponent(className),
+                        params)
+                        .singleton(),
+                "create");
     }
 
     @Override
