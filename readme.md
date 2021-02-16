@@ -33,6 +33,7 @@ ByxContainer使用JSON作为配置文件的格式。你可以将配置文件命�
 ByxContainer配置文件的基本框架如下：
 ```
 {
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
     "typeAlias":
     {
         // 配置components中使用的类型别名
@@ -48,6 +49,8 @@ ByxContainer配置文件的基本框架如下：
 |-|-|-|-|
 |`typeAlias`|对象|`components`中使用的类型别名|否|
 |`components`|对象|定义容器中的所有组件|是|
+
+`$schema`键指定JSON的约束文件路径，某些编辑器可能需要特殊设置才能支持JSON约束文件的识别。
 
 关于类型别名的使用，请参考[这里](#类型别名)。
 
