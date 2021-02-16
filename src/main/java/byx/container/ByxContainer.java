@@ -3,6 +3,7 @@ package byx.container;
 import byx.container.component.Component;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
+import byx.container.util.ReflectUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class ByxContainer implements Container
         List<Component> res = new ArrayList<>();
         components.forEach((id, c) ->
         {
-            if (c.getType() != null && type.isAssignableFrom(c.getType()))
+            if (ReflectUtils.getWrap(type).isAssignableFrom(ReflectUtils.getWrap(c.getType())))
             {
                 res.add(c);
             }

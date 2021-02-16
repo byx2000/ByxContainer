@@ -198,4 +198,15 @@ public interface Component
     {
         return new ConditionComponent(predicate, c1, c2);
     }
+
+    /**
+     * 获取容器中指定类型的组件
+     * @param container 容器
+     * @param type 类型
+     * @return TypeComponent
+     */
+    static Component type(Container container, Class<?> type)
+    {
+        return new TypeComponent(container, type);
+    }
 }
