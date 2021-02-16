@@ -74,16 +74,6 @@ public interface Component
     }
 
     /**
-     * 对当前Component创建的结果进行转换
-     * @param mapper 转换器
-     * @return MapperComponent
-     */
-    default Component map(Mapper mapper)
-    {
-        return new MapperComponent(this, mapper);
-    }
-
-    /**
      * 创建EnhanceComponent
      * @param enhancer 增强器
      * @return EnhanceComponent

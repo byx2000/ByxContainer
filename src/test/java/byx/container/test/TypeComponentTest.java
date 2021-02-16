@@ -23,11 +23,14 @@ public class TypeComponentTest
         Component c1 = type(container, Integer.class);
         int r1 = (int) c1.create();
         assertEquals(123, r1);
+        assertEquals(Integer.class, c1.getType());
         Component c2 = type(container, String.class);
         String r2 = (String) c2.create();
         assertEquals("hello", r2);
+        assertEquals(String.class, c2.getType());
         Component c3 = type(container, A.class);
         A r3 = (A) c3.create();
         assertTrue(r3 instanceof B);
+        assertEquals(A.class, c3.getType());
     }
 }

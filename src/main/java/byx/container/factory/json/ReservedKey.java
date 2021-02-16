@@ -21,7 +21,6 @@ public interface ReservedKey
     String RESERVED_THEN = "then";
     String RESERVED_ELSE = "else";
     String RESERVED_SINGLETON = "singleton";
-    String RESERVED_MAPPER = "mapper";
     String RESERVED_CUSTOM = "custom";
     String RESERVED_TYPE_ALIAS = "typeAlias";
 }

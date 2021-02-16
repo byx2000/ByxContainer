@@ -80,15 +80,6 @@ public abstract class Message
     }
 
     /**
-     * 无效的Mapper类名
-     */
-    public static String invalidMapperClassName(String className)
-    {
-        return String.format("\"%s\" is not a \"byx.container.component.Mapper\".",
-                className);
-    }
-
-    /**
      * 无效的Component类名
      */
     public static String invalidComponentClassName(String className)
