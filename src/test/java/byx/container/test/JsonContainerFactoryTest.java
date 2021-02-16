@@ -5,7 +5,7 @@ import byx.container.component.Component;
 import byx.container.component.Mapper;
 import byx.container.exception.*;
 import byx.container.factory.ContainerFactory;
-import byx.container.factory.JsonContainerFactory;
+import byx.container.factory.json.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;

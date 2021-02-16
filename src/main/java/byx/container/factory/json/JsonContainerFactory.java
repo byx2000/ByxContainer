@@ -1,4 +1,4 @@
-package byx.container.factory;
+package byx.container.factory.json;
 
 import byx.container.ByxContainer;
 import byx.container.Container;
@@ -8,6 +8,7 @@ import byx.container.component.Mapper;
 import byx.container.component.MapperComponent;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
+import byx.container.factory.ContainerFactory;
 import com.alibaba.fastjson.JSON;
 import java.io.BufferedReader;
 import java.io.InputStream;

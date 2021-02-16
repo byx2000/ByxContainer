@@ -1,4 +1,4 @@
-package byx.container.factory;
+package byx.container.factory.json;
 
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
