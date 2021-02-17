@@ -1,24 +1,24 @@
 package byx.container.component;
 
 /**
- * 对组件创建的结果进行进一步增强
+ * 对组件创建的结果进行进一步处理
  */
-public class EnhanceComponent implements Component
+public class PostProcessComponent implements Component
 {
     private final Component component;
-    private final Enhancer enhancer;
+    private final PostProcessor processor;
 
-    public EnhanceComponent(Component component, Enhancer enhancer)
+    public PostProcessComponent(Component component, PostProcessor processor)
     {
         this.component = component;
-        this.enhancer = enhancer;
+        this.processor = processor;
     }
 
     @Override
     public Object create()
     {
         Object obj = component.create();
-        enhancer.enhance(obj);
+        processor.process(obj);
         return obj;
     }
 

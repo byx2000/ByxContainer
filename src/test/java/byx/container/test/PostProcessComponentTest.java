@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.component.Component.*;
 
-public class EnhanceComponentTest
+public class PostProcessComponentTest
 {
     @Test
     public void test()
     {
-        Component c = constructor(StringBuilder.class).enhance(obj ->
+        Component c = constructor(StringBuilder.class).postProcess(obj ->
         {
             StringBuilder sb = (StringBuilder) obj;
             sb.append("hello");

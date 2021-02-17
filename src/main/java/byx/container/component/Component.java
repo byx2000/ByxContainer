@@ -74,13 +74,13 @@ public interface Component
     }
 
     /**
-     * 创建EnhanceComponent
-     * @param enhancer 增强器
-     * @return EnhanceComponent
+     * 对组件创建的对象进行后置处理
+     * @param processor 后置处理器
+     * @return PostProcessComponent
      */
-    default Component enhance(Enhancer enhancer)
+    default Component postProcess(PostProcessor processor)
     {
-        return new EnhanceComponent(this, enhancer);
+        return new PostProcessComponent(this, processor);
     }
 
     /**
@@ -91,7 +91,7 @@ public interface Component
      */
     default Component setProperty(String property, Component value)
     {
-        return this.enhance(obj ->
+        return this.postProcess(obj ->
         {
             Object v = value.create();
             try
@@ -113,7 +113,7 @@ public interface Component
      */
     default Component invokeSetter(String setter, Component... params)
     {
-        return this.enhance(obj ->
+        return this.postProcess(obj ->
         {
             Object[] p = Arrays.stream(params).map(Component::create).toArray();
             try
