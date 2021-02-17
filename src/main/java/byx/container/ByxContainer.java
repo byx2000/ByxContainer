@@ -39,7 +39,8 @@ public class ByxContainer implements Container
         List<Component> res = new ArrayList<>();
         components.forEach((id, c) ->
         {
-            if (ReflectUtils.getWrap(type).isAssignableFrom(ReflectUtils.getWrap(c.getType())))
+            if (c.getType() != null &&
+                    ReflectUtils.getWrap(type).isAssignableFrom(ReflectUtils.getWrap(c.getType())))
             {
                 res.add(c);
             }

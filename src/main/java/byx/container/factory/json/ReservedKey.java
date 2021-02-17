@@ -27,4 +27,5 @@ public interface ReservedKey
     String RESERVED_CUSTOM = "custom";
     String RESERVED_TYPE_ALIAS = "typeAlias";
     String RESERVED_POST_PROCESSOR = "postProcessor";
+    String RESERVED_TYPE = "type";
 }

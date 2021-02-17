@@ -180,6 +180,24 @@ public class JsonContainerFactoryTest
         }
     }
 
+    public interface UserDao {}
+    public static class UserDaoImpl implements UserDao {}
+    public interface UserService {}
+    public static class UserServiceImpl implements UserService
+    {
+        private final UserDao userDao;
+
+        public UserServiceImpl(UserDao userDao)
+        {
+            this.userDao = userDao;
+        }
+
+        public UserDao getUserDao()
+        {
+            return userDao;
+        }
+    }
+
     /**
      * 常数
      */
@@ -534,5 +552,28 @@ public class JsonContainerFactoryTest
         assertEquals(1001, c3.getId());
         assertEquals("byx", c3.getName());
         assertEquals(List.of(90, 70, 80), c3.getScores());
+    }
+
+    /**
+     * 类型匹配
+     */
+    @Test
+    public void test14()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test14.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        String c1 = container.getObject("c1");
+        assertEquals("hello", c1);
+        assertEquals("hello", container.getObject(String.class));
+        int c2 = container.getObject("c2");
+        assertEquals(123, c2);
+        assertEquals(123, container.getObject(Integer.class));
+        UserService c3 = container.getObject(UserService.class);
+        assertTrue(c3 instanceof UserServiceImpl);
+        assertTrue(((UserServiceImpl) c3).getUserDao() instanceof UserDaoImpl);
+        assertTrue(container.getObject(UserService.class) instanceof UserServiceImpl);
+        assertTrue(container.getObject(UserDao.class) instanceof UserDaoImpl);
     }
 }

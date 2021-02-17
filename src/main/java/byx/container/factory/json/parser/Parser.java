@@ -138,6 +138,7 @@ public interface Parser
     Parser instanceFactoryParser = new InstanceFactoryParser();
     Parser conditionParser = new ConditionParser();
     Parser customParser = new CustomParser();
+    Parser typeMatchParser = new TypeMatchParser();
 
     Map<String, Parser> parsers = new HashMap<>()
     {{
@@ -150,5 +151,6 @@ public interface Parser
         put(RESERVED_INSTANCE, instanceFactoryParser);
         put(RESERVED_IF, conditionParser);
         put(RESERVED_CUSTOM, customParser);
+        put(RESERVED_TYPE, typeMatchParser);
     }};
 }

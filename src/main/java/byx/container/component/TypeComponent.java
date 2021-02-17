@@ -25,6 +25,6 @@ public class TypeComponent implements Component
     @Override
     public Class<?> getType()
     {
-        return type;
+        return null;
     }
 }

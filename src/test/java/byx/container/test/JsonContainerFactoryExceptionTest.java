@@ -208,4 +208,30 @@ public class JsonContainerFactoryExceptionTest
         assertThrows(ByxContainerException.class,
                 () -> container.getObject("c1"));
     }
+
+    /**
+     * 找不到指定类型的组件
+     */
+    @Test
+    public void test18()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("exception/test18.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        assertThrows(ByxContainerException.class, () -> container.getObject(Integer.class));
+    }
+
+    /**
+     * 存在多个指定类型的组件
+     */
+    @Test
+    public void test19()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("exception/test19.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        assertThrows(ByxContainerException.class, () -> container.getObject(String.class));
+    }
 }
