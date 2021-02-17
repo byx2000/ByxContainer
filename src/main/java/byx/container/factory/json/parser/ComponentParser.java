@@ -23,6 +23,7 @@ public class ComponentParser implements Parser
                 c = processProperties(element, context, c);
                 c = processSetters(element, context, c);
                 c = processSingleton(element, c);
+                c = processPostProcessor(element, context, c);
                 context.popScope();
                 return c;
             }

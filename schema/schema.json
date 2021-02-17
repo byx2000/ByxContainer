@@ -24,9 +24,9 @@
                     "properties":
                     {
                         "list": {"$ref": "#/definitions/componentList"},
-                        "mapper": {"$ref": "#/definitions/mapper"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"}
+                        "singleton": {"type": "boolean"},
+                        "postProcessor": {"$ref": "#/definitions/component"}
                     },
                     "required": ["list"]
                 },
@@ -35,9 +35,9 @@
                     "properties":
                     {
                         "set": {"$ref": "#/definitions/componentList"},
-                        "mapper": {"$ref": "#/definitions/mapper"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"}
+                        "singleton": {"type": "boolean"},
+                        "postProcessor": {"$ref": "#/definitions/component"}
                     },
                     "required": ["set"]
                 },
@@ -82,9 +82,9 @@
                         "parameters": {"$ref": "#/definitions/componentList"},
                         "properties": {"$ref": "#/definitions/properties"},
                         "setters": {"$ref": "#/definitions/setters"},
-                        "mapper": {"$ref": "#/definitions/mapper"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"}
+                        "singleton": {"type": "boolean"},
+                        "postProcessor": {"$ref": "#/definitions/component"}
                     },
                     "required": ["class"]
                 },
@@ -97,9 +97,9 @@
                         "parameters": {"$ref": "#/definitions/componentList"},
                         "properties": {"$ref": "#/definitions/properties"},
                         "setters": {"$ref": "#/definitions/setters"},
-                        "mapper": {"$ref": "#/definitions/mapper"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"}
+                        "singleton": {"type": "boolean"},
+                        "postProcessor": {"$ref": "#/definitions/component"}
                     },
                     "required": ["factory", "method"]
                 },
@@ -112,9 +112,9 @@
                         "parameters": {"$ref": "#/definitions/componentList"},
                         "properties": {"$ref": "#/definitions/properties"},
                         "setters": {"$ref": "#/definitions/setters"},
-                        "mapper": {"$ref": "#/definitions/mapper"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"}
+                        "singleton": {"type": "boolean"},
+                        "postProcessor": {"$ref": "#/definitions/component"}
                     },
                     "required": ["instance", "method"]
                 },
@@ -127,9 +127,9 @@
                         "else": {"$ref": "#/definitions/component"},
                         "properties": {"$ref": "#/definitions/properties"},
                         "setters": {"$ref": "#/definitions/setters"},
-                        "mapper": {"$ref": "#/definitions/mapper"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"}
+                        "singleton": {"type": "boolean"},
+                        "postProcessor": {"$ref": "#/definitions/component"}
                     },
                     "required": ["if", "then", "else"]
                 },
@@ -141,9 +141,9 @@
                         "parameters": {"$ref": "#/definitions/componentList"},
                         "properties": {"$ref": "#/definitions/properties"},
                         "setters": {"$ref": "#/definitions/setters"},
-                        "mapper": {"$ref": "#/definitions/mapper"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"}
+                        "singleton": {"type": "boolean"},
+                        "postProcessor": {"$ref": "#/definitions/component"}
                     },
                     "required": ["custom"]
                 }
@@ -173,22 +173,6 @@
                     "items": {"$ref": "#/definitions/component"}
                 }
             }
-        },
-        "mapper":
-        {
-            "anyOf":
-            [
-                {"type": "string"},
-                {
-                    "type": "object",
-                    "properties":
-                    {
-                        "class": {"type": "string"},
-                        "componentList": {"$ref": "#/definitions/componentList"}
-                    },
-                    "required": ["class", "parameters"]
-                }
-            ]
         },
         "locals":
         {

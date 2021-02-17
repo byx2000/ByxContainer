@@ -90,12 +90,15 @@ public class JsonContainerFactoryExceptionTest
     }
 
     /**
-     * 不正确的Mapper类型
+     * 不正确的后置处理器类型
      */
     @Test
     public void test8()
     {
-
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("exception/test8.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+        assertThrows(ByxContainerException.class, () -> container.getObject("c1"));
     }
 
     /**

@@ -4,8 +4,13 @@
     {
         "c1":
         {
-            "class": "java.lang.String",
-            "mapper": "java.lang.Integer"
+            "class": "java.lang.StringBuilder",
+            "parameters": ["hello"],
+            "postProcessor":
+            {
+                "class": "java.lang.String",
+                "parameters": ["aaa"]
+            }
         }
     }
 }

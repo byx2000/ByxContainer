@@ -2,6 +2,7 @@ package byx.container.factory.json.parser;
 
 import byx.container.component.Component;
 import byx.container.component.DelegateComponent;
+import byx.container.component.PostProcessor;
 import byx.container.factory.json.JsonElement;
 
 import java.util.ArrayList;
@@ -10,11 +11,21 @@ import java.util.List;
 import java.util.Map;
 
 import static byx.container.factory.json.ReservedKey.*;
+import static byx.container.component.Component.*;
 
 public interface Parser
 {
+    /**
+     * 解析组件
+     * @param element 当前Json元素
+     * @param context 上下文
+     * @return 组件
+     */
     Component parse(JsonElement element, ParserContext context);
 
+    /**
+     * 解析组件列表
+     */
     static Component[] parseComponentList(JsonElement element, ParserContext context)
     {
         List<Component> components = new ArrayList<>();
@@ -25,6 +36,9 @@ public interface Parser
         return components.toArray(new Component[0]);
     }
 
+    /**
+     * 处理局部组件
+     */
     static void processLocals(JsonElement element, ParserContext context)
     {
         if (element.containsKey(RESERVED_LOCALS))
@@ -48,6 +62,9 @@ public interface Parser
         }
     }
 
+    /**
+     * 处理属性
+     */
     static Component processProperties(JsonElement element, ParserContext context, Component component)
     {
         if (element.containsKey(RESERVED_PROPERTIES))
@@ -62,6 +79,9 @@ public interface Parser
         return component;
     }
 
+    /**
+     * 处理setter方法
+     */
     static Component processSetters(JsonElement element, ParserContext context, Component component)
     {
         if (element.containsKey(RESERVED_SETTERS))
@@ -76,6 +96,9 @@ public interface Parser
         return component;
     }
 
+    /**
+     * 处理单例
+     */
     static Component processSingleton(JsonElement element, Component component)
     {
         boolean singleton = true;
@@ -84,6 +107,24 @@ public interface Parser
             singleton = element.getElement(RESERVED_SINGLETON).getBoolean();
         }
         return singleton ? component.singleton() : component;
+    }
+
+    /**
+     * 处理后置处理器
+     */
+    static Component processPostProcessor(JsonElement element, ParserContext context, Component component)
+    {
+        if (element.containsKey(RESERVED_POST_PROCESSOR))
+        {
+            Component postProcessorComponent = componentParser.parse(element.getElement(RESERVED_POST_PROCESSOR), context);
+            component = instanceFactory(
+                    instanceFactory(
+                            value(component),
+                            "postProcess",
+                            postProcessorComponent),
+                    "create");
+        }
+        return component;
     }
 
     Parser componentParser = new ComponentParser();

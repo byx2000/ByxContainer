@@ -1,5 +1,8 @@
 package byx.container.factory.json;
 
+/**
+ * Json中的保留键名
+ */
 public interface ReservedKey
 {
     String RESERVED_COMPONENTS = "components";
@@ -23,4 +26,5 @@ public interface ReservedKey
     String RESERVED_SINGLETON = "singleton";
     String RESERVED_CUSTOM = "custom";
     String RESERVED_TYPE_ALIAS = "typeAlias";
+    String RESERVED_POST_PROCESSOR = "postProcessor";
 }

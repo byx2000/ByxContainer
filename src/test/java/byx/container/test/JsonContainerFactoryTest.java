@@ -2,6 +2,7 @@ package byx.container.test;
 
 import byx.container.Container;
 import byx.container.component.Component;
+import byx.container.component.PostProcessor;
 import byx.container.exception.*;
 import byx.container.factory.ContainerFactory;
 import byx.container.factory.json.JsonContainerFactory;
@@ -155,6 +156,27 @@ public class JsonContainerFactoryTest
         public Class<?> getType()
         {
             return String.class;
+        }
+    }
+
+    public static class AppendProcessor implements PostProcessor
+    {
+        private final String s;
+
+        public AppendProcessor()
+        {
+            this("hello");
+        }
+
+        public AppendProcessor(String s)
+        {
+            this.s = s;
+        }
+
+        @Override
+        public void process(Object obj)
+        {
+            ((StringBuilder) obj).append(s);
         }
     }
 
@@ -453,12 +475,23 @@ public class JsonContainerFactoryTest
     }
 
     /**
-     * mapper
+     * 后置处理器
      */
     @Test
     public void test11()
     {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test11.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
 
+        StringBuilder c1 = container.getObject("c1");
+        assertEquals("byx hello", c1.toString());
+        StringBuilder c2 = container.getObject("c2");
+        assertEquals("XiaoMing hi", c2.toString());
+        StringBuilder c3 = container.getObject("c3");
+        assertEquals("XiaoHong goodbye", c3.toString());
+        StringBuilder c4 = container.getObject("c4");
+        assertEquals("XiaoHua bye", c4.toString());
     }
 
     /**

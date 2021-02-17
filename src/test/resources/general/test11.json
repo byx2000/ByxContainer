@@ -2,77 +2,48 @@
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
     "components":
     {
-        "end": 4,
         "c1":
         {
-            "class": "java.lang.Integer",
-            "parameters": [123],
-            "mapper": "byx.container.test.JsonContainerFactoryTest$Add10"
+            "class": "java.lang.StringBuilder",
+            "parameters": ["byx "],
+            "postProcessor":
+            {
+                "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor"
+            }
+        },
+        "p1":
+        {
+            "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor",
+            "parameters": ["hi"]
         },
         "c2":
         {
-            "class": "java.lang.Integer",
-            "parameters": [57],
-            "mapper":
-            {
-                "class": "byx.container.test.JsonContainerFactoryTest$Add10",
-                "parameters": []
-            }
+            "class": "java.lang.StringBuilder",
+            "parameters": ["XiaoMing "],
+            "postProcessor": {"ref": "p1"}
         },
         "c3":
         {
-            "class": "java.lang.Integer",
-            "parameters": [123],
-            "mapper":
+            "class": "java.lang.StringBuilder",
+            "parameters": ["XiaoHong "],
+            "postProcessor":
             {
-                "class": "byx.container.test.JsonContainerFactoryTest$Add",
-                "parameters": [100]
+                "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor",
+                "parameters": ["goodbye"]
             }
         },
         "c4":
         {
-            "class": "java.lang.String",
-            "parameters": ["hello"],
-            "mapper":
-            {
-                "class": "byx.container.test.JsonContainerFactoryTest$Substring",
-                "parameters": [2, 4]
-            }
-        },
-        "c5":
-        {
-            "class": "java.lang.String",
-            "parameters": ["hello"],
-            "mapper":
-            {
-                "class": "byx.container.test.JsonContainerFactoryTest$Substring",
-                "parameters":
-                [
-                    {
-                        "class": "java.lang.Integer",
-                        "parameters": [1]
-                    },
-                    {"ref": "end"}
-                ]
-            }
-        },
-        "c6":
-        {
-            "class": "java.lang.String",
-            "parameters": ["apple"],
+            "class": "java.lang.StringBuilder",
+            "parameters": ["XiaoHua "],
+            "postProcessor": {"ref": "p"},
             "locals":
             {
-                "start": 0,
-                "end": 3
-            },
-            "mapper":
-            {
-                "class": "byx.container.test.JsonContainerFactoryTest$Substring",
-                "parameters":
-                [
-                    {"ref": "start"},
-                    {"ref": "end"}
-                ]
+                "p":
+                {
+                    "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor",
+                    "parameters": ["bye"]
+                }
             }
         }
     }
