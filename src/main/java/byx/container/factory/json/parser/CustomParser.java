@@ -12,7 +12,7 @@ public class CustomParser implements Parser
     @Override
     public Component parse(JsonElement element, ParserContext context)
     {
-        String className = element.getElement(RESERVED_CUSTOM).getString();
+        /*String className = element.getElement(RESERVED_CUSTOM).getString();
         Component[] params = new Component[0];
         if (element.containsKey(RESERVED_PARAMETERS))
         {
@@ -23,6 +23,9 @@ public class CustomParser implements Parser
                         context.getComponent(className),
                         params)
                         .singleton(),
-                "create");
+                "create");*/
+
+        Component customComponent = componentParser.parse(element.getElement(RESERVED_CUSTOM), context);
+        return instanceFactory(customComponent, "create");
     }
 }

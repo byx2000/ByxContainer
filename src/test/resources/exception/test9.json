@@ -4,7 +4,11 @@
     {
         "c1":
         {
-            "custom": "java.lang.String"
+            "custom":
+            {
+                "class": "java.lang.String",
+                "parameters": ["hello"]
+            }
         }
     }
 }

@@ -4,28 +4,55 @@
     {
         "c1":
         {
-            "custom": "byx.container.test.JsonContainerFactoryTest$StringComponent"
+            "custom": {"class": "byx.container.test.JsonContainerFactoryTest$StringComponent"}
         },
         "c2":
         {
-            "custom": "byx.container.test.JsonContainerFactoryTest$StringComponent",
-            "parameters": ["hi", 888]
+            "custom":
+            {
+                "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
+                "parameters": ["hi", 888]
+            }
         },
         "c3":
         {
-            "custom": "byx.container.test.JsonContainerFactoryTest$StringComponent",
-            "parameters":
-            [
+            "custom":
+            {
+                "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
+                "parameters":
+                [
+                    {
+                        "factory": "java.lang.String",
+                        "method": "valueOf",
+                        "parameters": ["ok"]
+                    },
+                    {
+                        "class": "java.lang.Integer",
+                        "parameters": [999]
+                    }
+                ]
+            }
+        },
+        "cc1":
+        {
+            "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
+            "parameters": ["aaa", 111]
+        },
+        "c4":
+        {
+            "custom": {"ref":  "cc1"}
+        },
+        "c5":
+        {
+            "custom": {"ref": "cc1"},
+            "locals":
+            {
+                "cc1":
                 {
-                    "factory": "java.lang.String",
-                    "method": "valueOf",
-                    "parameters": ["ok"]
-                },
-                {
-                    "class": "java.lang.Integer",
-                    "parameters": [999]
+                    "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
+                    "parameters": ["bbb", 222]
                 }
-            ]
+            }
         }
     }
 }

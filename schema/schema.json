@@ -137,13 +137,9 @@
                     "type": "object",
                     "properties":
                     {
-                        "custom": {"type": "string"},
-                        "parameters": {"$ref": "#/definitions/componentList"},
-                        "properties": {"$ref": "#/definitions/properties"},
-                        "setters": {"$ref": "#/definitions/setters"},
+                        "custom": {"$ref": "#/definitions/component"},
                         "locals": {"$ref": "#/definitions/locals"},
-                        "singleton": {"type": "boolean"},
-                        "postProcessor": {"$ref": "#/definitions/component"}
+                        "singleton": {"type": "boolean"}
                     },
                     "required": ["custom"]
                 }

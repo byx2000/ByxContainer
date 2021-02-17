@@ -8,6 +8,9 @@ import byx.container.exception.Message;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 解析器上下文
+ */
 public class ParserContext
 {
     private final Container container;
@@ -21,6 +24,9 @@ public class ParserContext
         this.typeAlias = typeAlias;
     }
 
+    /**
+     * 获取容器
+     */
     public Container getContainer()
     {
         return container;
@@ -38,16 +44,25 @@ public class ParserContext
         return null;
     }
 
+    /**
+     * 压入作用域
+     */
     public void pushScope(Map<String, Component> scope)
     {
         scopes.add(scope);
     }
 
+    /**
+     * 弹出作用域
+     */
     public void popScope()
     {
         scopes.remove(scopes.size() - 1);
     }
 
+    /**
+     * 根据全限定类名获取Class对象
+     */
     public Class<?> getClass(String className)
     {
         try
@@ -60,13 +75,5 @@ public class ParserContext
         {
             throw new ByxContainerException(Message.invalidClassName(className), e);
         }
-    }
-
-    public Class<?> getComponent(String componentClassName)
-    {
-        Class<?> type = getClass(componentClassName);
-        if (!Component.class.isAssignableFrom(type))
-            throw new ByxContainerException(Message.invalidComponentClassName(componentClassName));
-        return type;
     }
 }

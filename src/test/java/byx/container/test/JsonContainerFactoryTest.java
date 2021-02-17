@@ -510,6 +510,10 @@ public class JsonContainerFactoryTest
         assertEquals("hi: 888", c2);
         String c3 = container.getObject("c3");
         assertEquals("ok: 999", c3);
+        String c4 = container.getObject("c4");
+        assertEquals("aaa: 111", c4);
+        String c5 = container.getObject("c5");
+        assertEquals("bbb: 222", c5);
     }
 
     /**

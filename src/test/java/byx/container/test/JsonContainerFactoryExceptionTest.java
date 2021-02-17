@@ -102,14 +102,15 @@ public class JsonContainerFactoryExceptionTest
     }
 
     /**
-     * 不正确的Component类型
+     * 不正确的自定义组件类型
      */
     @Test
     public void test9()
     {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("exception/test9.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
-        assertThrows(ByxContainerException.class, factory::create);
+        Container container = factory.create();
+        assertThrows(ByxContainerException.class, () -> container.getObject("c1"));
     }
 
     /**
