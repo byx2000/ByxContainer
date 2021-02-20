@@ -8,7 +8,33 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
 * 对象的延迟加载和单例组件
 * 根据id或类型获取容器中的对象
 
-## 组件
+## 在项目中引入ByxContainer
+
+1. 添加maven仓库地址
+
+    ```xml
+    <repositories>
+        <repository>
+            <id>byx-maven-repo</id>
+            <name>byx-maven-repo</name>
+            <url>https://gitee.com/byx2000/maven-repo/raw/master/</url>
+        </repository>
+    </repositories>
+    ```
+
+2. 添加maven依赖
+
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>byx.container</groupId>
+            <artifactId>ByxContainer</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+    ```
+
+## 关键概念
 
 从本质上说，ByxContainer是一个对象工厂，负责创建和管理所有已在容器中注册的对象。当我们需要一个对象时，可以直接向容器索取我们需要的对象，而无需自己创建这个对象。
 
