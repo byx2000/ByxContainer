@@ -60,6 +60,7 @@ ByxContainer配置文件的基本框架如下：
 
 ```
 {
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
     "typeAlias":
     {
         
@@ -73,6 +74,7 @@ ByxContainer配置文件的基本框架如下：
 
 * `typeAlias`用于配置类型别名
 * `components`用于声明容器中的所有组件
+* `$schema`键指定JSON的约束文件路径，使用约束文件可以在编辑JSON文件时启用自动完成、语法检查等功能。某些编辑器可能需要特殊设置才能支持JSON约束文件的识别
 
 ByxContainer的所有组件都定义在`components`中。组件以键值对的形式写在`components`对象中，键就是组件的id，值就是组件的定义。
 
@@ -87,6 +89,7 @@ ByxContainer的所有组件都定义在`components`中。组件以键值对的�
     }
 }
 ```
+
 ## 加载与使用ByxContainer
 
 在应用程序的初始化代码中，按照以下方式加载配置文件，并初始化容器：
