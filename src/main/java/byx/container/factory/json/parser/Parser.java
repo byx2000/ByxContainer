@@ -2,7 +2,6 @@ package byx.container.factory.json.parser;
 
 import byx.container.component.Component;
 import byx.container.component.DelegateComponent;
-import byx.container.component.PostProcessor;
 import byx.container.factory.json.JsonElement;
 
 import java.util.ArrayList;
@@ -10,8 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static byx.container.component.Component.instanceFactory;
+import static byx.container.component.Component.value;
 import static byx.container.factory.json.ReservedKey.*;
-import static byx.container.component.Component.*;
 
 public interface Parser
 {

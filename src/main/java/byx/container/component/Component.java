@@ -4,8 +4,8 @@ import byx.container.Container;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
 import byx.container.util.ReflectUtils;
-import java.util.Arrays;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * 组件：能够从IOC容器中获取的一个对象。
@@ -35,7 +35,20 @@ public interface Component
      */
     static Component value(Object value)
     {
-        return new ValueComponent(value);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                return value;
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return value == null ? null : value.getClass();
+            }
+        };
     }
 
     /**
@@ -46,7 +59,28 @@ public interface Component
      */
     static Component constructor(Class<?> type, Component... params)
     {
-        return new ConstructorComponent(type, params);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                Object[] p = Arrays.stream(params).map(Component::create).toArray();
+                try
+                {
+                    return ReflectUtils.create(type, p);
+                }
+                catch (Exception e)
+                {
+                    throw new ByxContainerException(Message.constructorNotFound(type, p), e);
+                }
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return type;
+            }
+        };
     }
 
     /**
@@ -58,7 +92,29 @@ public interface Component
      */
     static Component staticFactory(Class<?> type, String method, Component... params)
     {
-        return new StaticFactoryComponent(type, method, params);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                Object[] p = Arrays.stream(params).map(Component::create).toArray();
+                try
+                {
+                    return ReflectUtils.call(type, method, p);
+                }
+                catch (Exception e)
+                {
+                    throw new ByxContainerException(Message.staticFactoryNotFound(type, method, p), e);
+                }
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                Class<?>[] parameterTypes = Arrays.stream(params).map(Component::getType).toArray(Class[]::new);
+                return ReflectUtils.getReturnType(type, method, parameterTypes);
+            }
+        };
     }
 
     /**
@@ -70,7 +126,33 @@ public interface Component
      */
     static Component instanceFactory(Component instance, String method, Component... params)
     {
-        return new InstanceFactoryComponent(instance, method, params);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                Object i = instance.create();
+                if (i == null) throw new ByxContainerException("Instance is null.");
+                Object[] p = Arrays.stream(params).map(Component::create).toArray();
+                try
+                {
+                    return ReflectUtils.call(i, method, p);
+                }
+                catch (Exception e)
+                {
+                    throw new ByxContainerException(Message.instanceFactoryNotFound(i.getClass(), method, p), e);
+                }
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                Class<?> type = instance.getType();
+                if (type == null) return null;
+                Class<?>[] parameterTypes = Arrays.stream(params).map(Component::getType).toArray(Class[]::new);
+                return ReflectUtils.getReturnType(type, method, parameterTypes);
+            }
+        };
     }
 
     /**
@@ -80,7 +162,22 @@ public interface Component
      */
     default Component postProcess(PostProcessor processor)
     {
-        return new PostProcessComponent(this, processor);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                Object obj = Component.this.create();
+                processor.process(obj);
+                return obj;
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return Component.this.getType();
+            }
+        };
     }
 
     /**
@@ -133,7 +230,22 @@ public interface Component
      */
     default Component singleton()
     {
-        return new SingletonComponent(this);
+        final Object[] obj = { null };
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                if (obj[0] == null) obj[0] = Component.this.create();
+                return obj[0];
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return Component.this.getType();
+            }
+        };
     }
 
     /**
@@ -144,7 +256,20 @@ public interface Component
      */
     static Component reference(Container container, String id)
     {
-        return new ReferenceComponent(container, id);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                return container.getObject(id);
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return container.getType(id);
+            }
+        };
     }
 
     /**
@@ -154,7 +279,25 @@ public interface Component
      */
     static Component list(Component... components)
     {
-        return new ListComponent(components);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                List<Object> list = new ArrayList<>();
+                for (Component c : components)
+                {
+                    list.add(c.create());
+                }
+                return list;
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return List.class;
+            }
+        };
     }
 
     /**
@@ -164,7 +307,25 @@ public interface Component
      */
     static Component set(Component... components)
     {
-        return new SetComponent(components);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                Set<Object> set = new HashSet<>();
+                for (Component c : components)
+                {
+                    set.add(c.create());
+                }
+                return set;
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return Set.class;
+            }
+        };
     }
 
     /**
@@ -174,7 +335,25 @@ public interface Component
      */
     static Component map(Map<Component, Component> componentMap)
     {
-        return new MapComponent(componentMap);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                Map<Object, Object> map = new HashMap<>();
+                for (Component k : componentMap.keySet())
+                {
+                    map.put(k.create(), componentMap.get(k).create());
+                }
+                return map;
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return Map.class;
+            }
+        };
     }
 
     /**
@@ -186,7 +365,22 @@ public interface Component
      */
     static Component condition(Component predicate, Component c1, Component c2)
     {
-        return new ConditionComponent(predicate, c1, c2);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                Object p = predicate.create();
+                if (p instanceof Boolean && (boolean) p) return c1.create();
+                return c2.create();
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return null;
+            }
+        };
     }
 
     /**
@@ -197,6 +391,19 @@ public interface Component
      */
     static Component type(Container container, Class<?> type)
     {
-        return new TypeComponent(container, type);
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                return container.getObject(type);
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return null;
+            }
+        };
     }
 }

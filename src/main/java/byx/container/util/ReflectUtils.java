@@ -45,20 +45,6 @@ public class ReflectUtils
     }
 
     /**
-     * 获取基本类型
-     * @param type 类型
-     * @return 如果type是包装类型，则返回对应的基本类型，否则返回type
-     */
-    public static Class<?> getPrimitive(Class<?> type)
-    {
-        for (Class<?> key : primitiveAndWrap.keySet())
-        {
-            if (primitiveAndWrap.get(key) == type) return key;
-        }
-        return type;
-    }
-
-    /**
      * 调用构造函数创建对象
      * @param type 要创建对象的类型
      * @param params 参数
@@ -91,7 +77,9 @@ public class ReflectUtils
     {
         try
         {
-            return (T) getMethod(type, methodName, getTypes(params)).invoke(null, params);
+            Method method = getMethod(type, methodName, getTypes(params));
+            method.setAccessible(true);
+            return (T) method.invoke(null, params);
         }
         catch (Exception e)
         {
@@ -113,7 +101,9 @@ public class ReflectUtils
     {
         try
         {
-            return (T) getMethod(obj.getClass(), methodName, getTypes(params)).invoke(obj, params);
+            Method method = getMethod(obj.getClass(), methodName, getTypes(params));
+            method.setAccessible(true);
+            return (T) method.invoke(obj, params);
         }
         catch (Exception e)
         {
