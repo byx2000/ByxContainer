@@ -6,8 +6,6 @@ import byx.container.component.Component;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
 import byx.container.factory.ContainerFactory;
-import byx.container.factory.json.parser.Parser;
-import byx.container.factory.json.parser.ParserContext;
 import com.alibaba.fastjson.JSON;
 
 import java.io.BufferedReader;
@@ -79,7 +77,7 @@ public class JsonContainerFactory implements ContainerFactory
         JsonElement components = element.getElement(RESERVED_COMPONENTS);
         for (String key : components.keySet())
         {
-            Component c = Parser.componentParser.parse(components.getElement(key), context);
+            Component c = ComponentParser.componentParser.parse(components.getElement(key), context);
             container.addComponent(key, c);
         }
         return container;

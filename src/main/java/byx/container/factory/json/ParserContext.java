@@ -1,4 +1,4 @@
-package byx.container.factory.json.parser;
+package byx.container.factory.json;
 
 import byx.container.Container;
 import byx.container.component.Component;
