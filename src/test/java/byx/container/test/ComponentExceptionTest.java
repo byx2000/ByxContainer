@@ -1,12 +1,12 @@
 package byx.container.test;
 
-import byx.container.ByxContainer;
-import byx.container.Container;
+import byx.container.core.ByxContainer;
+import byx.container.core.Container;
 import byx.container.exception.*;
 import org.junit.jupiter.api.Test;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
-import static byx.container.component.Component.*;
+import static byx.container.core.Component.*;
 
 public class ComponentExceptionTest
 {

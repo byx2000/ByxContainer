@@ -1,9 +1,9 @@
 package byx.container.test;
 
-import byx.container.component.DelegateComponent;
+import byx.container.core.DelegateComponent;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static byx.container.component.Component.*;
+import static byx.container.core.Component.*;
 
 public class DelegateComponentTest
 {

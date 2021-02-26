@@ -1,10 +1,10 @@
 package byx.container.test;
 
-import byx.container.Container;
-import byx.container.component.Component;
-import byx.container.component.PostProcessor;
+import byx.container.core.Container;
+import byx.container.core.Component;
+import byx.container.core.PostProcessor;
 import byx.container.exception.*;
-import byx.container.factory.ContainerFactory;
+import byx.container.core.ContainerFactory;
 import byx.container.factory.json.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
 

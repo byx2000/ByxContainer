@@ -1,4 +1,4 @@
-package byx.container.component;
+package byx.container.core;
 
 /**
  * 代理组件：将组件的create方法转发到另一个组件的create方法。

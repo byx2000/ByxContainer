@@ -1,6 +1,5 @@
-package byx.container;
+package byx.container.core;
 
-import byx.container.component.Component;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
 import byx.container.util.ReflectUtils;

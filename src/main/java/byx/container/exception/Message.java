@@ -80,15 +80,6 @@ public abstract class Message
     }
 
     /**
-     * 无效的Component类名
-     */
-    public static String invalidComponentClassName(String className)
-    {
-        return String.format("\"%s\" is not a \"byx.container.component.Component\".",
-                className);
-    }
-
-    /**
      * 不正确的Json元素类型
      */
     public static String incorrectJsonElementType(String json, String type)

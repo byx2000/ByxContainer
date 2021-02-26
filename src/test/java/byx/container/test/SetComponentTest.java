@@ -1,11 +1,11 @@
 package byx.container.test;
 
-import byx.container.component.Component;
+import byx.container.core.Component;
 import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.Set;
-import static byx.container.component.Component.set;
-import static byx.container.component.Component.value;
+import static byx.container.core.Component.set;
+import static byx.container.core.Component.value;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class SetComponentTest

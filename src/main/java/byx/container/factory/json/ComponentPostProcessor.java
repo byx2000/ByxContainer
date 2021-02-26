@@ -1,12 +1,12 @@
 package byx.container.factory.json;
 
-import byx.container.component.Component;
+import byx.container.core.Component;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static byx.container.component.Component.instanceFactory;
-import static byx.container.component.Component.value;
+import static byx.container.core.Component.instanceFactory;
+import static byx.container.core.Component.value;
 import static byx.container.factory.json.ComponentParser.componentParser;
 import static byx.container.factory.json.ComponentParser.parseComponentList;
 import static byx.container.factory.json.ReservedKey.*;

@@ -1,7 +1,7 @@
 package byx.container.factory.json;
 
-import byx.container.component.Component;
-import byx.container.component.DelegateComponent;
+import byx.container.core.Component;
+import byx.container.core.DelegateComponent;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
 
@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static byx.container.component.Component.*;
+import static byx.container.core.Component.*;
 import static byx.container.factory.json.ReservedKey.*;
 import static byx.container.factory.json.ComponentPostProcessor.*;
 

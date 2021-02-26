@@ -1,7 +1,7 @@
 package byx.container.factory.json;
 
-import byx.container.Container;
-import byx.container.component.Component;
+import byx.container.core.Container;
+import byx.container.core.Component;
 import byx.container.exception.ByxContainerException;
 import byx.container.exception.Message;
 

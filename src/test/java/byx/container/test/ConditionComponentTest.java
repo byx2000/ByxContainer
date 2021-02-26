@@ -1,9 +1,9 @@
 package byx.container.test;
 
-import byx.container.component.Component;
+import byx.container.core.Component;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static byx.container.component.Component.*;
+import static byx.container.core.Component.*;
 
 public class ConditionComponentTest
 {
