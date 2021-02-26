@@ -72,13 +72,14 @@ public class JsonContainerFactory implements ContainerFactory
             }
         }
 
+        // 解析Component
         Container container = new ByxContainer();
         ParserContext context = new ParserContext(container, new ArrayList<>(), typeAlias);
         JsonElement components = element.getElement(RESERVED_COMPONENTS);
-        for (String key : components.keySet())
+        for (String id : components.keySet())
         {
-            Component c = ComponentParser.componentParser.parse(components.getElement(key), context);
-            container.addComponent(key, c);
+            Component c = ComponentParser.componentParser.parse(components.getElement(id), context);
+            container.addComponent(id, c);
         }
         return container;
     }

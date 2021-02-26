@@ -12,7 +12,12 @@ import java.util.Map;
 
 import static byx.container.component.Component.*;
 import static byx.container.factory.json.ReservedKey.*;
+import static byx.container.factory.json.ComponentPostProcessor.*;
 
+/**
+ * 组件解析器
+ * 用于将Json中的组件定义解析成一个Component
+ */
 public interface ComponentParser
 {
     /**
@@ -63,71 +68,8 @@ public interface ComponentParser
     }
 
     /**
-     * 处理属性
+     * 解析组件
      */
-    static Component processProperties(JsonElement element, ParserContext context, Component component)
-    {
-        if (element.containsKey(RESERVED_PROPERTIES))
-        {
-            JsonElement props = element.getElement(RESERVED_PROPERTIES);
-            for (String name : props.keySet())
-            {
-                Component value = componentParser.parse(props.getElement(name), context);
-                component = component.setProperty(name, value);
-            }
-        }
-        return component;
-    }
-
-    /**
-     * 处理setter方法
-     */
-    static Component processSetters(JsonElement element, ParserContext context, Component component)
-    {
-        if (element.containsKey(RESERVED_SETTERS))
-        {
-            JsonElement setters = element.getElement(RESERVED_SETTERS);
-            for (String setterName : setters.keySet())
-            {
-                Component[] params = parseComponentList(setters.getElement(setterName), context);
-                component = component.invokeSetter(setterName, params);
-            }
-        }
-        return component;
-    }
-
-    /**
-     * 处理单例
-     */
-    static Component processSingleton(JsonElement element, Component component)
-    {
-        boolean singleton = true;
-        if (element.containsKey(RESERVED_SINGLETON))
-        {
-            singleton = element.getElement(RESERVED_SINGLETON).getBoolean();
-        }
-        return singleton ? component.singleton() : component;
-    }
-
-    /**
-     * 处理后置处理器
-     */
-    static Component processPostProcessor(JsonElement element, ParserContext context, Component component)
-    {
-        if (element.containsKey(RESERVED_POST_PROCESSOR))
-        {
-            Component postProcessorComponent = componentParser.parse(element.getElement(RESERVED_POST_PROCESSOR), context);
-            component = instanceFactory(
-                    instanceFactory(
-                            value(component),
-                            "postProcess",
-                            postProcessorComponent),
-                    "create");
-        }
-        return component;
-    }
-
-    // 解析组件
     ComponentParser componentParser = new ComponentParser()
     {
         @Override
@@ -139,12 +81,15 @@ public interface ComponentParser
             {
                 if (element.containsKey(key))
                 {
+                    // 处理局部组件
                     processLocals(element, context);
+                    // 解析组件
                     Component c = parsers.get(key).parse(element, context);
-                    c = processProperties(element, context, c);
-                    c = processSetters(element, context, c);
-                    c = processSingleton(element, c);
-                    c = processPostProcessor(element, context, c);
+                    // 后置处理
+                    for (String key2 : postProcessors.keySet())
+                    {
+                        c = postProcessors.get(key2).process(element, context, c);
+                    }
                     context.popScope();
                     return c;
                 }
@@ -154,7 +99,9 @@ public interface ComponentParser
         }
     };
 
-    // 解析基本类型常数
+    /**
+     * 解析基本类型常数
+     */
     ComponentParser primitiveParser = (element, context) ->
     {
         if (element.isInteger()) return value(element.getInteger());
@@ -164,21 +111,27 @@ public interface ComponentParser
         else return value(null);
     };
 
-    // 解析List
+    /**
+     * 解析List
+     */
     ComponentParser listParser = (element, context) ->
     {
         Component[] components = parseComponentList(element.getElement(RESERVED_LIST), context);
         return list(components);
     };
 
-    // 解析Set
+    /**
+     * 解析Set
+     */
     ComponentParser setParser = (element, context) ->
     {
         Component[] components = parseComponentList(element.getElement(RESERVED_SET), context);
         return set(components);
     };
 
-    // 解析Map
+    /**
+     * 解析Map
+     */
     ComponentParser mapParser = (element, context) ->
     {
         JsonElement mapElem = element.getElement(RESERVED_MAP);
@@ -205,7 +158,9 @@ public interface ComponentParser
         return map(componentMap);
     };
 
-    // 解析引用组件
+    /**
+     * 解析引用组件
+     */
     ComponentParser referenceParser = (element, context) ->
     {
         String id = element.getElement(RESERVED_REF).getString();
@@ -214,7 +169,9 @@ public interface ComponentParser
         return reference(context.getContainer(), id);
     };
 
-    // 解析构造函数
+    /**
+     * 解析构造函数
+     */
     ComponentParser constructorParser = (element, context) ->
     {
         String className = element.getElement(RESERVED_CLASS).getString();
@@ -226,7 +183,9 @@ public interface ComponentParser
         return constructor(context.getClass(className), params);
     };
 
-    // 解析静态工厂
+    /**
+     * 解析静态工厂
+     */
     ComponentParser staticFactoryParser = (element, context) ->
     {
         String factory = element.getElement(RESERVED_FACTORY).getString();
@@ -239,7 +198,9 @@ public interface ComponentParser
         return staticFactory(context.getClass(factory), method, params);
     };
 
-    // 解析实例工厂
+    /**
+     * 解析实例工厂
+     */
     ComponentParser instanceFactoryParser = (element, context) ->
     {
         Component instance = componentParser.parse(element.getElement(RESERVED_INSTANCE), context);
@@ -252,7 +213,9 @@ public interface ComponentParser
         return instanceFactory(instance, method, params);
     };
 
-    // 解析条件组件
+    /**
+     * 解析条件组件
+     */
     ComponentParser conditionParser = (element, context) ->
     {
         Component predicate = componentParser.parse(element.getElement(RESERVED_IF), context);
@@ -261,21 +224,28 @@ public interface ComponentParser
         return condition(predicate, c1, c2);
     };
 
-    // 解析自定义组件
+    /**
+     * 解析自定义组件
+     */
     ComponentParser customParser = (element, context) ->
     {
         Component customComponent = componentParser.parse(element.getElement(RESERVED_CUSTOM), context);
         return instanceFactory(customComponent, "create");
     };
 
-    // 解析类型匹配组件
+    /**
+     * 解析类型匹配组件
+     */
     ComponentParser typeMatchParser = (element, context) ->
     {
         String typeName = element.getElement(RESERVED_TYPE).getString();
         return type(context.getContainer(), context.getClass(typeName));
     };
 
-    // 解析器表：根据关键键值获取对应的解析器
+    /**
+     * 解析器表
+     * 根据关键键值获取对应的解析器
+     */
     Map<String, ComponentParser> parsers = new HashMap<>()
     {{
         put(RESERVED_LIST, listParser);
