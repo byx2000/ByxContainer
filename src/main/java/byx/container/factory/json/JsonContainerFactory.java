@@ -18,7 +18,7 @@ import java.util.Map;
 import static byx.container.factory.json.ReservedKey.*;
 
 /**
- * 从Json格式的配置文件创建容器
+ * 通过读取Json格式的配置文件创建并初始化容器
  */
 public class JsonContainerFactory implements ContainerFactory
 {

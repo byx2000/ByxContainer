@@ -55,7 +55,7 @@ public class InvokeSetterTest
         Component builder = constructor(StringBuilder.class)
                 .invokeSetter("append", value("hello"))
                 .invokeSetter("append", value(" world"));
-        Component str = instanceFactory(builder, "toString");
+        Component str = builder.call("toString");
         assertEquals("hello world", str.create());
         assertEquals(StringBuilder.class, builder.getType());
         assertEquals(String.class, str.getType());

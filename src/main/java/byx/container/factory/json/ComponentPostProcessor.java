@@ -2,10 +2,9 @@ package byx.container.factory.json;
 
 import byx.container.core.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import static byx.container.core.Component.instanceFactory;
 import static byx.container.core.Component.value;
 import static byx.container.factory.json.ComponentParser.componentParser;
 import static byx.container.factory.json.ComponentParser.parseComponentList;
@@ -80,25 +79,20 @@ public interface ComponentPostProcessor
         if (element.containsKey(RESERVED_POST_PROCESSOR))
         {
             Component postProcessorComponent = componentParser.parse(element.getElement(RESERVED_POST_PROCESSOR), context);
-            component = instanceFactory(
-                    instanceFactory(
-                            value(component),
-                            "postProcess",
-                            postProcessorComponent),
-                    "create");
+            component = value(component).call("postProcess", postProcessorComponent).call("create");
         }
         return component;
     };
 
     /**
-     * 后置处理器表
-     * 根据关键键值获取对应的后置处理器
+     * 后置处理器列表
+     * 组件创建后依次执行的后置处理器
      */
-    Map<String, ComponentPostProcessor> postProcessors = new HashMap<>()
+    List<ComponentPostProcessor> postProcessors = new ArrayList<>()
     {{
-        put(RESERVED_PROPERTIES, processProperties);
-        put(RESERVED_SETTERS, processSetters);
-        put(RESERVED_SINGLETON, processSingleton);
-        put(RESERVED_POST_PROCESSOR, processPostProcessor);
+        add(processProperties);
+        add(processSetters);
+        add(processSingleton);
+        add(processPostProcessor);
     }};
 }

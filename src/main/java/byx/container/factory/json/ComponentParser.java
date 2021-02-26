@@ -86,9 +86,9 @@ public interface ComponentParser
                     // 解析组件
                     Component c = parsers.get(key).parse(element, context);
                     // 后置处理
-                    for (String key2 : postProcessors.keySet())
+                    for (ComponentPostProcessor postProcessor : postProcessors)
                     {
-                        c = postProcessors.get(key2).process(element, context, c);
+                        c = postProcessor.process(element, context, c);
                     }
                     context.popScope();
                     return c;
@@ -195,7 +195,7 @@ public interface ComponentParser
         {
             params = parseComponentList(element.getElement(RESERVED_PARAMETERS), context);
         }
-        return staticFactory(context.getClass(factory), method, params);
+        return call(context.getClass(factory), method, params);
     };
 
     /**
@@ -210,7 +210,7 @@ public interface ComponentParser
         {
             params = parseComponentList(element.getElement(RESERVED_PARAMETERS), context);
         }
-        return instanceFactory(instance, method, params);
+        return instance.call(method, params);
     };
 
     /**
@@ -230,7 +230,7 @@ public interface ComponentParser
     ComponentParser customParser = (element, context) ->
     {
         Component customComponent = componentParser.parse(element.getElement(RESERVED_CUSTOM), context);
-        return instanceFactory(customComponent, "create");
+        return customComponent.call("create");
     };
 
     /**

@@ -43,23 +43,23 @@ public class ComponentExceptionTest
         assertThrows(ByxContainerException.class,
                 () -> constructor(String.class, value(123), value("hello")).create());
         assertThrows(ByxContainerException.class,
-                () -> constructor(String.class, staticFactory(String.class, "create", value(123))).create());
+                () -> constructor(String.class, call(String.class, "create", value(123))).create());
 
         // staticFactory
         assertThrows(ByxContainerException.class,
-                () -> staticFactory(String.class, "valueOf", value(123), value("hello")).create());
+                () -> call(String.class, "valueOf", value(123), value("hello")).create());
         assertThrows(ByxContainerException.class,
-                () -> staticFactory(String.class, "create", value(123)).create());
+                () -> call(String.class, "create", value(123)).create());
         assertThrows(ByxContainerException.class,
-                () -> staticFactory(String.class, "valueOf", constructor(Integer.class, value(3.14))).create());
+                () -> call(String.class, "valueOf", constructor(Integer.class, value(3.14))).create());
 
         // instanceFactory
         assertThrows(ByxContainerException.class,
-                () -> instanceFactory(value("static"), "length", value(123)).create());
+                () -> value("static").call("length", value(123)).create());
         assertThrows(ByxContainerException.class,
-                () -> instanceFactory(value("static"), "length1").create());
+                () -> value("static").call("length1").create());
         assertThrows(ByxContainerException.class,
-                () -> instanceFactory(value("static"), "length", constructor(Integer.class, value(3.14))).create());
+                () -> value("static").call("length", constructor(Integer.class, value(3.14))).create());
 
         // reference
         Container container = new ByxContainer();
@@ -74,13 +74,13 @@ public class ComponentExceptionTest
         assertThrows(ByxContainerException.class,
                 () -> constructor(User.class, value("hello")).setProperty("id", value(1001)).create());
         assertThrows(ByxContainerException.class,
-                () -> constructor(User.class).setProperty("password", staticFactory(String.class, "create")).create());
+                () -> constructor(User.class).setProperty("password", call(String.class, "create")).create());
 
         // invokeSetter
         assertThrows(ByxContainerException.class,
                 () -> constructor(User.class).invokeSetter("setId", value(1001)).create());
         assertThrows(ByxContainerException.class,
-                () -> constructor(User.class).invokeSetter("setUsername", staticFactory(String.class, "create")).create());
+                () -> constructor(User.class).invokeSetter("setUsername", call(String.class, "create")).create());
         assertThrows(ByxContainerException.class,
                 () -> constructor(User.class, value(123)).invokeSetter("setPassword", value("123456")).create());
 
@@ -90,7 +90,7 @@ public class ComponentExceptionTest
 
         // set
         assertThrows(ByxContainerException.class,
-                () -> list(staticFactory(User.class, "create")).create());
+                () -> list(call(User.class, "create")).create());
 
         // map
         assertThrows(ByxContainerException.class,

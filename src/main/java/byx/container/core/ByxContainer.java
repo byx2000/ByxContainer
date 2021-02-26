@@ -11,6 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * IOC容器实现类
+ * 利用Map来管理组件
  */
 public class ByxContainer implements Container
 {

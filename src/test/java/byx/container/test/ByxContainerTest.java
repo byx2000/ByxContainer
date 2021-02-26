@@ -20,7 +20,7 @@ public class ByxContainerTest
     {
         Container container = new ByxContainer();
         container.addComponent("c1", constructor(String.class, value("hello")));
-        container.addComponent("c2", staticFactory(List.class, "of", value(1), value(2), value(3)));
+        container.addComponent("c2", call(List.class, "of", value(1), value(2), value(3)));
         container.addComponent("c3", constructor(Integer.class, value(123)));
         container.addComponent("c4", constructor(Integer.class, value(456)));
         container.addComponent("c5", value(new B()));

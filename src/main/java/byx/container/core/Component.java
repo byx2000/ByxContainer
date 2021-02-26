@@ -7,17 +7,16 @@ import byx.container.util.ReflectUtils;
 import java.util.*;
 
 /**
- * 组件：能够从IOC容器中获取的一个对象。
- * 所有的组件都被IOC容器管理，每个组件都封装了自己与其他组件的依赖关系。
- * 换句话说，每个组件都知道如何创建自己，这些信息封装在create方法中。
- * 每次从IOC容器中获取某个组件时，该组件的create方法将被调用。
- * Component中还封装了一些常用的静态方法和默认方法
+ * 组件：对一个对象的创建过程的封装
+ * 调用组件的create方法即可创建对应的对象
+ * 这里包含了很多预定义的组件，它们都通过匿名内部类的方式来定义
+ * 这里还包含了很多默认方法，用来方便地创建各种不同类型的组件
  */
 public interface Component
 {
     /**
-     * 创建组件
-     * @return 组件对象
+     * 创建对象
+     * @return 组件创建的对象
      */
     Object create();
 
@@ -89,7 +88,7 @@ public interface Component
      * @param params 参数组件
      * @return 静态工厂Component
      */
-    static Component staticFactory(Class<?> type, String method, Component... params)
+    static Component call(Class<?> type, String method, Component... params)
     {
         return new Component()
         {
@@ -118,19 +117,18 @@ public interface Component
 
     /**
      * 创建实例工厂Component
-     * @param instance 实例组件
      * @param method 方法名
      * @param params 参数组件
      * @return 实例工厂Component
      */
-    static Component instanceFactory(Component instance, String method, Component... params)
+    default Component call(String method, Component... params)
     {
         return new Component()
         {
             @Override
             public Object create()
             {
-                Object i = instance.create();
+                Object i = Component.this.create();
                 if (i == null) throw new ByxContainerException("Instance is null.");
                 Object[] p = Arrays.stream(params).map(Component::create).toArray();
                 try
@@ -146,7 +144,7 @@ public interface Component
             @Override
             public Class<?> getType()
             {
-                Class<?> type = instance.getType();
+                Class<?> type = Component.this.getType();
                 if (type == null) return null;
                 Class<?>[] parameterTypes = Arrays.stream(params).map(Component::getType).toArray(Class[]::new);
                 return ReflectUtils.getReturnType(type, method, parameterTypes);
