@@ -34,6 +34,10 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
     </dependencies>
     ```
 
+## API文档
+
+[API文档](http://byx2000.gitee.io/javadoc/ByxContainer-1.0.0-javadoc/)
+
 ## 使用示例
 
 1. 新建一个maven工程，按照上面的方式引入ByxContainer的依赖
@@ -120,7 +124,7 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
     Student{id=1001, name='XiaoMing', age=17, score=97.5}
     ```
 
-## 详细使用文档
+## 使用说明
 
 ### 对象创建
 
