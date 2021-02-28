@@ -1,5 +1,8 @@
 package byx.container.test;
 
+import byx.aop.core.Invokable;
+import byx.aop.core.MethodInterceptor;
+import byx.aop.core.MethodSignature;
 import byx.container.core.Container;
 import byx.container.core.Component;
 import byx.container.core.PostProcessor;
@@ -195,6 +198,72 @@ public class JsonContainerFactoryTest
         public UserDao getUserDao()
         {
             return userDao;
+        }
+    }
+
+    public static class User
+    {
+        private String username;
+
+        public void setUsername(String username)
+        {
+            this.username = username;
+        }
+
+        public String getUsername()
+        {
+            return username;
+        }
+    }
+
+    public static class UserInterceptor implements MethodInterceptor
+    {
+        @Override
+        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params)
+        {
+            if ("setUsername".equals(signature.getName()))
+            {
+                return targetMethod.invoke("byx");
+            }
+            /*else if ("getUsername".equals(signature.getName()))
+            {
+                return "BYX";
+            }*/
+            else return targetMethod.invoke(params);
+        }
+    }
+
+    public interface Calculator
+    {
+        int add(int a, int b);
+        int sub(int a, int b);
+    }
+
+    public static class CalculatorImpl implements Calculator
+    {
+
+        @Override
+        public int add(int a, int b)
+        {
+            return 0;
+        }
+
+        @Override
+        public int sub(int a, int b)
+        {
+            return 0;
+        }
+    }
+
+    public static class CalculatorInterceptor implements MethodInterceptor
+    {
+        @Override
+        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params)
+        {
+            if ("add".equals(signature.getName()))
+                return (int)params[0] + (int)params[1];
+            else
+                return (int)params[0] - (int)params[1];
         }
     }
 
@@ -503,13 +572,13 @@ public class JsonContainerFactoryTest
         Container container = factory.create();
 
         StringBuilder c1 = container.getObject("c1");
-        /*assertEquals("byx hello", c1.toString());
+        assertEquals("byx hello", c1.toString());
         StringBuilder c2 = container.getObject("c2");
         assertEquals("XiaoMing hi", c2.toString());
         StringBuilder c3 = container.getObject("c3");
         assertEquals("XiaoHong goodbye", c3.toString());
         StringBuilder c4 = container.getObject("c4");
-        assertEquals("XiaoHua bye", c4.toString());*/
+        assertEquals("XiaoHua bye", c4.toString());
     }
 
     /**
@@ -575,5 +644,27 @@ public class JsonContainerFactoryTest
         assertTrue(((UserServiceImpl) c3).getUserDao() instanceof UserDaoImpl);
         assertTrue(container.getObject(UserService.class) instanceof UserServiceImpl);
         assertTrue(container.getObject(UserDao.class) instanceof UserDaoImpl);
+    }
+
+    /**
+     * AOP
+     */
+    @Test
+    public void test15()
+    {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test15.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        User c1 = container.getObject(User.class);
+        c1.setUsername("XiaoMing");
+        assertEquals("byx", c1.getUsername());
+        System.out.println(c1.getClass());
+        System.out.println(c1.getUsername());
+
+        Calculator c2 = container.getObject("c2");
+        System.out.println(c2.getClass());
+        assertEquals(3, c2.add(1, 2));
+        assertEquals(-1, c2.sub(3, 4));
     }
 }

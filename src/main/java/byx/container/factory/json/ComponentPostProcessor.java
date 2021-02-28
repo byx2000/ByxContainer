@@ -1,10 +1,13 @@
 package byx.container.factory.json;
 
 import byx.container.core.Component;
+import byx.container.exception.ByxContainerException;
+import byx.container.exception.Message;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static byx.container.core.Component.call;
 import static byx.container.core.Component.value;
 import static byx.container.factory.json.ComponentParser.componentParser;
 import static byx.container.factory.json.ComponentParser.parseComponentList;
@@ -85,6 +88,27 @@ public interface ComponentPostProcessor
     };
 
     /**
+     * AOP处理器
+     */
+    ComponentPostProcessor processAOP = (element, context, component) ->
+    {
+        if (element.containsKey(RESERVED_INTERCEPTOR))
+        {
+            try
+            {
+                Component interceptorComponent = componentParser.parse(element.getElement(RESERVED_INTERCEPTOR), context);
+                Class<?> aopClass = Class.forName("byx.aop.AOP");
+                component = call(aopClass, "proxy", component, interceptorComponent).castTo(component.getType());
+            }
+            catch (ClassNotFoundException e)
+            {
+                throw new ByxContainerException(Message.byxAopNotFound(), e);
+            }
+        }
+        return component;
+    };
+
+    /**
      * 后置处理器列表
      * 组件创建后依次执行的后置处理器
      */
@@ -94,5 +118,6 @@ public interface ComponentPostProcessor
         add(processSetters);
         add(processSingleton);
         add(processPostProcessor);
+        add(processAOP);
     }};
 }

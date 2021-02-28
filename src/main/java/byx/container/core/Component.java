@@ -29,7 +29,6 @@ public interface Component
     /**
      * 创建ValueComponent
      * @param value 值
-     * @return 用value构造的ValueComponent
      */
     static Component value(Object value)
     {
@@ -53,7 +52,6 @@ public interface Component
      * 创建构造函数Component
      * @param type 类型
      * @param params 参数组件
-     * @return 构造函数Component
      */
     static Component constructor(Class<?> type, Component... params)
     {
@@ -86,7 +84,6 @@ public interface Component
      * @param type 类型
      * @param method 方法名
      * @param params 参数组件
-     * @return 静态工厂Component
      */
     static Component call(Class<?> type, String method, Component... params)
     {
@@ -119,7 +116,6 @@ public interface Component
      * 创建实例工厂Component
      * @param method 方法名
      * @param params 参数组件
-     * @return 实例工厂Component
      */
     default Component call(String method, Component... params)
     {
@@ -155,7 +151,6 @@ public interface Component
     /**
      * 对组件创建的对象进行后置处理
      * @param processor 后置处理器
-     * @return PostProcessComponent
      */
     default Component postProcess(PostProcessor processor)
     {
@@ -181,7 +176,6 @@ public interface Component
      * 设置当前Component创建的对象的属性
      * @param property 属性名
      * @param value 属性值
-     * @return MapperComponent
      */
     default Component setProperty(String property, Component value)
     {
@@ -203,7 +197,6 @@ public interface Component
      * 在当前Component创建后的对象上调用setter方法
      * @param setter setter方法名称
      * @param params setter方法参数
-     * @return MapperComponent
      */
     default Component invokeSetter(String setter, Component... params)
     {
@@ -223,7 +216,6 @@ public interface Component
 
     /**
      * 将当前组件变为单例
-     * @return SingletonComponent
      */
     default Component singleton()
     {
@@ -249,7 +241,6 @@ public interface Component
      * 创建引用组件
      * @param container 容器
      * @param id 组件的唯一标识
-     * @return ReferenceComponent
      */
     static Component reference(Container container, String id)
     {
@@ -272,7 +263,6 @@ public interface Component
     /**
      * 创建list组件
      * @param components 多个组件
-     * @return ListComponent
      */
     static Component list(Component... components)
     {
@@ -300,7 +290,6 @@ public interface Component
     /**
      * 创建set组件
      * @param components 组件列表
-     * @return SetComponent
      */
     static Component set(Component... components)
     {
@@ -328,7 +317,6 @@ public interface Component
     /**
      * 创建map组件
      * @param componentMap 组件map
-     * @return MapComponent
      */
     static Component map(Map<Component, Component> componentMap)
     {
@@ -358,7 +346,6 @@ public interface Component
      * @param predicate 谓词
      * @param c1 predicate为true时返回的组件
      * @param c2 predicate为false时返回的组件
-     * @return ConditionComponent
      */
     static Component condition(Component predicate, Component c1, Component c2)
     {
@@ -384,7 +371,6 @@ public interface Component
      * 获取容器中指定类型的组件
      * @param container 容器
      * @param type 类型
-     * @return TypeComponent
      */
     static Component type(Container container, Class<?> type)
     {
@@ -400,6 +386,28 @@ public interface Component
             public Class<?> getType()
             {
                 return null;
+            }
+        };
+    }
+
+    /**
+     * 修改当前组件的类型
+     * @param type 类型
+     */
+    default Component castTo(Class<?> type)
+    {
+        return new Component()
+        {
+            @Override
+            public Object create()
+            {
+                return Component.this.create();
+            }
+
+            @Override
+            public Class<?> getType()
+            {
+                return type;
             }
         };
     }

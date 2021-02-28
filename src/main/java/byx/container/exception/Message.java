@@ -123,4 +123,12 @@ public abstract class Message
         return String.format("There is more than one component with type \"%s\".",
                 type.getCanonicalName());
     }
+
+    /**
+     * 找不到ByxAOP依赖项
+     */
+    public static String byxAopNotFound()
+    {
+        return "Cannot find ByxAOP dependency.";
+    }
 }
