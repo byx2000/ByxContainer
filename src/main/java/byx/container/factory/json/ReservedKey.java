@@ -2,9 +2,10 @@ package byx.container.factory.json;
 
 /**
  * Json中的保留键名
+ *
+ * @author byx
  */
-public interface ReservedKey
-{
+public interface ReservedKey {
     String RESERVED_COMPONENTS = "components";
     String RESERVED_LIST = "list";
     String RESERVED_SET = "set";

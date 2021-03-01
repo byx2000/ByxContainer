@@ -1,13 +1,12 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "c1":
-        {
-            "custom":
-            {
+    "components": {
+        "c1": {
+            "custom": {
                 "class": "java.lang.String",
-                "parameters": ["hello"]
+                "parameters": [
+                    "hello"
+                ]
             }
         }
     }

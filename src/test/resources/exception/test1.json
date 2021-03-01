@@ -1,7 +1,6 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "typeAlias":
-    {
+    "typeAlias": {
         "String": "java.lang.String"
     }
 }

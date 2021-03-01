@@ -2,18 +2,18 @@ package byx.container.test;
 
 import byx.container.core.Component;
 import org.junit.jupiter.api.Test;
+
 import java.util.Collections;
 import java.util.Set;
+
 import static byx.container.core.Component.set;
 import static byx.container.core.Component.value;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class SetComponentTest
-{
+public class SetComponentTest {
     @Test
     @SuppressWarnings("unchecked")
-    public void test()
-    {
+    public void test() {
         Component c1 = set();
         Set<?> s1 = (Set<?>) c1.create();
         assertEquals(Collections.EMPTY_SET, s1);

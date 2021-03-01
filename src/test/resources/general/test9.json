@@ -1,110 +1,137 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
+    "components": {
         "flag1": true,
         "flag2": false,
         "p1": "true",
         "p4": 3,
-        "c1":
-        {
-            "if": {"ref": "flag1"},
+        "c1": {
+            "if": {
+                "ref": "flag1"
+            },
             "then": "hello",
             "else": "hi"
         },
-        "c2":
-        {
-            "if": {"ref": "flag2"},
+        "c2": {
+            "if": {
+                "ref": "flag2"
+            },
             "then": "hello",
             "else": "hi"
         },
-        "c3":
-        {
-            "if":
-            {
+        "c3": {
+            "if": {
                 "factory": "java.lang.Boolean",
                 "method": "parseBoolean",
-                "parameters": ["true"]
+                "parameters": [
+                    "true"
+                ]
             },
-            "then":
-            {
+            "then": {
                 "class": "java.lang.Integer",
-                "parameters": [123]
+                "parameters": [
+                    123
+                ]
             },
-            "else":
-            {
+            "else": {
                 "instance": "hello",
                 "method": "substring",
-                "parameters": [1, 4]
+                "parameters": [
+                    1,
+                    4
+                ]
             }
         },
-        "c4":
-        {
-            "if":
-            {
+        "c4": {
+            "if": {
                 "factory": "java.lang.Boolean",
                 "method": "parseBoolean",
-                "parameters": ["false"]
+                "parameters": [
+                    "false"
+                ]
             },
-            "then":
-            {
+            "then": {
                 "class": "java.lang.Integer",
-                "parameters": [123]
+                "parameters": [
+                    123
+                ]
             },
-            "else":
-            {
+            "else": {
                 "instance": "hello",
                 "method": "substring",
-                "parameters": [1, 4]
+                "parameters": [
+                    1,
+                    4
+                ]
             }
         },
-        "c5":
-        {
-            "if":
-            {
+        "c5": {
+            "if": {
                 "factory": "java.lang.Boolean",
                 "method": "parseBoolean",
-                "parameters": [{"ref": "p1"}]
+                "parameters": [
+                    {
+                        "ref": "p1"
+                    }
+                ]
             },
-            "then":
-            {
+            "then": {
                 "class": "java.lang.Integer",
-                "parameters": [{"ref": "p2"}]
+                "parameters": [
+                    {
+                        "ref": "p2"
+                    }
+                ]
             },
-            "else":
-            {
+            "else": {
                 "instance": "hello",
                 "method": "substring",
-                "parameters": [{"ref": "p3"}, {"ref": "p4"}]
+                "parameters": [
+                    {
+                        "ref": "p3"
+                    },
+                    {
+                        "ref": "p4"
+                    }
+                ]
             },
-            "locals":
-            {
+            "locals": {
                 "p2": 888,
                 "p3": 1,
                 "p4": 2
             }
         },
-        "c6":
-        {
-            "if":
-            {
+        "c6": {
+            "if": {
                 "factory": "java.lang.Boolean",
                 "method": "parseBoolean",
-                "parameters": [{"ref": "p1"}]
+                "parameters": [
+                    {
+                        "ref": "p1"
+                    }
+                ]
             },
-            "then":
-            {
+            "then": {
                 "class": "java.lang.Integer",
-                "parameters": [{"ref": "p2"}]
+                "parameters": [
+                    {
+                        "ref": "p2"
+                    }
+                ]
             },
-            "else":
-            {
+            "else": {
                 "instance": "hello",
                 "method": "substring",
-                "parameters": [{"ref": "p3"}, {"ref": "p4"}]
+                "parameters": [
+                    {
+                        "ref": "p3"
+                    },
+                    {
+                        "ref": "p4"
+                    }
+                ]
             },
-            "locals":
-            {
+            "locals": {
                 "p1": "false",
                 "p2": 888,
                 "p3": 1

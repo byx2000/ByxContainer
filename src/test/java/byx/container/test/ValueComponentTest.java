@@ -2,14 +2,13 @@ package byx.container.test;
 
 import byx.container.core.Component;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class ValueComponentTest
-{
+public class ValueComponentTest {
     @Test
-    public void test()
-    {
+    public void test() {
         Component c1 = value(123);
         assertEquals(123, c1.create());
         assertEquals(Integer.class, c1.getType());

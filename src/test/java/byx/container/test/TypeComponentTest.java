@@ -4,17 +4,19 @@ import byx.container.core.ByxContainer;
 import byx.container.core.Container;
 import byx.container.core.Component;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class TypeComponentTest
-{
-    public static class A {}
-    public static class B extends A {}
+public class TypeComponentTest {
+    public static class A {
+    }
+
+    public static class B extends A {
+    }
 
     @Test
-    public void test()
-    {
+    public void test() {
         Container container = new ByxContainer();
         container.addComponent("c1", value(123));
         container.addComponent("c2", value("hello"));

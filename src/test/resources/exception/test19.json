@@ -1,7 +1,6 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
+    "components": {
         "c1": "hello",
         "c2": "hi"
     }

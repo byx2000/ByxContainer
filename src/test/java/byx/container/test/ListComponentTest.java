@@ -5,15 +5,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class ListComponentTest
-{
+public class ListComponentTest {
     @Test
     @SuppressWarnings("unchecked")
-    public void test()
-    {
+    public void test() {
         Component c1 = list();
         List<?> l1 = (List<?>) c1.create();
         assertEquals(Collections.EMPTY_LIST, l1);

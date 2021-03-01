@@ -2,14 +2,13 @@ package byx.container.test;
 
 import byx.container.core.Component;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class InstanceFactoryComponentTest
-{
+public class InstanceFactoryComponentTest {
     @Test
-    public void test()
-    {
+    public void test() {
         Component c1 = value("static").call("length");
         assertEquals(6, c1.create());
         assertEquals(int.class, c1.getType());

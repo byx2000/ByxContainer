@@ -1,37 +1,62 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "c1": {"class": "java.lang.String"},
-        "c2": {"class": "byx.container.test.JsonContainerFactoryTest$Student"},
-        "c3":
-        {
+    "components": {
+        "c1": {
+            "class": "java.lang.String"
+        },
+        "c2": {
+            "class": "byx.container.test.JsonContainerFactoryTest$Student"
+        },
+        "c3": {
             "class": "java.lang.String",
-            "parameters": ["hello"]
+            "parameters": [
+                "hello"
+            ]
         },
-        "c4":
-        {
+        "c4": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "parameters": [1001, "byx", {"list": [88.5, 97.5, 90]}]
+            "parameters": [
+                1001,
+                "byx",
+                {
+                    "list": [
+                        88.5,
+                        97.5,
+                        90
+                    ]
+                }
+            ]
         },
-        "c5":
-        {
+        "c5": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "parameters": [{"ref": "id"}, {"ref": "name"}, {"ref": "scores"}],
-            "locals":
-            {
+            "parameters": [
+                {
+                    "ref": "id"
+                },
+                {
+                    "ref": "name"
+                },
+                {
+                    "ref": "scores"
+                }
+            ],
+            "locals": {
                 "id": 1002,
                 "name": "XiaoMing",
                 "Chinese": 69.5,
                 "math": 87,
                 "English": 77,
-                "scores":
-                {
-                    "list":
-                    [
-                        {"ref": "Chinese"},
-                        {"ref": "math"},
-                        {"ref": "English"}
+                "scores": {
+                    "list": [
+                        {
+                            "ref": "Chinese"
+                        },
+                        {
+                            "ref": "math"
+                        },
+                        {
+                            "ref": "English"
+                        }
                     ]
                 }
             }

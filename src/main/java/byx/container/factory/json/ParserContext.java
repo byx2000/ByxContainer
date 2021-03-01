@@ -10,15 +10,15 @@ import java.util.Map;
 
 /**
  * 解析器上下文
+ *
+ * @author byx
  */
-public class ParserContext
-{
+public class ParserContext {
     private final Container container;
     private final List<Map<String, Component>> scopes;
     private final Map<String, String> typeAlias;
 
-    public ParserContext(Container container, List<Map<String, Component>> scopes, Map<String, String> typeAlias)
-    {
+    public ParserContext(Container container, List<Map<String, Component>> scopes, Map<String, String> typeAlias) {
         this.container = container;
         this.scopes = scopes;
         this.typeAlias = typeAlias;
@@ -27,17 +27,13 @@ public class ParserContext
     /**
      * 获取容器
      */
-    public Container getContainer()
-    {
+    public Container getContainer() {
         return container;
     }
 
-    public Component resolveComponentRef(String id)
-    {
-        for (int i = scopes.size() - 1; i >= 0; --i)
-        {
-            if (scopes.get(i).containsKey(id))
-            {
+    public Component resolveComponentRef(String id) {
+        for (int i = scopes.size() - 1; i >= 0; --i) {
+            if (scopes.get(i).containsKey(id)) {
                 return scopes.get(i).get(id);
             }
         }
@@ -47,32 +43,27 @@ public class ParserContext
     /**
      * 压入作用域
      */
-    public void pushScope(Map<String, Component> scope)
-    {
+    public void pushScope(Map<String, Component> scope) {
         scopes.add(scope);
     }
 
     /**
      * 弹出作用域
      */
-    public void popScope()
-    {
+    public void popScope() {
         scopes.remove(scopes.size() - 1);
     }
 
     /**
      * 根据全限定类名获取Class对象
      */
-    public Class<?> getClass(String className)
-    {
-        try
-        {
-            if (typeAlias.containsKey(className))
+    public Class<?> getClass(String className) {
+        try {
+            if (typeAlias.containsKey(className)) {
                 className = typeAlias.get(className);
+            }
             return Class.forName(className);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             throw new ByxContainerException(Message.invalidClassName(className), e);
         }
     }

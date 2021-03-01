@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class StaticFactoryComponentTest
-{
+public class StaticFactoryComponentTest {
     @Test
-    public void test()
-    {
+    public void test() {
         Component c1 = call(Collections.class, "emptyList");
         assertEquals(Collections.emptyList(), c1.create());
         assertEquals(List.class, c1.getType());

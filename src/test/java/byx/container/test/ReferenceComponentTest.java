@@ -4,14 +4,13 @@ import byx.container.core.ByxContainer;
 import byx.container.core.Component;
 import byx.container.core.Container;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class ReferenceComponentTest
-{
+public class ReferenceComponentTest {
     @Test
-    public void test()
-    {
+    public void test() {
         Container container = new ByxContainer();
         container.addComponent("c1", constructor(String.class, value("hello")));
         container.addComponent("c2", value(1234));

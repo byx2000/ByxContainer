@@ -1,36 +1,77 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "c1":
-        {
+    "components": {
+        "c1": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "parameters": [1001, "byx", {"list": [90, 95, 100]}]
+            "parameters": [
+                1001,
+                "byx",
+                {
+                    "list": [
+                        90,
+                        95,
+                        100
+                    ]
+                }
+            ]
         },
-        "c2":
-        {
+        "c2": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "parameters": [1001, "byx", {"list": [90, 95, 100]}],
+            "parameters": [
+                1001,
+                "byx",
+                {
+                    "list": [
+                        90,
+                        95,
+                        100
+                    ]
+                }
+            ],
             "singleton": true
         },
-        "c3":
-        {
+        "c3": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "parameters": [1001, "byx", {"list": [90, 95, 100]}],
+            "parameters": [
+                1001,
+                "byx",
+                {
+                    "list": [
+                        90,
+                        95,
+                        100
+                    ]
+                }
+            ],
             "singleton": false
         },
-        "c4":
-        {
-            "list": [1, 2, 3, 4, 5]
+        "c4": {
+            "list": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ]
         },
-        "c5":
-        {
-            "list": [1, 2, 3, 4, 5],
+        "c5": {
+            "list": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
             "singleton": true
         },
-        "c6":
-        {
-            "list": [1, 2, 3, 4, 5],
+        "c6": {
+            "list": [
+                1,
+                2,
+                3,
+                4,
+                5
+            ],
             "singleton": false
         }
     }

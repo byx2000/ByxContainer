@@ -2,16 +2,14 @@ package byx.container.test;
 
 import byx.container.core.Component;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class PostProcessComponentTest
-{
+public class PostProcessComponentTest {
     @Test
-    public void test()
-    {
-        Component c = constructor(StringBuilder.class).postProcess(obj ->
-        {
+    public void test() {
+        Component c = constructor(StringBuilder.class).postProcess(obj -> {
             StringBuilder sb = (StringBuilder) obj;
             sb.append("hello");
             sb.append(" world");

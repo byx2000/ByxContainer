@@ -16,83 +16,67 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JsonContainerFactoryTest
-{
-    public static class Student
-    {
+public class JsonContainerFactoryTest {
+    public static class Student {
         private int id;
         private String name;
         private List<Integer> scores;
 
-        public Student()
-        {
+        public Student() {
             id = -1;
             name = "unknown_name";
             scores = new ArrayList<>();
         }
 
-        public Student(int id, String name, List<Integer> scores)
-        {
+        public Student(int id, String name, List<Integer> scores) {
             this.id = id;
             this.name = name;
             this.scores = scores;
         }
 
-        public static Student createDefault()
-        {
+        public static Student createDefault() {
             return new Student();
         }
 
-        public static Student create(int id, String name, List<Integer> scores)
-        {
+        public static Student create(int id, String name, List<Integer> scores) {
             return new Student(id, name, scores);
         }
 
-        public void setIdAndName(int id, String name)
-        {
+        public void setIdAndName(int id, String name) {
             this.id = id;
             this.name = name;
         }
 
-        public int getId()
-        {
+        public int getId() {
             return id;
         }
 
-        public void setId(int id)
-        {
+        public void setId(int id) {
             this.id = id;
         }
 
-        public String getName()
-        {
+        public String getName() {
             return name;
         }
 
-        public void setName(String username)
-        {
+        public void setName(String username) {
             this.name = username;
         }
 
-        public List<Integer> getScores()
-        {
+        public List<Integer> getScores() {
             return scores;
         }
 
-        public void setScores(List<Integer> scores)
-        {
+        public void setScores(List<Integer> scores) {
             this.scores = scores;
         }
 
         @Override
-        public boolean equals(Object o)
-        {
-            if (this == o)
-            {
+        public boolean equals(Object o) {
+            if (this == o) {
                 return true;
             }
-            if (o == null || getClass() != o.getClass())
-            {
+            if (o == null || getClass() != o.getClass()) {
                 return false;
             }
             Student student = (Student) o;
@@ -100,170 +84,146 @@ public class JsonContainerFactoryTest
         }
 
         @Override
-        public int hashCode()
-        {
+        public int hashCode() {
             return Objects.hash(id, name, scores);
         }
     }
 
-    public static class Student2 extends Student
-    {
+    public static class Student2 extends Student {
         private int age;
         boolean male;
 
-        public int getAge()
-        {
+        public int getAge() {
             return age;
         }
 
-        public void setAge(int age)
-        {
+        public void setAge(int age) {
             this.age = age;
         }
 
-        public boolean isMale()
-        {
+        public boolean isMale() {
             return male;
         }
 
-        public void setMale(boolean male)
-        {
+        public void setMale(boolean male) {
             this.male = male;
         }
     }
 
-    public static class StringComponent implements Component
-    {
+    public static class StringComponent implements Component {
         private final String s;
         private final int i;
 
-        public StringComponent()
-        {
+        public StringComponent() {
             this.s = "hello";
             this.i = 123;
         }
 
-        public StringComponent(String s, int i)
-        {
+        public StringComponent(String s, int i) {
             this.s = s;
             this.i = i;
         }
 
         @Override
-        public Object create()
-        {
+        public Object create() {
             return s + ": " + i;
         }
 
         @Override
-        public Class<?> getType()
-        {
+        public Class<?> getType() {
             return String.class;
         }
     }
 
-    public static class AppendProcessor implements PostProcessor
-    {
+    public static class AppendProcessor implements PostProcessor {
         private final String s;
 
-        public AppendProcessor()
-        {
+        public AppendProcessor() {
             this("hello");
         }
 
-        public AppendProcessor(String s)
-        {
+        public AppendProcessor(String s) {
             this.s = s;
         }
 
         @Override
-        public void process(Object obj)
-        {
+        public void process(Object obj) {
             ((StringBuilder) obj).append(s);
         }
     }
 
-    public interface UserDao {}
-    public static class UserDaoImpl implements UserDao {}
-    public interface UserService {}
-    public static class UserServiceImpl implements UserService
-    {
+    public interface UserDao {
+    }
+
+    public static class UserDaoImpl implements UserDao {
+    }
+
+    public interface UserService {
+    }
+
+    public static class UserServiceImpl implements UserService {
         private final UserDao userDao;
 
-        public UserServiceImpl(UserDao userDao)
-        {
+        public UserServiceImpl(UserDao userDao) {
             this.userDao = userDao;
         }
 
-        public UserDao getUserDao()
-        {
+        public UserDao getUserDao() {
             return userDao;
         }
     }
 
-    public static class User
-    {
+    public static class User {
         private String username;
 
-        public void setUsername(String username)
-        {
+        public void setUsername(String username) {
             this.username = username;
         }
 
-        public String getUsername()
-        {
+        public String getUsername() {
             return username;
         }
     }
 
-    public static class UserInterceptor implements MethodInterceptor
-    {
+    public static class UserInterceptor implements MethodInterceptor {
         @Override
-        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params)
-        {
-            if ("setUsername".equals(signature.getName()))
-            {
+        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params) {
+            if ("setUsername".equals(signature.getName())) {
                 return targetMethod.invoke("byx");
             }
-            /*else if ("getUsername".equals(signature.getName()))
-            {
-                return "BYX";
-            }*/
-            else return targetMethod.invoke(params);
+            else {
+                return targetMethod.invoke(params);
+            }
         }
     }
 
-    public interface Calculator
-    {
+    public interface Calculator {
         int add(int a, int b);
+
         int sub(int a, int b);
     }
 
-    public static class CalculatorImpl implements Calculator
-    {
+    public static class CalculatorImpl implements Calculator {
 
         @Override
-        public int add(int a, int b)
-        {
+        public int add(int a, int b) {
             return 0;
         }
 
         @Override
-        public int sub(int a, int b)
-        {
+        public int sub(int a, int b) {
             return 0;
         }
     }
 
-    public static class CalculatorInterceptor implements MethodInterceptor
-    {
+    public static class CalculatorInterceptor implements MethodInterceptor {
         @Override
-        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params)
-        {
-            if ("add".equals(signature.getName()))
-                return (int)params[0] + (int)params[1];
-            else
-                return (int)params[0] - (int)params[1];
+        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params) {
+            if ("add".equals(signature.getName())) {
+                return (int) params[0] + (int) params[1];
+            } else {
+                return (int) params[0] - (int) params[1];
+            }
         }
     }
 
@@ -271,10 +231,8 @@ public class JsonContainerFactoryTest
      * 常数
      */
     @Test
-    public void test1()
-    {
-        assertThrows(ByxContainerException.class,
-                () -> new JsonContainerFactory(null));
+    public void test1() {
+        assertThrows(ByxContainerException.class, () -> new JsonContainerFactory(null));
 
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test1.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
@@ -298,8 +256,7 @@ public class JsonContainerFactoryTest
      * 集合类型
      */
     @Test
-    public void test2()
-    {
+    public void test2() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test2.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -347,8 +304,7 @@ public class JsonContainerFactoryTest
      * 引用
      */
     @Test
-    public void test3()
-    {
+    public void test3() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test3.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -375,8 +331,7 @@ public class JsonContainerFactoryTest
      * 构造函数
      */
     @Test
-    public void test4()
-    {
+    public void test4() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test4.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -403,8 +358,7 @@ public class JsonContainerFactoryTest
      * 静态工厂
      */
     @Test
-    public void test5()
-    {
+    public void test5() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test5.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -431,8 +385,7 @@ public class JsonContainerFactoryTest
      * 实例工厂
      */
     @Test
-    public void test6()
-    {
+    public void test6() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test6.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -453,8 +406,7 @@ public class JsonContainerFactoryTest
      * 属性注入
      */
     @Test
-    public void test7()
-    {
+    public void test7() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test7.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -483,8 +435,7 @@ public class JsonContainerFactoryTest
      * setter注入
      */
     @Test
-    public void test8()
-    {
+    public void test8() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test8.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -511,8 +462,7 @@ public class JsonContainerFactoryTest
      * 条件注入
      */
     @Test
-    public void test9()
-    {
+    public void test9() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test9.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -535,8 +485,7 @@ public class JsonContainerFactoryTest
      * 单例
      */
     @Test
-    public void test10()
-    {
+    public void test10() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test10.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -565,8 +514,7 @@ public class JsonContainerFactoryTest
      * 后置处理器
      */
     @Test
-    public void test11()
-    {
+    public void test11() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test11.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -585,8 +533,7 @@ public class JsonContainerFactoryTest
      * 自定义组件
      */
     @Test
-    public void test12()
-    {
+    public void test12() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test12.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -607,8 +554,7 @@ public class JsonContainerFactoryTest
      * 类型别名
      */
     @Test
-    public void test13()
-    {
+    public void test13() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test13.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -627,8 +573,7 @@ public class JsonContainerFactoryTest
      * 类型匹配
      */
     @Test
-    public void test14()
-    {
+    public void test14() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test14.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();
@@ -650,8 +595,7 @@ public class JsonContainerFactoryTest
      * AOP
      */
     @Test
-    public void test15()
-    {
+    public void test15() {
         InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test15.json");
         ContainerFactory factory = new JsonContainerFactory(inputStream);
         Container container = factory.create();

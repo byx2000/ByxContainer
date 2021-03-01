@@ -1,56 +1,63 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "c1":
-        {
-            "custom": {"class": "byx.container.test.JsonContainerFactoryTest$StringComponent"}
-        },
-        "c2":
-        {
-            "custom":
-            {
-                "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
-                "parameters": ["hi", 888]
+    "components": {
+        "c1": {
+            "custom": {
+                "class": "byx.container.test.JsonContainerFactoryTest$StringComponent"
             }
         },
-        "c3":
-        {
-            "custom":
-            {
+        "c2": {
+            "custom": {
                 "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
-                "parameters":
-                [
+                "parameters": [
+                    "hi",
+                    888
+                ]
+            }
+        },
+        "c3": {
+            "custom": {
+                "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
+                "parameters": [
                     {
                         "factory": "java.lang.String",
                         "method": "valueOf",
-                        "parameters": ["ok"]
+                        "parameters": [
+                            "ok"
+                        ]
                     },
                     {
                         "class": "java.lang.Integer",
-                        "parameters": [999]
+                        "parameters": [
+                            999
+                        ]
                     }
                 ]
             }
         },
-        "cc1":
-        {
+        "cc1": {
             "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
-            "parameters": ["aaa", 111]
+            "parameters": [
+                "aaa",
+                111
+            ]
         },
-        "c4":
-        {
-            "custom": {"ref":  "cc1"}
+        "c4": {
+            "custom": {
+                "ref": "cc1"
+            }
         },
-        "c5":
-        {
-            "custom": {"ref": "cc1"},
-            "locals":
-            {
-                "cc1":
-                {
+        "c5": {
+            "custom": {
+                "ref": "cc1"
+            },
+            "locals": {
+                "cc1": {
                     "class": "byx.container.test.JsonContainerFactoryTest$StringComponent",
-                    "parameters": ["bbb", 222]
+                    "parameters": [
+                        "bbb",
+                        222
+                    ]
                 }
             }
         }

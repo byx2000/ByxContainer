@@ -1,23 +1,29 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "message":
-        {
+    "components": {
+        "message": {
             "class": "java.lang.String",
-            "parameters": ["hello"]
+            "parameters": [
+                "hello"
+            ]
         },
-        "c1": {"type": "java.lang.String"},
+        "c1": {
+            "type": "java.lang.String"
+        },
         "value": 123,
-        "c2": {"type": "java.lang.Integer"},
-        "userDao":
-        {
+        "c2": {
+            "type": "java.lang.Integer"
+        },
+        "userDao": {
             "class": "byx.container.test.JsonContainerFactoryTest$UserDaoImpl"
         },
-        "userService":
-        {
+        "userService": {
             "class": "byx.container.test.JsonContainerFactoryTest$UserServiceImpl",
-            "parameters": [{"type": "byx.container.test.JsonContainerFactoryTest$UserDao"}]
+            "parameters": [
+                {
+                    "type": "byx.container.test.JsonContainerFactoryTest$UserDao"
+                }
+            ]
         }
     }
 }

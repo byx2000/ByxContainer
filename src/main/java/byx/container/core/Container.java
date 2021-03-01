@@ -7,20 +7,23 @@ package byx.container.core;
  * 当应用程序需要某个对象时，可以直接向容器获取
  * 可以通过id获取，也可通过类型获取
  * 在使用IOC容器前，需要先注册组件
+ *
+ * @author byx
  * @see Component
  */
-public interface Container
-{
+public interface Container {
     /**
      * 将组件注册到容器
-     * @param id 唯一标识这个组件的key
+     *
+     * @param id        唯一标识这个组件的key
      * @param component 组件
      */
     void addComponent(String id, Component component);
 
     /**
      * 根据id获取对象
-     * @param id 组件id
+     *
+     * @param id  组件id
      * @param <T> 返回值类型
      * @return 指定id的组件创建的对象
      */
@@ -28,14 +31,16 @@ public interface Container
 
     /**
      * 根据类型获取对象
+     *
      * @param type 对象类型
-     * @param <T> 对象类型
+     * @param <T>  对象类型
      * @return 指定类型的对象
      */
     <T> T getObject(Class<T> type);
 
     /**
      * 获取组件类型
+     *
      * @param id 组件id
      * @return 指定id的组件的类型
      */

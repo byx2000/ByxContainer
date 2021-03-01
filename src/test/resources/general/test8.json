@@ -1,52 +1,110 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
+    "components": {
         "id": 1004,
-        "scores": {"list": [90, 95, 99]},
-        "c1":
-        {
+        "scores": {
+            "list": [
+                90,
+                95,
+                99
+            ]
+        },
+        "c1": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "setters":
-            {
-                "setIdAndName": [1001, "byx"],
-                "setScores": [{"list": [90, 85, 80]}]
+            "setters": {
+                "setIdAndName": [
+                    1001,
+                    "byx"
+                ],
+                "setScores": [
+                    {
+                        "list": [
+                            90,
+                            85,
+                            80
+                        ]
+                    }
+                ]
             }
         },
-        "c2":
-        {
+        "c2": {
             "factory": "byx.container.test.JsonContainerFactoryTest$Student",
             "method": "createDefault",
-            "setters":
-            {
-                "setId": [1002],
-                "setName": ["XiaoMing"],
-                "setScores": [{"list": [75, 80, 85]}]
+            "setters": {
+                "setId": [
+                    1002
+                ],
+                "setName": [
+                    "XiaoMing"
+                ],
+                "setScores": [
+                    {
+                        "list": [
+                            75,
+                            80,
+                            85
+                        ]
+                    }
+                ]
             }
         },
-        "c3":
-        {
+        "c3": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "parameters": [1001, "byx", {"list": [90, 85, 80]}],
-            "setters":
-            {
-                "setId": [1003],
-                "setName": ["XiaoHua"],
-                "setScores": [{"list": [50, 60, 70]}]
+            "parameters": [
+                1001,
+                "byx",
+                {
+                    "list": [
+                        90,
+                        85,
+                        80
+                    ]
+                }
+            ],
+            "setters": {
+                "setId": [
+                    1003
+                ],
+                "setName": [
+                    "XiaoHua"
+                ],
+                "setScores": [
+                    {
+                        "list": [
+                            50,
+                            60,
+                            70
+                        ]
+                    }
+                ]
             }
         },
-        "c4":
-        {
+        "c4": {
             "class": "byx.container.test.JsonContainerFactoryTest$Student",
-            "setters":
-            {
-                "setIdAndName": [{"ref": "id"}, {"ref": "name"}],
-                "setScores": [{"ref": "scores"}]
+            "setters": {
+                "setIdAndName": [
+                    {
+                        "ref": "id"
+                    },
+                    {
+                        "ref": "name"
+                    }
+                ],
+                "setScores": [
+                    {
+                        "ref": "scores"
+                    }
+                ]
             },
-            "locals":
-            {
+            "locals": {
                 "name": "XiaoJun",
-                "scores": {"list": [90, 95, 100]}
+                "scores": {
+                    "list": [
+                        90,
+                        95,
+                        100
+                    ]
+                }
             }
         }
     }

@@ -1,15 +1,16 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "c1":
-        {
+    "components": {
+        "c1": {
             "class": "java.lang.StringBuilder",
-            "parameters": ["hello"],
-            "postProcessor":
-            {
+            "parameters": [
+                "hello"
+            ],
+            "postProcessor": {
                 "class": "java.lang.String",
-                "parameters": ["aaa"]
+                "parameters": [
+                    "aaa"
+                ]
             }
         }
     }

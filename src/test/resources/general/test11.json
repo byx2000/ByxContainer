@@ -1,48 +1,56 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "c1":
-        {
+    "components": {
+        "c1": {
             "class": "java.lang.StringBuilder",
-            "parameters": ["byx "],
-            "postProcessor":
-            {
+            "parameters": [
+                "byx "
+            ],
+            "postProcessor": {
                 "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor"
             }
         },
-        "p1":
-        {
+        "p1": {
             "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor",
-            "parameters": ["hi"]
+            "parameters": [
+                "hi"
+            ]
         },
-        "c2":
-        {
+        "c2": {
             "class": "java.lang.StringBuilder",
-            "parameters": ["XiaoMing "],
-            "postProcessor": {"ref": "p1"}
-        },
-        "c3":
-        {
-            "class": "java.lang.StringBuilder",
-            "parameters": ["XiaoHong "],
-            "postProcessor":
-            {
-                "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor",
-                "parameters": ["goodbye"]
+            "parameters": [
+                "XiaoMing "
+            ],
+            "postProcessor": {
+                "ref": "p1"
             }
         },
-        "c4":
-        {
+        "c3": {
             "class": "java.lang.StringBuilder",
-            "parameters": ["XiaoHua "],
-            "postProcessor": {"ref": "p"},
-            "locals":
-            {
-                "p":
-                {
+            "parameters": [
+                "XiaoHong "
+            ],
+            "postProcessor": {
+                "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor",
+                "parameters": [
+                    "goodbye"
+                ]
+            }
+        },
+        "c4": {
+            "class": "java.lang.StringBuilder",
+            "parameters": [
+                "XiaoHua "
+            ],
+            "postProcessor": {
+                "ref": "p"
+            },
+            "locals": {
+                "p": {
                     "class": "byx.container.test.JsonContainerFactoryTest$AppendProcessor",
-                    "parameters": ["bye"]
+                    "parameters": [
+                        "bye"
+                    ]
                 }
             }
         }

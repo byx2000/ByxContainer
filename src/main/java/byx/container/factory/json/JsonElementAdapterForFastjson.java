@@ -11,135 +11,128 @@ import java.util.Set;
 
 /**
  * 将Fastjson中的对象适配成JsonElement的适配器
+ *
+ * @author byx
  */
-public class JsonElementAdapterForFastjson implements JsonElement
-{
+public class JsonElementAdapterForFastjson implements JsonElement {
     private final Object obj;
 
-    public JsonElementAdapterForFastjson(Object obj)
-    {
+    public JsonElementAdapterForFastjson(Object obj) {
         this.obj = obj;
     }
 
     @Override
-    public boolean isInteger()
-    {
+    public boolean isInteger() {
         return obj instanceof Integer;
     }
 
     @Override
-    public boolean isDouble()
-    {
+    public boolean isDouble() {
         return obj instanceof BigDecimal;
     }
 
     @Override
-    public boolean isString()
-    {
+    public boolean isString() {
         return obj instanceof String;
     }
 
     @Override
-    public boolean isBoolean()
-    {
+    public boolean isBoolean() {
         return obj instanceof Boolean;
     }
 
     @Override
-    public boolean isNull()
-    {
+    public boolean isNull() {
         return obj == null;
     }
 
     @Override
-    public boolean isArray()
-    {
+    public boolean isArray() {
         return obj instanceof JSONArray;
     }
 
     @Override
-    public boolean isObject()
-    {
+    public boolean isObject() {
         return obj instanceof JSONObject;
     }
 
     @Override
-    public int getInteger()
-    {
-        if (!isInteger())
+    public int getInteger() {
+        if (!isInteger()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "integer"));
+        }
         return (int) obj;
     }
 
     @Override
-    public double getDouble()
-    {
-        if (!isDouble())
+    public double getDouble() {
+        if (!isDouble()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "double"));
-        return ((BigDecimal)obj).doubleValue();
+        }
+        return ((BigDecimal) obj).doubleValue();
     }
 
     @Override
-    public String getString()
-    {
-        if (!isString())
+    public String getString() {
+        if (!isString()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "string"));
+        }
         return (String) obj;
     }
 
     @Override
-    public boolean getBoolean()
-    {
-        if (!isBoolean())
+    public boolean getBoolean() {
+        if (!isBoolean()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "boolean"));
+        }
         return (boolean) obj;
     }
 
     @Override
-    public boolean containsKey(String key)
-    {
-        if (!isObject())
+    public boolean containsKey(String key) {
+        if (!isObject()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "object"));
-        return ((JSONObject)obj).containsKey(key);
+        }
+        return ((JSONObject) obj).containsKey(key);
     }
 
     @Override
-    public JsonElement getElement(int index)
-    {
-        if (!isArray())
+    public JsonElement getElement(int index) {
+        if (!isArray()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "array"));
-        return new JsonElementAdapterForFastjson(((JSONArray)obj).get(index));
+        }
+        return new JsonElementAdapterForFastjson(((JSONArray) obj).get(index));
     }
 
     @Override
-    public JsonElement getElement(String key)
-    {
-        if (!isObject())
+    public JsonElement getElement(String key) {
+        if (!isObject()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "object"));
-        if (!containsKey(key))
+        }
+        if (!containsKey(key)) {
             throw new ByxContainerException(Message.jsonKeyNotFound(getJsonString(), key));
-        return new JsonElementAdapterForFastjson(((JSONObject)obj).get(key));
+        }
+        return new JsonElementAdapterForFastjson(((JSONObject) obj).get(key));
     }
 
     @Override
-    public int getLength()
-    {
-        if (!isArray())
+    public int getLength() {
+        if (!isArray()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "array"));
-        return ((JSONArray)obj).size();
+        }
+        return ((JSONArray) obj).size();
     }
 
     @Override
-    public Set<String> keySet()
-    {
-        if (!isObject())
+    public Set<String> keySet() {
+        if (!isObject()) {
             throw new ByxContainerException(Message.incorrectJsonElementType(getJsonString(), "object"));
-        return ((JSONObject)obj).keySet();
+        }
+        return ((JSONObject) obj).keySet();
     }
 
     @Override
-    public String getJsonString()
-    {
+    public String getJsonString() {
         return JSON.toJSONString(obj, true);
     }
 }

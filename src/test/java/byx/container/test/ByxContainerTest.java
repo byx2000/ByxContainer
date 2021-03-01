@@ -4,20 +4,27 @@ import byx.container.core.ByxContainer;
 import byx.container.core.Container;
 import byx.container.exception.ByxContainerException;
 import org.junit.jupiter.api.Test;
+
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static byx.container.core.Component.*;
 
-public class ByxContainerTest
-{
-    public static class A {}
-    public static class B extends A {}
-    public interface C {}
-    public static class D implements C {}
+public class ByxContainerTest {
+    public static class A {
+    }
+
+    public static class B extends A {
+    }
+
+    public interface C {
+    }
+
+    public static class D implements C {
+    }
 
     @Test
-    public void test()
-    {
+    public void test() {
         Container container = new ByxContainer();
         container.addComponent("c1", constructor(String.class, value("hello")));
         container.addComponent("c2", call(List.class, "of", value(1), value(2), value(3)));
@@ -47,16 +54,11 @@ public class ByxContainerTest
         assertTrue(c instanceof D);
         D d = container.getObject(D.class);
 
-        assertThrows(ByxContainerException.class,
-                () -> container.addComponent("c100", null));
-        assertThrows(ByxContainerException.class,
-                () -> container.getObject("c101"));
-        assertThrows(ByxContainerException.class,
-                () -> container.getType("c101"));
+        assertThrows(ByxContainerException.class, () -> container.addComponent("c100", null));
+        assertThrows(ByxContainerException.class, () -> container.getObject("c101"));
+        assertThrows(ByxContainerException.class, () -> container.getType("c101"));
 
-        assertThrows(ByxContainerException.class,
-                () -> container.getObject(Integer.class));
-        assertThrows(ByxContainerException.class,
-                () -> container.getObject(Double.class));
+        assertThrows(ByxContainerException.class, () -> container.getObject(Integer.class));
+        assertThrows(ByxContainerException.class, () -> container.getObject(Double.class));
     }
 }

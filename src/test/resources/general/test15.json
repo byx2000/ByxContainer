@@ -1,20 +1,15 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
-        "c1":
-        {
+    "components": {
+        "c1": {
             "class": "byx.container.test.JsonContainerFactoryTest$User",
-            "interceptor":
-            {
+            "interceptor": {
                 "class": "byx.container.test.JsonContainerFactoryTest$UserInterceptor"
             }
         },
-        "c2":
-        {
+        "c2": {
             "class": "byx.container.test.JsonContainerFactoryTest$CalculatorImpl",
-            "interceptor":
-            {
+            "interceptor": {
                 "class": "byx.container.test.JsonContainerFactoryTest$CalculatorInterceptor"
             }
         }

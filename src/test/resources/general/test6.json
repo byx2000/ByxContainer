@@ -1,38 +1,50 @@
 {
     "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
-    "components":
-    {
+    "components": {
         "start": 1,
         "end": 4,
-        "c1":
-        {
+        "c1": {
             "instance": "hello",
             "method": "length"
         },
-        "c2":
-        {
+        "c2": {
             "instance": "apple",
             "method": "substring",
-            "parameters": [1, 4]
+            "parameters": [
+                1,
+                4
+            ]
         },
-        "c3":
-        {
-            "instance": {"class": "byx.container.test.JsonContainerFactoryTest$Student"},
+        "c3": {
+            "instance": {
+                "class": "byx.container.test.JsonContainerFactoryTest$Student"
+            },
             "method": "getName"
         },
-        "c4":
-        {
+        "c4": {
             "instance": "hello",
             "method": "substring",
-            "parameters": [{"ref": "start"}, {"ref": "end"}]
+            "parameters": [
+                {
+                    "ref": "start"
+                },
+                {
+                    "ref": "end"
+                }
+            ]
         },
-        "c5":
-        {
+        "c5": {
             "instance": "hello",
             "method": "substring",
-            "parameters": [{"ref": "start"}, {"ref": "end1"}],
-            "locals":
-            {
+            "parameters": [
+                {
+                    "ref": "start"
+                },
+                {
+                    "ref": "end1"
+                }
+            ],
+            "locals": {
                 "start": 0,
                 "end1": 2
             }
