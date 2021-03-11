@@ -15,8 +15,9 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author byx
  */
-public class ByxContainer implements Container {
+public class ByxContainer implements Container, CachedContainer {
     private final Map<String, Component> components = new ConcurrentHashMap<>();
+    private final Map<String, Object> cache = new ConcurrentHashMap<>();
 
     @Override
     public void addComponent(String id, Component component) {
@@ -30,7 +31,15 @@ public class ByxContainer implements Container {
     @SuppressWarnings("unchecked")
     public <T> T getObject(String id) {
         checkComponentExist(id);
-        return (T) components.get(id).create();
+        Component component = components.get(id);
+
+        if (cache.containsKey(id) && component instanceof SingletonComponent) {
+            T obj = (T) cache.get(id);
+            cache.remove(id);
+            return obj;
+        }
+
+        return (T) component.create();
     }
 
     @Override
@@ -61,5 +70,10 @@ public class ByxContainer implements Container {
         if (!components.containsKey(id)) {
             throw new ByxContainerException(Message.componentNotFoundWithId(id));
         }
+    }
+
+    @Override
+    public void cacheObject(String id, Object obj) {
+        cache.put(id, obj);
     }
 }

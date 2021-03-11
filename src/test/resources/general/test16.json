@@ -1,0 +1,40 @@
+{
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
+    "components": {
+        "a1": {
+            "ref": "a_temp",
+            "properties": {
+                "a": {"ref": "a_temp"}
+            },
+            "locals": {
+                "a_temp": {
+                    "class": "byx.container.test.JsonContainerFactoryTest$A"
+                }
+            }
+        },
+        "a2": {
+            "class": "byx.container.test.JsonContainerFactoryTest$A",
+            "properties": {
+                "a": {"ref": "a2"}
+            }
+        },
+        "x": {
+            "class": "byx.container.test.JsonContainerFactoryTest$X",
+            "properties": {
+                "y": {"ref": "y"}
+            }
+        },
+        "y": {
+            "class": "byx.container.test.JsonContainerFactoryTest$Y",
+            "properties": {
+                "z": {"ref": "z"}
+            }
+        },
+        "z": {
+            "class": "byx.container.test.JsonContainerFactoryTest$Z",
+            "properties": {
+                "x": {"ref": "x"}
+            }
+        }
+    }
+}

@@ -1,5 +1,6 @@
 package byx.container.factory.json;
 
+import byx.container.core.CachedContainer;
 import byx.container.core.Component;
 import byx.container.core.DelegateComponent;
 import byx.container.exception.ByxContainerException;
@@ -81,9 +82,20 @@ interface ComponentParser {
             for (String key : PARSERS.keySet()) {
                 if (element.containsKey(key)) {
                     // 处理局部组件
+                    boolean inGlobalComponent = context.isInGlobalComponent();
+                    if (inGlobalComponent) {
+                        context.setInGlobalComponent(false);
+                    }
                     processLocals(element, context);
+                    if (inGlobalComponent) {
+                        context.setInGlobalComponent(true);
+                    }
                     // 解析组件
                     Component c = PARSERS.get(key).parse(element, context);
+                    if (inGlobalComponent) {
+                        c = c.cache(context.getGlobalComponentId(), (CachedContainer) context.getContainer());
+                    }
+
                     // 后置处理
                     for (ComponentPostProcessor postProcessor : POST_PROCESSORS) {
                         c = postProcessor.process(element, context, c);

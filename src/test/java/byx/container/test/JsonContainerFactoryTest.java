@@ -3,17 +3,15 @@ package byx.container.test;
 import byx.aop.core.Invokable;
 import byx.aop.core.MethodInterceptor;
 import byx.aop.core.MethodSignature;
-import byx.container.core.Container;
-import byx.container.core.Component;
-import byx.container.core.PostProcessor;
+import byx.container.core.*;
 import byx.container.exception.*;
-import byx.container.core.ContainerFactory;
 import byx.container.factory.json.JsonContainerFactory;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.util.*;
 
+import static byx.container.core.Component.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class JsonContainerFactoryTest {
@@ -610,5 +608,82 @@ public class JsonContainerFactoryTest {
         System.out.println(c2.getClass());
         assertEquals(3, c2.add(1, 2));
         assertEquals(-1, c2.sub(3, 4));
+    }
+
+    public static class A {
+        private A a;
+
+        public void setA(A a) {
+            this.a = a;
+        }
+
+        public A getA() {
+            return a;
+        }
+    }
+
+    public static class X {
+        private Y y;
+
+        public Y getY() {
+            return y;
+        }
+
+        public void setY(Y y) {
+            this.y = y;
+        }
+    }
+
+    public static class Y {
+        private Z z;
+
+        public Z getZ() {
+            return z;
+        }
+
+        public void setZ(Z z) {
+            this.z = z;
+        }
+    }
+
+    public static class Z {
+        private X x;
+
+        public X getX() {
+            return x;
+        }
+
+        public void setX(X x) {
+            this.x = x;
+        }
+    }
+
+    /**
+     * 循环依赖
+     */
+    @Test
+    public void test16() {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test16.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        A a1 = container.getObject("a1");
+        assertNotNull(a1);
+        assertSame(a1, a1.getA());
+
+        A a2 = container.getObject("a2");
+        assertNotNull(a2);
+        assertSame(a2, a2.getA());
+
+        X x = container.getObject(X.class);
+        Y y = container.getObject(Y.class);
+        Z z = container.getObject(Z.class);
+
+        assertNotNull(x);
+        assertSame(x.getY(), y);
+        assertNotNull(y);
+        assertSame(y.getZ(), z);
+        assertNotNull(z);
+        assertSame(z.getX(), x);
     }
 }

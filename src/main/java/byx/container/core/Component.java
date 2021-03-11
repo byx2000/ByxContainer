@@ -203,21 +203,7 @@ public interface Component {
      * @return 单例组件
      */
     default Component singleton() {
-        final Object[] obj = {null};
-        return new Component() {
-            @Override
-            public Object create() {
-                if (obj[0] == null) {
-                    obj[0] = Component.this.create();
-                }
-                return obj[0];
-            }
-
-            @Override
-            public Class<?> getType() {
-                return Component.this.getType();
-            }
-        };
+        return new SingletonComponent(this);
     }
 
     /**
@@ -376,6 +362,28 @@ public interface Component {
             @Override
             public Class<?> getType() {
                 return type;
+            }
+        };
+    }
+
+    /**
+     * 缓存组件：用于解决循环依赖
+     * @param id 组件id
+     * @param container 带缓存功能的IOC容器
+     * @return 缓存组件
+     */
+    default Component cache(String id, CachedContainer container) {
+        return new Component() {
+            @Override
+            public Object create() {
+                Object obj = Component.this.create();
+                container.cacheObject(id, obj);
+                return obj;
+            }
+
+            @Override
+            public Class<?> getType() {
+                return Component.this.getType();
             }
         };
     }

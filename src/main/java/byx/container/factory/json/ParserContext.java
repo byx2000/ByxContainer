@@ -17,11 +17,29 @@ public class ParserContext {
     private final Container container;
     private final List<Map<String, Component>> scopes;
     private final Map<String, String> typeAlias;
+    private boolean inGlobalComponent = true;
+    private String globalComponentId;
 
     public ParserContext(Container container, List<Map<String, Component>> scopes, Map<String, String> typeAlias) {
         this.container = container;
         this.scopes = scopes;
         this.typeAlias = typeAlias;
+    }
+
+    public boolean isInGlobalComponent() {
+        return inGlobalComponent;
+    }
+
+    public void setInGlobalComponent(boolean inGlobalComponent) {
+        this.inGlobalComponent = inGlobalComponent;
+    }
+
+    public String getGlobalComponentId() {
+        return globalComponentId;
+    }
+
+    public void setGlobalComponentId(String globalComponentId) {
+        this.globalComponentId = globalComponentId;
     }
 
     /**

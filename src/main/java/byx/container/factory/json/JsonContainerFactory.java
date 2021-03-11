@@ -71,6 +71,7 @@ public class JsonContainerFactory implements ContainerFactory {
         ParserContext context = new ParserContext(container, new ArrayList<>(), typeAlias);
         JsonElement components = element.getElement(RESERVED_COMPONENTS);
         for (String id : components.keySet()) {
+            context.setGlobalComponentId(id);
             Component c = ComponentParser.COMPONENT_PARSER.parse(components.getElement(id), context);
             container.addComponent(id, c);
         }
