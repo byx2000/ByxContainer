@@ -1,11 +1,10 @@
 package byx.container.test;
 
-import byx.aop.core.Invokable;
-import byx.aop.core.MethodInterceptor;
-import byx.aop.core.MethodSignature;
+import byx.aop.annotation.*;
 import byx.container.core.*;
 import byx.container.exception.*;
 import byx.container.factory.json.JsonContainerFactory;
+import byx.util.proxy.core.TargetMethod;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
@@ -171,7 +170,7 @@ public class JsonContainerFactoryTest {
         }
     }
 
-    public static class User {
+    /*public static class User {
         private String username;
 
         public void setUsername(String username) {
@@ -180,18 +179,6 @@ public class JsonContainerFactoryTest {
 
         public String getUsername() {
             return username;
-        }
-    }
-
-    public static class UserInterceptor implements MethodInterceptor {
-        @Override
-        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params) {
-            if ("setUsername".equals(signature.getName())) {
-                return targetMethod.invoke("byx");
-            }
-            else {
-                return targetMethod.invoke(params);
-            }
         }
     }
 
@@ -212,18 +199,7 @@ public class JsonContainerFactoryTest {
         public int sub(int a, int b) {
             return 0;
         }
-    }
-
-    public static class CalculatorInterceptor implements MethodInterceptor {
-        @Override
-        public Object intercept(MethodSignature signature, Invokable targetMethod, Object[] params) {
-            if ("add".equals(signature.getName())) {
-                return (int) params[0] + (int) params[1];
-            } else {
-                return (int) params[0] - (int) params[1];
-            }
-        }
-    }
+    }*/
 
     /**
      * 常数
@@ -589,6 +565,66 @@ public class JsonContainerFactoryTest {
         assertTrue(container.getObject(UserDao.class) instanceof UserDaoImpl);
     }
 
+    public static class User {
+        private String  username;
+
+        public String getUsername() {
+            return username;
+        }
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
+    }
+
+    public static class UserAdvice {
+        @Before
+        @WithName("setUsername")
+        public String[] beforeSetUsername(String username) {
+            return new String[]{username + " x"};
+        }
+
+        @After
+        @WithName("getUsername")
+        public String afterGetUsername(String retVal) {
+            return retVal + " y";
+        }
+    }
+
+    public interface Calculator {
+        int add(int a, int b);
+        int sub(int a, int b);
+    }
+
+    public static class CalculatorImpl implements Calculator {
+        @Override
+        public int add(int a, int b) {
+            return 0;
+        }
+
+        @Override
+        public int sub(int a, int b) {
+            return 0;
+        }
+    }
+
+    public static class CalculatorAdvice {
+        @Around
+        @WithName("add")
+        public int aroundAdd(TargetMethod targetMethod) {
+            Object ret = targetMethod.invokeWithOriginalParams();
+            assertEquals(0, ret);
+            Object[] params = targetMethod.getParams();
+            return (int) params[0] + (int) params[1];
+        }
+
+        @Replace
+        @WithName("sub")
+        public int sub(int a, int b) {
+            return a - b;
+        }
+    }
+
     /**
      * AOP
      */
@@ -599,15 +635,14 @@ public class JsonContainerFactoryTest {
         Container container = factory.create();
 
         User c1 = container.getObject(User.class);
-        c1.setUsername("XiaoMing");
-        assertEquals("byx", c1.getUsername());
         System.out.println(c1.getClass());
-        System.out.println(c1.getUsername());
+        c1.setUsername("byx");
+        assertEquals("byx x y", c1.getUsername());
 
-        Calculator c2 = container.getObject("c2");
+        Calculator c2 = container.getObject(Calculator.class);
         System.out.println(c2.getClass());
-        assertEquals(3, c2.add(1, 2));
-        assertEquals(-1, c2.sub(3, 4));
+        assertEquals(5, c2.add(2, 3));
+        assertEquals(2, c2.sub(7, 5));
     }
 
     public static class A {

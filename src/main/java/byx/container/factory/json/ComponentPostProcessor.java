@@ -81,11 +81,11 @@ interface ComponentPostProcessor {
      * AOP处理器
      */
     ComponentPostProcessor PROCESS_AOP = (element, context, component) -> {
-        if (element.containsKey(RESERVED_INTERCEPTOR)) {
+        if (element.containsKey(RESERVED_ADVICE)) {
             try {
-                Component interceptorComponent = COMPONENT_PARSER.parse(element.getElement(RESERVED_INTERCEPTOR), context);
-                Class<?> aopClass = Class.forName("byx.aop.AOP");
-                component = call(aopClass, "proxy", component, interceptorComponent).castTo(component.getType());
+                Component adviceComponent = COMPONENT_PARSER.parse(element.getElement(RESERVED_ADVICE), context);
+                Class<?> aopClass = Class.forName("byx.aop.ByxAOP");
+                component = call(aopClass, "getAopProxy", component, adviceComponent).castTo(component.getType());
             } catch (ClassNotFoundException e) {
                 throw new ByxContainerException(Message.byxAopNotFound(), e);
             }

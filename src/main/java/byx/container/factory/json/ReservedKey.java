@@ -29,5 +29,5 @@ public interface ReservedKey {
     String RESERVED_TYPE_ALIAS = "typeAlias";
     String RESERVED_POST_PROCESSOR = "postProcessor";
     String RESERVED_TYPE = "type";
-    String RESERVED_INTERCEPTOR = "interceptor";
+    String RESERVED_ADVICE = "advice";
 }

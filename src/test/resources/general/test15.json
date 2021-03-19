@@ -3,14 +3,14 @@
     "components": {
         "c1": {
             "class": "byx.container.test.JsonContainerFactoryTest$User",
-            "interceptor": {
-                "class": "byx.container.test.JsonContainerFactoryTest$UserInterceptor"
+            "advice": {
+                "class": "byx.container.test.JsonContainerFactoryTest$UserAdvice"
             }
         },
         "c2": {
             "class": "byx.container.test.JsonContainerFactoryTest$CalculatorImpl",
-            "interceptor": {
-                "class": "byx.container.test.JsonContainerFactoryTest$CalculatorInterceptor"
+            "advice": {
+                "class": "byx.container.test.JsonContainerFactoryTest$CalculatorAdvice"
             }
         }
     }
