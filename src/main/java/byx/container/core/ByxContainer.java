@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author byx
  */
-public class ByxContainer implements Container, CachedContainer {
+public class ByxContainer implements CachedContainer {
     private final Map<String, Component> components = new ConcurrentHashMap<>();
     private final Map<String, Object> cache = new ConcurrentHashMap<>();
 
@@ -33,6 +33,7 @@ public class ByxContainer implements Container, CachedContainer {
         checkComponentExist(id);
         Component component = components.get(id);
 
+        // 首先从缓存中取
         if (cache.containsKey(id) && component instanceof SingletonComponent) {
             T obj = (T) cache.get(id);
             cache.remove(id);
@@ -44,6 +45,13 @@ public class ByxContainer implements Container, CachedContainer {
 
     @Override
     public <T> T getObject(Class<T> type) {
+        // 首先从缓存中取
+        for (Object o : cache.values()) {
+            if (ReflectUtils.getWrap(type).isAssignableFrom(ReflectUtils.getWrap(o.getClass()))) {
+                return type.cast(o);
+            }
+        }
+
         List<Component> res = new ArrayList<>();
         components.forEach((id, c) -> {
             if (c.getType() != null && ReflectUtils.getWrap(type).isAssignableFrom(ReflectUtils.getWrap(c.getType()))) {

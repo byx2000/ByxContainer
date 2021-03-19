@@ -1,0 +1,29 @@
+{
+    "$schema": "http://byx2000.gitee.io/byxcontainer/schema/schema.json",
+    "components": {
+        "a": {
+            "class": "byx.container.test.JsonContainerFactoryTest$A",
+            "properties": {
+                "a": {"type": "byx.container.test.JsonContainerFactoryTest$A"}
+            }
+        },
+        "x": {
+            "class": "byx.container.test.JsonContainerFactoryTest$X",
+            "properties": {
+                "y": {"type": "byx.container.test.JsonContainerFactoryTest$Y"}
+            }
+        },
+        "y": {
+            "class": "byx.container.test.JsonContainerFactoryTest$Y",
+            "properties": {
+                "z": {"type": "byx.container.test.JsonContainerFactoryTest$Z"}
+            }
+        },
+        "z": {
+            "class": "byx.container.test.JsonContainerFactoryTest$Z",
+            "properties": {
+                "x": {"type": "byx.container.test.JsonContainerFactoryTest$X"}
+            }
+        }
+    }
+}

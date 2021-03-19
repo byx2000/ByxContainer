@@ -694,7 +694,7 @@ public class JsonContainerFactoryTest {
     }
 
     /**
-     * 循环依赖
+     * 循环依赖（id）
      */
     @Test
     public void test16() {
@@ -719,6 +719,26 @@ public class JsonContainerFactoryTest {
         assertNotNull(y);
         assertSame(y.getZ(), z);
         assertNotNull(z);
+        assertSame(z.getX(), x);
+    }
+
+    /**
+     * 循环依赖（类型）
+     */
+    @Test
+    public void test17() {
+        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("general/test17.json");
+        ContainerFactory factory = new JsonContainerFactory(inputStream);
+        Container container = factory.create();
+
+        A a = container.getObject(A.class);
+        assertSame(a, a.getA());
+
+        X x = container.getObject(X.class);
+        Y y = container.getObject(Y.class);
+        Z z = container.getObject(Z.class);
+        assertSame(x.getY(), y);
+        assertSame(y.getZ(), z);
         assertSame(z.getX(), x);
     }
 }
