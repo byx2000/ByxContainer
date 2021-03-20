@@ -127,7 +127,7 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
     Student{id=1001, name='XiaoMing', age=17, score=97.5}
     ```
 
-## 使用说明
+## 组件配置
 
 ByxContainer使用**组件**管理IOC容器中的对象，一个组件封装了一个对象的创建方式。通过对组件的配置，我们就可以对对象的创建方式进行配置，从而创建各种复杂对象。下面列出了ByxContainer中所有组件配置的使用方法。
 
@@ -154,3 +154,7 @@ ByxContainer使用**组件**管理IOC容器中的对象，一个组件封装了�
 
 * [类型别名](./doc/类型别名.md)
 * [单例](./doc/单例.md)
+
+## 关于AOP
+
+[在ByxContainer中使用AOP](./doc/AOP.md)
