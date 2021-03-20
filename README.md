@@ -158,3 +158,7 @@ ByxContainer使用**组件**管理IOC容器中的对象，一个组件封装了�
 ## 关于AOP
 
 [在ByxContainer中使用AOP](./doc/AOP.md)
+
+## 关于循环依赖
+
+[循环依赖](./doc/循环依赖.md)
