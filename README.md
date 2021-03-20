@@ -4,9 +4,10 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
 
 * 使用Json格式的配置文件，抛弃复杂冗长的xml语法
 * 支持构造函数注入、静态工厂注入、实例工厂注入、JavaBean属性注入、setter注入、条件注入
-* 支持根据id或类型获取容器中的对象
 * 支持灵活的对象创建方式的配置
-* 对象的延迟加载和单例
+* 支持循环依赖
+* 支持对象的延迟加载和单例
+
 
 ## 在项目中引入ByxContainer
 
@@ -40,9 +41,9 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
 
 ## 使用示例
 
-1. 新建一个maven工程，按照上面的方式引入ByxContainer的依赖
+下面通过一个简单的使用示例来快速了解ByxContainer的使用。
 
-2. 在`example`包下新建一个`Student`类：
+1. 在`example`包下新建一个`Student`类：
 
     ```java
     package example;
@@ -79,7 +80,7 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
     }
     ```
 
-3. 在`resources`目录下新建一个`container.json`，并写入如下内容：
+2. 在`resources`目录下新建一个`container.json`，并写入如下内容：
 
     ```json
     {
@@ -98,7 +99,9 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
     }
     ```
 
-4. 新建一个测试类`Test`：
+    在`container.json`中，我们向容器注册了一个`String`和一个`Student`，id分别为`message`和`student`。
+
+3. 新建一个测试类`Test`：
 
     ```java
     public class Test
@@ -117,7 +120,7 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
     }
     ```
 
-5. 运行测试类，控制台输出如下：
+4. 运行测试类，控制台输出如下：
 
     ```
     hello world!
@@ -125,6 +128,8 @@ ByxContainer是一个轻量级IOC容器，具有以下特性：
     ```
 
 ## 使用说明
+
+ByxContainer使用**组件**管理IOC容器中的对象，一个组件封装了一个对象的创建方式。通过对组件的配置，我们就可以对对象的创建方式进行配置，从而创建各种复杂对象。下面列出了ByxContainer中所有组件配置的使用方法。
 
 ### 对象创建
 
