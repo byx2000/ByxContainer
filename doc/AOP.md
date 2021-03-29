@@ -18,7 +18,7 @@ ByxContainer支持对容器中的对象进行AOP代理，需要引入ByxAOP依�
 </dependencies>
 ```
 
-关于ByxAOP的使用，请看[这里](https://github.com/byx2000/ByxAOP)。
+关于ByxAOP的详细信息，请看[这里](https://github.com/byx2000/ByxAOP)。
 
 假设有如下`User`类：
 

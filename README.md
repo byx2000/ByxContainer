@@ -1,39 +1,35 @@
 # ByxContainer——轻量级IOC容器
 
-ByxContainer是一个轻量级IOC容器，具有以下特性：
+ByxContainer是一个基于JSON配置文件的轻量级IOC容器，具有以下特性：
 
 * 使用Json格式的配置文件，抛弃复杂冗长的xml语法
 * 支持构造函数注入、静态工厂注入、实例工厂注入、JavaBean属性注入、setter注入、条件注入
 * 支持灵活的对象创建方式的配置
-* 支持循环依赖
+* 支持简单的循环依赖处理
 * 支持对象的延迟加载和单例
 
 
-## 在项目中引入ByxContainer
+基于注解的轻量级IOC容器：[ByxContainerAnnotation](https://github.com/byx2000/byx-container-annotation)
 
-1. 添加maven仓库地址
+## Maven引入
 
-    ```xml
-    <repositories>
-        <repository>
-            <id>byx-maven-repo</id>
-            <name>byx-maven-repo</name>
-            <url>https://gitee.com/byx2000/maven-repo/raw/master/</url>
-        </repository>
-    </repositories>
-    ```
+```xml
+<repositories>
+    <repository>
+        <id>byx-maven-repo</id>
+        <name>byx-maven-repo</name>
+        <url>https://gitee.com/byx2000/maven-repo/raw/master/</url>
+    </repository>
+</repositories>
 
-2. 添加maven依赖
-
-    ```xml
-    <dependencies>
-        <dependency>
-            <groupId>byx.container</groupId>
-            <artifactId>ByxContainer</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-    </dependencies>
-    ```
+<dependencies>
+    <dependency>
+        <groupId>byx.container</groupId>
+        <artifactId>ByxContainer</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+</dependencies>
+```
 
 ## API文档
 
@@ -161,4 +157,4 @@ ByxContainer使用**组件**管理IOC容器中的对象，一个组件封装了�
 
 ## 关于循环依赖
 
-[循环依赖](./doc/循环依赖.md)
+[关于循环依赖](./doc/循环依赖.md)
